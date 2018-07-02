@@ -18,6 +18,26 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="core.cpp" />
+    <ClCompile Include="WinAPI GameFramework.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="singleton.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="type.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="singleton.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinAPI GameFramework.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{AC7B4B6E-4DA5-49FA-A934-7A17AF7143E5}</ProjectGuid>
@@ -75,12 +95,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>../Bin/</OutDir>
+    <IntDir>../BinObj/</IntDir>
+    <TargetName>$(ProjectName)_Debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>../Bin/</OutDir>
+    <IntDir>../BinObj/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,8 +167,6 @@
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
