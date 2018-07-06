@@ -4,14 +4,14 @@
 
 struct KeyInfo
 {
-	std::string name{};
+	std::string tag{};
 	std::vector<__int8> element{};
 	bool push{};
 	bool pressed{};
 	bool up{};
 };
 
-class Input : public Singleton<Input>
+class Input final : public Singleton<Input>
 {
 	friend class Singleton<Input>;
 public:
@@ -22,7 +22,11 @@ public:
 	bool KeyUp(std::string const& name);
 
 private:
-	virtual void _Release();
+	Input() = default;
+	Input(Input const&) = delete;
+	Input& operator=(Input const&) = delete;
+
+	virtual void _Release() override;
 
 	template <typename T, typename... Types>
 	void _AddKey(T const& element, Types... Args)
@@ -36,20 +40,20 @@ private:
 	}
 
 	template <typename... Types>
-	void _AddKey(std::string const& name, Types... Args)
+	void _AddKey(std::string const& tag, Types... Args)
 	{
 		if (!key_dummy_)
 			key_dummy_.reset(new KeyInfo);
 
-		key_dummy_->name = name;
+		key_dummy_->tag = tag;
 
 		_AddKey(Args...);
 	}
 
 	void _AddKey()
 	{
-		std::string name = key_dummy_->name;
-		key_collection_.insert(std::make_pair(std::move(name), std::move(key_dummy_)));
+		std::string tag = key_dummy_->tag;
+		key_collection_.insert(std::make_pair(std::move(tag), std::move(key_dummy_)));
 	}
 
 	std::unique_ptr<KeyInfo>& _FindKey(string const& name);

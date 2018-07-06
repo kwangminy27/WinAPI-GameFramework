@@ -22,6 +22,12 @@
     <Filter Include="01. Core\02. Input">
       <UniqueIdentifier>{b8aa9a36-8c2d-4fac-8f93-34df5bf7bb8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Scene">
+      <UniqueIdentifier>{b292331a-e175-4632-9ffa-ae7a75b7c005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\01. Layer">
+      <UniqueIdentifier>{7eeeb990-b46b-464b-97df-5f866ea4157a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinAPI GameFramework.cpp">
@@ -35,6 +41,18 @@
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>01. Core\02. Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\scene_manager.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="tag.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\scene.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\layer.cpp">
+      <Filter>02. Scene\01. Layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +76,18 @@
     </ClInclude>
     <ClInclude Include="input.h">
       <Filter>01. Core\02. Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\scene_manager.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="tag.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\scene.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\layer.h">
+      <Filter>02. Scene\01. Layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

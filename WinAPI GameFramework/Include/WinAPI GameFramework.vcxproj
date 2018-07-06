@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClCompile Include="core.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="Scene\layer.cpp" />
+    <ClCompile Include="Scene\scene.cpp" />
+    <ClCompile Include="Scene\scene_manager.cpp" />
+    <ClCompile Include="tag.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="WinAPI GameFramework.cpp" />
   </ItemGroup>
@@ -28,8 +32,12 @@
     <ClInclude Include="core.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene\layer.h" />
+    <ClInclude Include="Scene\scene.h" />
+    <ClInclude Include="Scene\scene_manager.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="tag.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="type.h" />
   </ItemGroup>
@@ -132,6 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

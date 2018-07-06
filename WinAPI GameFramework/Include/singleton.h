@@ -6,7 +6,7 @@ template <typename T>
 class Singleton
 {
 public:
-	static std::unique_ptr<T, std::function<void(T* p)>>& GetInstance();
+	static std::unique_ptr<T, std::function<void(T*)>>& GetInstance();
 
 protected:
 	Singleton() = default;
@@ -16,7 +16,7 @@ protected:
 	virtual void _Release() = 0;
 
 private:
-	static std::unique_ptr<T, std::function<void(T* p)>> instance_;
+	static std::unique_ptr<T, std::function<void(T*)>> instance_;
 	static std::once_flag once_flag_;
 };
 
