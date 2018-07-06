@@ -4,17 +4,17 @@
 
 class Timer
 {
+	friend class Core;
 public:
-	Timer() = default;
-
 	void Initialize();
 	void Update();
-	float GetDeltaTime() const;
-	int GetFPS() const;
+	float delta_time() const;
+	int frame_per_second() const;
 
 private:
+	Timer() = default;
+
 	std::chrono::time_point<std::chrono::high_resolution_clock> last_time_point_{};
 	float delta_time_{};
-	float accumulation_time_{};
-	int fps_{};
+	int frame_per_second_{};
 };

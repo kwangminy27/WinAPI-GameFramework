@@ -11,10 +11,11 @@ template <typename T>
 unique_ptr<T, function<void(T*)>>& Singleton<T>::GetInstance()
 {
 	call_once(once_flag_, []() {
-		instance_ = unique_ptr<T, function<void(T* p)>>(new T, [](T* p) {
+		instance_ = unique_ptr<T, function<void(T*)>>(new T, [](T* p) {
 			p->_Release();
 			delete p;
 		});
 	});
+
 	return instance_;
 }

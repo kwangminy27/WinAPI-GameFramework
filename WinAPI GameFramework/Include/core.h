@@ -4,7 +4,7 @@
 
 class Timer;
 
-class Core : public Singleton<Core>
+class Core final : public Singleton<Core>
 {
 	friend class Singleton<Core>;
 public:
@@ -16,7 +16,7 @@ private:
 	Core(Core const&) = delete;
 	Core& operator=(Core const&) = delete;
 
-	virtual void _Release();
+	virtual void _Release() override;
 
 	static LRESULT CALLBACK _WindowProc(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
 	void _RegisterClass(wchar_t const* class_name, HICON icon);
@@ -25,19 +25,21 @@ private:
 	void _SetFlag(FLAG flag, bool value);
 
 	void _Logic();
-	void _Input(float delta_time);
-	void _Update(float delta_time);
-	void _Collision(float delta_time);
-	void _Render(float delta_time);
+	void _Input(float time);
+	void _Update(float time);
+	void _Collision(float time);
+	void _Render(float time);
 
 	HINSTANCE instance_{};
 	HWND window_{};
 	HDC device_context_{};
 
 	std::array<bool, static_cast<int>(FLAG::END)> flag_{};
-	std::unique_ptr<Timer, std::function<void(Timer* p)>> timer_{};
+	std::unique_ptr<Timer, std::function<void(Timer*)>> timer_{};
 	float time_scale_{};
 
 	Rect player_{};
 	list<Rect> bullet_list_{};
+	Rect monster_{};
+	list<Rect> monster_bullet_list_{};
 };

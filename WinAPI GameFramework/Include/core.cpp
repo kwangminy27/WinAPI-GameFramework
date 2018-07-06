@@ -1,14 +1,15 @@
 #include "core.h"
 #include "timer.h"
 #include "Input.h"
+#include "Scene/scene_manager.h"
 
 using namespace std;
 
 bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HINSTANCE instance, HICON icon)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc();
-
+	//_CrtSetBreakAlloc(271);
+	
 	instance_ = instance;
 	_SetFlag(FLAG::RUN, true);
 
@@ -26,7 +27,11 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 	if (!Input::GetInstance()->Initialize())
 		return false;
 
+	if (!SceneManager::GetInstance()->Initialize())
+		return false;
+
 	player_.SetRect(100, 100, 200, 200);
+	monster_.SetRect(600, 100, 700, 200);
 
 	return true;
 }
@@ -116,7 +121,7 @@ void Core::_Logic()
 {
 	timer_->Update();
 
-	float delta_time = timer_->GetDeltaTime();
+	float delta_time = timer_->delta_time();
 
 	Input::GetInstance()->Update(delta_time * time_scale_);
 
@@ -129,9 +134,9 @@ void Core::_Logic()
 		time_scale_ = time_scale_ == 1.f ? 0.f : 1.f;
 }
 
-void Core::_Input(float delta_time)
+void Core::_Input(float time)
 {
-	static int const kMoveSpeed = 200;
+	static int const kMoveSpeed = 300;
 
 	auto const& input_manager = Input::GetInstance();
 
@@ -141,22 +146,22 @@ void Core::_Input(float delta_time)
 
 	if (KeyPressed("MoveUp"s))
 	{
-		player_.Move(0, -kMoveSpeed * delta_time);
+		player_.Move(0, -kMoveSpeed * time);
 	}
 
 	if (KeyPressed("MoveDown"s))
 	{
-		player_.Move(0, kMoveSpeed * delta_time);
+		player_.Move(0, kMoveSpeed * time);
 	}
 
 	if (KeyPressed("MoveLeft"s))
 	{
-		player_.Move(-kMoveSpeed * delta_time, 0);
+		player_.Move(-kMoveSpeed * time, 0);
 	}
 
 	if (KeyPressed("MoveRight"s))
 	{
-		player_.Move(kMoveSpeed * delta_time, 0);
+		player_.Move(kMoveSpeed * time, 0);
 	}
 
 	if (KeyPush("Fire"s))
@@ -167,30 +172,60 @@ void Core::_Input(float delta_time)
 	}
 }
 
-void Core::_Update(float delta_time)
+void Core::_Update(float time)
 {
+	static int const kMonsterMoveSpeed = 300;
+	static int const kBulletSpeed = 500;
+
+	static int monster_move_dir = 1;
+	static float monster_fire_time{};
+
+	monster_.Move(0.f, kMonsterMoveSpeed * monster_move_dir * time);
+	if (monster_.t <= 0 || monster_.b >= static_cast<float>(RESOLUTION::HEIGHT))
+		monster_move_dir *= -1;
+
+	monster_fire_time += time;
+	if (monster_fire_time >= 1.f)
+	{
+		monster_fire_time -= 1.f;
+		Rect rect = monster_;
+		rect.Move(-monster_.GetWidth(), 0.f);
+		monster_bullet_list_.push_back(move(rect));
+	}
+
 	for (auto & bullet : bullet_list_)
-		bullet.Move(100.f * delta_time, 0.f);
+		bullet.Move(kBulletSpeed * time, 0.f);
+
+	for (auto & bullet : monster_bullet_list_)
+		bullet.Move(-kBulletSpeed * time, 0.f);
 }
 
-void Core::_Collision(float delta_time)
+void Core::_Collision(float time)
 {
-	bullet_list_.remove_if([](Rect rect) {
+	bullet_list_.remove_if([](Rect const& rect) {
 		return rect.l > static_cast<int>(RESOLUTION::WIDTH);
+	});
+
+	monster_bullet_list_.remove_if([](Rect const& rect) {
+		return rect.r < 0;
 	});
 }
 
-void Core::_Render(float delta_time)
+void Core::_Render(float time)
 {
-	wstring wstr = to_wstring(timer_->GetFPS());
+	wstring wstr = to_wstring(timer_->frame_per_second());
 	wstr += L" FPS";
 	float LTGRAY = 255 * 0.75f;
 	SetBkColor(device_context_, RGB(LTGRAY, LTGRAY, LTGRAY));
 	TextOut(device_context_, 0, 0, wstr.c_str(), static_cast<int>(wstr.size()));
 
 	player_.Render(device_context_);
+	monster_.Render(device_context_);
 
 	for (auto const& bullet : bullet_list_)
+		bullet.RenderEllipse(device_context_);
+
+	for (auto const& bullet : monster_bullet_list_)
 		bullet.RenderEllipse(device_context_);
 
 	random_device rd;

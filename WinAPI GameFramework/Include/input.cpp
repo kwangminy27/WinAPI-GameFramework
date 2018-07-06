@@ -77,6 +77,6 @@ unique_ptr<KeyInfo>& Input::_FindKey(string const& name)
 
 	if (iter == key_collection_.end())
 		assert(!"Input::_FindKey");
-
+	
 	return iter->second;
 }

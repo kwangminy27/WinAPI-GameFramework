@@ -10,28 +10,29 @@ void Timer::Initialize()
 
 void Timer::Update()
 {
-	static int fps = 0;
+	static int frame_per_second{};
+	static float accumulation_time{};
 
 	auto duration = high_resolution_clock::now() - last_time_point_;
 	delta_time_ = duration.count() * 0.000'000'001f;
 	last_time_point_ = high_resolution_clock::now();
 
-	++fps;
-	accumulation_time_ += delta_time_;
-	if (accumulation_time_ >= 1.f)
+	++frame_per_second;
+	accumulation_time += delta_time_;
+	if (accumulation_time >= 1.f)
 	{
-		fps_ = fps;
-		fps = 0;
-		accumulation_time_ = 0.f;
+		frame_per_second_ = frame_per_second;
+		frame_per_second = 0;
+		accumulation_time -= 1.f;
 	}
 }
 
-float Timer::GetDeltaTime() const
+float Timer::delta_time() const
 {
 	return delta_time_;
 }
 
-int Timer::GetFPS() const
+int Timer::frame_per_second() const
 {
-	return fps_;
+	return frame_per_second_;
 }
