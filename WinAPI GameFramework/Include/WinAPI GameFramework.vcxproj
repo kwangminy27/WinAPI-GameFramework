@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl" />
+    <None Include="type.inl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI GameFramework.rc" />

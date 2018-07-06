@@ -17,9 +17,9 @@ class Input : public Singleton<Input>
 public:
 	bool Initialize();
 	void Update(float delta_time);
-	bool KeyPush(std::string name);
-	bool KeyPressed(std::string name);
-	bool KeyUp(std::string name);
+	bool KeyPush(std::string const& name);
+	bool KeyPressed(std::string const& name);
+	bool KeyUp(std::string const& name);
 
 private:
 	virtual void _Release();

@@ -36,4 +36,8 @@ private:
 
 	std::array<bool, static_cast<int>(FLAG::END)> flag_{};
 	std::unique_ptr<Timer, std::function<void(Timer* p)>> timer_{};
+	float time_scale_{};
+
+	Rect player_{};
+	list<Rect> bullet_list_{};
 };

@@ -21,9 +21,12 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 		delete p;
 	});
 	timer_->Initialize();
+	time_scale_ = 1.f;
 
 	if (!Input::GetInstance()->Initialize())
 		return false;
+
+	player_.SetRect(100, 100, 200, 200);
 
 	return true;
 }
@@ -115,24 +118,66 @@ void Core::_Logic()
 
 	float delta_time = timer_->GetDeltaTime();
 
-	Input::GetInstance()->Update(delta_time);
+	Input::GetInstance()->Update(delta_time * time_scale_);
 
-	_Input(delta_time);
-	_Update(delta_time);
-	_Collision(delta_time);
-	_Render(delta_time);
+	_Input(delta_time * time_scale_);
+	_Update(delta_time * time_scale_);
+	_Collision(delta_time * time_scale_);
+	_Render(delta_time * time_scale_);
+
+	if(Input::GetInstance()->KeyPush("Pause"s))
+		time_scale_ = time_scale_ == 1.f ? 0.f : 1.f;
 }
 
 void Core::_Input(float delta_time)
 {
+	static int const kMoveSpeed = 200;
+
+	auto const& input_manager = Input::GetInstance();
+
+	static auto KeyPush = [&input_manager](string const& name) -> bool { return input_manager->KeyPush(name); };
+	static auto KeyPressed = [&input_manager](string const& name) -> bool { return input_manager->KeyPressed(name); };
+	static auto KeyUp = [&input_manager](string const& name) -> bool { return input_manager->KeyUp(name); };
+
+	if (KeyPressed("MoveUp"s))
+	{
+		player_.Move(0, -kMoveSpeed * delta_time);
+	}
+
+	if (KeyPressed("MoveDown"s))
+	{
+		player_.Move(0, kMoveSpeed * delta_time);
+	}
+
+	if (KeyPressed("MoveLeft"s))
+	{
+		player_.Move(-kMoveSpeed * delta_time, 0);
+	}
+
+	if (KeyPressed("MoveRight"s))
+	{
+		player_.Move(kMoveSpeed * delta_time, 0);
+	}
+
+	if (KeyPush("Fire"s))
+	{
+		Rect rect = player_;
+		rect.Move(player_.GetWidth(), 0);
+		bullet_list_.push_back(move(rect));
+	}
 }
 
 void Core::_Update(float delta_time)
 {
+	for (auto & bullet : bullet_list_)
+		bullet.Move(100.f * delta_time, 0.f);
 }
 
 void Core::_Collision(float delta_time)
 {
+	bullet_list_.remove_if([](Rect rect) {
+		return rect.l > static_cast<int>(RESOLUTION::WIDTH);
+	});
 }
 
 void Core::_Render(float delta_time)
@@ -142,6 +187,11 @@ void Core::_Render(float delta_time)
 	float LTGRAY = 255 * 0.75f;
 	SetBkColor(device_context_, RGB(LTGRAY, LTGRAY, LTGRAY));
 	TextOut(device_context_, 0, 0, wstr.c_str(), static_cast<int>(wstr.size()));
+
+	player_.Render(device_context_);
+
+	for (auto const& bullet : bullet_list_)
+		bullet.RenderEllipse(device_context_);
 
 	random_device rd;
 	mt19937 gen(rd());

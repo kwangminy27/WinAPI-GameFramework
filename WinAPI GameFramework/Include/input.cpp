@@ -4,8 +4,13 @@ using namespace std;
 
 bool Input::Initialize()
 {
-	_AddKey("Ceremony"s, VK_LSHIFT, 'q', VK_RIGHT);
-
+	_AddKey("MoveUp"s, VK_UP);
+	_AddKey("MoveDown"s, VK_DOWN);
+	_AddKey("MoveLeft"s, VK_LEFT);
+	_AddKey("MoveRight"s, VK_RIGHT);
+	_AddKey("Fire"s, VK_SPACE);
+	_AddKey("Pause"s, VK_CONTROL, '1');
+	
 	return true;
 }
 
@@ -41,21 +46,21 @@ void Input::Update(float delta_time)
 	}
 }
 
-bool Input::KeyPush(std::string name)
+bool Input::KeyPush(string const& name)
 {
 	auto& key = _FindKey(name);
 
 	return key->push;
 }
 
-bool Input::KeyPressed(std::string name)
+bool Input::KeyPressed(string const& name)
 {
 	auto& key = _FindKey(name);
 
 	return key->pressed;
 }
 
-bool Input::KeyUp(std::string name)
+bool Input::KeyUp(string const& name)
 {
 	auto& key = _FindKey(name);
 

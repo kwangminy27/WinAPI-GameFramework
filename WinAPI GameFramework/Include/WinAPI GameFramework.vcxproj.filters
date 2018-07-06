@@ -64,6 +64,9 @@
     <None Include="singleton.inl">
       <Filter>헤더 파일</Filter>
     </None>
+    <None Include="type.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI GameFramework.rc">
