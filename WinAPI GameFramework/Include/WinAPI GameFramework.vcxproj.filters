@@ -16,6 +16,12 @@
     <Filter Include="01. Core">
       <UniqueIdentifier>{57154773-e62a-4dc4-9c60-3362fbfe9816}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Core\01. Timer">
+      <UniqueIdentifier>{4e387cc5-3a0f-4e4c-9778-1d8073d2c625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\02. Input">
+      <UniqueIdentifier>{b8aa9a36-8c2d-4fac-8f93-34df5bf7bb8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinAPI GameFramework.cpp">
@@ -23,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="core.cpp">
       <Filter>01. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>01. Core\01. Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>01. Core\02. Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>01. Core\01. Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>01. Core\02. Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

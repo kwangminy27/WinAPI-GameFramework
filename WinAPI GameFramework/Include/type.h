@@ -1,7 +1,13 @@
 #pragma once
 
-struct Resolution
+enum class RESOLUTION
 {
-	long width_;
-	long height_;
+	WIDTH = 800,
+	HEIGHT = 600
+};
+
+enum class FLAG
+{
+	RUN,
+	END
 };
