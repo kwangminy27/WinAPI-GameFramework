@@ -6,6 +6,7 @@ using namespace std;
 bool SceneManager::Initialize()
 {
 	scene_ = _CreateScene("MainScene"s);
+	scene_->_Initialize(scene_);
 
 	return true;
 }
@@ -39,9 +40,9 @@ void SceneManager::_Release()
 {
 }
 
-unique_ptr<Scene, function<void(Scene*)>> SceneManager::_CreateScene(std::string tag)
+shared_ptr<Scene> SceneManager::_CreateScene(string const& tag)
 {
-	auto scene = unique_ptr<Scene, function<void(Scene*)>>(new Scene, [](Scene *p) {
+	auto scene = shared_ptr<Scene>(new Scene, [](Scene *p) {
 		p->_Release();
 		delete p;
 	});

@@ -22,7 +22,7 @@ private:
 
 	virtual void _Release() override;
 
-	std::unique_ptr<Scene, std::function<void(Scene*)>> _CreateScene(std::string tag);
+	std::shared_ptr<Scene> _CreateScene(std::string const& tag);
 
-	std::unique_ptr<Scene, std::function<void(Scene*)>> scene_{};
+	std::shared_ptr<Scene> scene_{};
 };

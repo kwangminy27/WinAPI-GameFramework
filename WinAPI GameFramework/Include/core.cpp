@@ -1,13 +1,14 @@
 #include "core.h"
 #include "timer.h"
 #include "Input.h"
+#include "Scene/scene_manager.h"
 
 using namespace std;
 
 bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HINSTANCE instance, HICON icon)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(209);
+	//_CrtSetBreakAlloc(271);
 	
 	instance_ = instance;
 	_SetFlag(FLAG::RUN, true);
@@ -24,6 +25,9 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 	time_scale_ = 1.f;
 
 	if (!Input::GetInstance()->Initialize())
+		return false;
+
+	if (!SceneManager::GetInstance()->Initialize())
 		return false;
 
 	player_.SetRect(100, 100, 200, 200);
