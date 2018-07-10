@@ -136,6 +136,9 @@ void Core::_Logic()
 
 void Core::_Input(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Input(time);
+
 	static int const kMoveSpeed = 300;
 
 	auto const& input_manager = Input::instance();
@@ -174,6 +177,10 @@ void Core::_Input(float time)
 
 void Core::_Update(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Update(time);
+	scene_manager->LateUpdate(time);
+
 	static int const kMonsterMoveSpeed = 300;
 	static int const kBulletSpeed = 500;
 
@@ -202,6 +209,9 @@ void Core::_Update(float time)
 
 void Core::_Collision(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Collision(time);
+
 	bullet_list_.remove_if([](Rect const& rect) {
 		return rect.l > static_cast<int>(RESOLUTION::WIDTH);
 	});
@@ -213,6 +223,9 @@ void Core::_Collision(float time)
 
 void Core::_Render(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Render(device_context_, time);
+
 	wstring wstr = to_wstring(timer_->frame_per_second());
 	wstr += L" FPS";
 	float LTGRAY = 255 * 0.75f;
