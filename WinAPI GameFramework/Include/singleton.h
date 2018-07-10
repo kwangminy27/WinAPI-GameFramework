@@ -6,7 +6,7 @@ template <typename T>
 class Singleton
 {
 public:
-	static std::unique_ptr<T, std::function<void(T*)>>& GetInstance();
+	static std::unique_ptr<T, std::function<void(T*)>>& instance();
 
 protected:
 	Singleton() = default;

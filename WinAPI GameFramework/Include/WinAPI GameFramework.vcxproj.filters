@@ -28,6 +28,12 @@
     <Filter Include="02. Scene\01. Layer">
       <UniqueIdentifier>{7eeeb990-b46b-464b-97df-5f866ea4157a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Scene\02. SceneComponent">
+      <UniqueIdentifier>{17fdc712-eb9f-45a2-b2b3-85a5596b395f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Object">
+      <UniqueIdentifier>{598230c3-6c3f-4c82-b6eb-547ddb67e29c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinAPI GameFramework.cpp">
@@ -53,6 +59,21 @@
     </ClCompile>
     <ClCompile Include="Scene\layer.cpp">
       <Filter>02. Scene\01. Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\scene_component.cpp">
+      <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\main_scene.cpp">
+      <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\object.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\character.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\player.cpp">
+      <Filter>03. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +110,21 @@
     <ClInclude Include="Scene\layer.h">
       <Filter>02. Scene\01. Layer</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\scene_component.h">
+      <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\main_scene.h">
+      <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\object.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\character.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\player.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
@@ -96,6 +132,9 @@
     </None>
     <None Include="type.inl">
       <Filter>헤더 파일</Filter>
+    </None>
+    <None Include="Scene\scene.inl">
+      <Filter>02. Scene</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -5,18 +5,21 @@
 class Tag
 {
 public:
-	Tag() = default;
-
-	bool Initialize();
-	void set_tag(std::string const& tag);
 	std::string const& tag() const;
-	void set_enablement(bool flag);
-	void set_activation(bool flag);
+	void set_tag(std::string const& tag);
+
 	bool enablement() const;
+	void set_enablement(bool flag);
+	
 	bool activation() const;
+	void set_activation(bool flag);
 
 protected:
+	Tag() = default;
+
 	virtual void _Release() = 0;
+
+	bool _Initialize();
 
 	std::string tag_{};
 	bool enablement_{};

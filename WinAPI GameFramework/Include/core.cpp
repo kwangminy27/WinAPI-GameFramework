@@ -24,10 +24,10 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 	timer_->Initialize();
 	time_scale_ = 1.f;
 
-	if (!Input::GetInstance()->Initialize())
+	if (!Input::instance()->Initialize())
 		return false;
 
-	if (!SceneManager::GetInstance()->Initialize())
+	if (!SceneManager::instance()->Initialize())
 		return false;
 
 	player_.SetRect(100, 100, 200, 200);
@@ -73,7 +73,7 @@ LRESULT Core::_WindowProc(HWND window, UINT message, WPARAM w_param, LPARAM l_pa
 		}
 		return 0;
 	case WM_DESTROY:
-		Core::GetInstance()->_SetFlag(FLAG::RUN, false);
+		Core::instance()->_SetFlag(FLAG::RUN, false);
 		PostQuitMessage(0);
 		return 0;
 	}
@@ -123,22 +123,25 @@ void Core::_Logic()
 
 	float delta_time = timer_->delta_time();
 
-	Input::GetInstance()->Update(delta_time * time_scale_);
+	Input::instance()->Update(delta_time * time_scale_);
 
 	_Input(delta_time * time_scale_);
 	_Update(delta_time * time_scale_);
 	_Collision(delta_time * time_scale_);
 	_Render(delta_time * time_scale_);
 
-	if(Input::GetInstance()->KeyPush("Pause"s))
+	if(Input::instance()->KeyPush("Pause"s))
 		time_scale_ = time_scale_ == 1.f ? 0.f : 1.f;
 }
 
 void Core::_Input(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Input(time);
+
 	static int const kMoveSpeed = 300;
 
-	auto const& input_manager = Input::GetInstance();
+	auto const& input_manager = Input::instance();
 
 	static auto KeyPush = [&input_manager](string const& name) -> bool { return input_manager->KeyPush(name); };
 	static auto KeyPressed = [&input_manager](string const& name) -> bool { return input_manager->KeyPressed(name); };
@@ -174,6 +177,10 @@ void Core::_Input(float time)
 
 void Core::_Update(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Update(time);
+	scene_manager->LateUpdate(time);
+
 	static int const kMonsterMoveSpeed = 300;
 	static int const kBulletSpeed = 500;
 
@@ -202,6 +209,9 @@ void Core::_Update(float time)
 
 void Core::_Collision(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Collision(time);
+
 	bullet_list_.remove_if([](Rect const& rect) {
 		return rect.l > static_cast<int>(RESOLUTION::WIDTH);
 	});
@@ -213,6 +223,9 @@ void Core::_Collision(float time)
 
 void Core::_Render(float time)
 {
+	auto const& scene_manager = SceneManager::instance();
+	scene_manager->Render(device_context_, time);
+
 	wstring wstr = to_wstring(timer_->frame_per_second());
 	wstr += L" FPS";
 	float LTGRAY = 255 * 0.75f;
