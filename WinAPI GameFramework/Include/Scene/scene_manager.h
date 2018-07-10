@@ -11,7 +11,7 @@ public:
 	bool Initialize();
 	void Input(float time);
 	void Update(float time);
-	void LastUpdate(float time);
+	void LateUpdate(float time);
 	void Collision(float time);
 	void Render(HDC device_context, float time);
 

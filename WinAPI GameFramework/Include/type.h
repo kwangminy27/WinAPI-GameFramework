@@ -39,6 +39,7 @@ struct Rect
 
 	void SetRect(float _l, float _t, float _r, float _b);
 	void Move(float x, float y);
+
 	void Render(HDC device_context) const;
 	void RenderEllipse(HDC device_context) const;
 

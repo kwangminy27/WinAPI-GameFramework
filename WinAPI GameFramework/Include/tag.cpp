@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool Tag::Initialize()
+bool Tag::_Initialize()
 {
 	enablement_ = true;
 	activation_ = true;

@@ -21,9 +21,9 @@ void SceneManager::Update(float time)
 	scene_->_Update(time);
 }
 
-void SceneManager::LastUpdate(float time)
+void SceneManager::LateUpdate(float time)
 {
-	scene_->_LastUpdate(time);
+	scene_->_LateUpdate(time);
 }
 
 void SceneManager::Collision(float time)

@@ -8,6 +8,7 @@ class Timer
 public:
 	void Initialize();
 	void Update();
+
 	float delta_time() const;
 	int frame_per_second() const;
 

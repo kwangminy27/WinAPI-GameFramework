@@ -71,12 +71,12 @@ void Input::_Release()
 {
 }
 
-unique_ptr<KeyInfo>& Input::_FindKey(string const& name)
+unique_ptr<KeyInfo> const& Input::_FindKey(string const& name) const
 {
-	auto iter = key_collection_.find(name);
+	auto const iter = key_collection_.find(name);
 
 	if (iter == key_collection_.end())
-		assert(!"Input::_FindKey");
+		return nullptr_key_;
 	
 	return iter->second;
 }
