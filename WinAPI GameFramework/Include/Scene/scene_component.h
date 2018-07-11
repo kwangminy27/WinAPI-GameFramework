@@ -8,6 +8,7 @@ class SceneComponent : public Tag
 {
 	friend class Scene;
 public:
+	std::shared_ptr<Scene> scene() const;
 	void set_scene(std::shared_ptr<Scene> const& scene);
 
 protected:
@@ -16,7 +17,7 @@ protected:
 
 	virtual void _Release() = 0;
 
-	virtual bool _Initialize(std::shared_ptr<Scene> const& scene) = 0;
+	virtual bool _Initialize() = 0;
 	virtual void _Input(float time) = 0;
 	virtual void _Update(float time) = 0;
 	virtual void _LateUpdate(float time) = 0;

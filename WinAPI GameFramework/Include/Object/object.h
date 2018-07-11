@@ -2,14 +2,35 @@
 
 #include "../tag.h"
 
+class Scene;
+class Layer;
+
 class Object : public Tag
 {
 	friend class Layer;
+	friend class ObjectManager;
 public:
-	Object() = default;
-	virtual ~Object() = default;
+	XY position() const;
+	XY size() const;
+	XY pivot() const;
+
+	void set_position(float x, float y);
+	void set_position(XY const& xy);
+	void set_size(float x, float y);
+	void set_size(XY const& xy);
+	void set_pivot(float x, float y);
+	void set_pivot(XY const& xy);
+
+	std::shared_ptr<Scene> scene() const;
+	std::shared_ptr<Layer> layer() const;
+
+	void set_scene(std::shared_ptr<Scene> const& scene);
+	void set_layer(std::shared_ptr<Layer> const& layer);
+
 protected:
+	Object() = default;
 	Object(Object const& other);
+	virtual ~Object() = default;
 
 	virtual void _Release() override = 0;
 
@@ -19,5 +40,12 @@ protected:
 	virtual void _LateUpdate(float time) = 0;
 	virtual void _Collision(float time) = 0;
 	virtual void _Render(HDC device_context, float time) = 0;
+
 	virtual std::unique_ptr<Object, std::function<void(void*)>> _Clone() = 0;
+
+	XY position_{};
+	XY size_{};
+	XY pivot_{};
+	std::weak_ptr<Scene> scene_{};
+	std::weak_ptr<Layer> layer_{};
 };

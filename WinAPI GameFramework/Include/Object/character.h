@@ -16,5 +16,6 @@ protected:
 	virtual void _LateUpdate(float time) override = 0;
 	virtual void _Collision(float time) override = 0;
 	virtual void _Render(HDC device_context, float time) override = 0;
+
 	virtual std::unique_ptr<Object, std::function<void(void*)>> _Clone() override = 0;
 };

@@ -23,6 +23,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="Object\character.cpp" />
     <ClCompile Include="Object\object.cpp" />
+    <ClCompile Include="Object\object_manager.cpp" />
     <ClCompile Include="Object\player.cpp" />
     <ClCompile Include="Scene\layer.cpp" />
     <ClCompile Include="Scene\main_scene.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="Object\character.h" />
     <ClInclude Include="Object\object.h" />
+    <ClInclude Include="Object\object_manager.h" />
     <ClInclude Include="Object\player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\layer.h" />
@@ -52,6 +54,7 @@
     <ClInclude Include="type.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Object\object_manager.inl" />
     <None Include="Scene\scene.inl" />
     <None Include="singleton.inl" />
     <None Include="type.inl" />
@@ -156,6 +159,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <StackReserveSize>10485760</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

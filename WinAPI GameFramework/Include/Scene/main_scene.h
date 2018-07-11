@@ -10,7 +10,7 @@ private:
 
 	virtual void _Release() override;
 
-	virtual bool _Initialize(std::shared_ptr<Scene> const& scene) override;
+	virtual bool _Initialize() override;
 	virtual void _Input(float time) override;
 	virtual void _Update(float time) override;
 	virtual void _LateUpdate(float time) override;

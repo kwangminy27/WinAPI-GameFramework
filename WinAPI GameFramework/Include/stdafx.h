@@ -1,6 +1,6 @@
 #pragma once
 
-#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 
 #include <cassert>
 #include <crtdbg.h>

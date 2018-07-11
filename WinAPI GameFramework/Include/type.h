@@ -12,35 +12,35 @@ enum class FLAG
 	END
 };
 
-struct Point
+struct XY
 {
 	float x{};
 	float y{};
 
-	Point operator+(float value) const;
+	XY operator+(float value) const;
 	void operator+=(float value);
 
-	Point operator-(float value) const;
+	XY operator-(float value) const;
 	void operator-=(float value);
 
-	Point operator*(float value) const;
+	XY operator*(float value) const;
 	void operator*=(float value);
 
-	Point operator/(float value) const;
+	XY operator/(float value) const;
 	void operator/=(float value);
 };
 
-struct Rect
+struct LTRB
 {
 	float l{};
 	float t{};
 	float r{};
 	float b{};
 
-	void SetRect(float _l, float _t, float _r, float _b);
+	void SetLTRB(float _l, float _t, float _r, float _b);
 	void Move(float x, float y);
 
-	void Render(HDC device_context) const;
+	void RenderRectangle(HDC device_context) const;
 	void RenderEllipse(HDC device_context) const;
 
 	float GetWidth() const;

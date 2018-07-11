@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -25,20 +17,20 @@
     <Filter Include="02. Scene">
       <UniqueIdentifier>{b292331a-e175-4632-9ffa-ae7a75b7c005}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Object">
+      <UniqueIdentifier>{598230c3-6c3f-4c82-b6eb-547ddb67e29c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinAPI GameFramework">
+      <UniqueIdentifier>{ca2d7a68-3b3a-4962-8526-8961f01cfd87}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. Scene\01. Layer">
       <UniqueIdentifier>{7eeeb990-b46b-464b-97df-5f866ea4157a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Scene\02. SceneComponent">
       <UniqueIdentifier>{17fdc712-eb9f-45a2-b2b3-85a5596b395f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Object">
-      <UniqueIdentifier>{598230c3-6c3f-4c82-b6eb-547ddb67e29c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WinAPI GameFramework.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="core.cpp">
       <Filter>01. Core</Filter>
     </ClCompile>
@@ -50,9 +42,6 @@
     </ClCompile>
     <ClCompile Include="Scene\scene_manager.cpp">
       <Filter>02. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="tag.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scene\scene.cpp">
       <Filter>02. Scene</Filter>
@@ -75,22 +64,19 @@
     <ClCompile Include="Object\player.cpp">
       <Filter>03. Object</Filter>
     </ClCompile>
+    <ClCompile Include="WinAPI GameFramework.cpp">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="tag.cpp">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\object_manager.cpp">
+      <Filter>03. Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="singleton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="core.h">
       <Filter>01. Core</Filter>
-    </ClInclude>
-    <ClInclude Include="type.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="timer.h">
       <Filter>01. Core\01. Timer</Filter>
@@ -100,9 +86,6 @@
     </ClInclude>
     <ClInclude Include="Scene\scene_manager.h">
       <Filter>02. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="tag.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scene\scene.h">
       <Filter>02. Scene</Filter>
@@ -125,16 +108,37 @@
     <ClInclude Include="Object\player.h">
       <Filter>03. Object</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="tag.h">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="type.h">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\object_manager.h">
+      <Filter>03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="singleton.inl">
-      <Filter>헤더 파일</Filter>
-    </None>
-    <None Include="type.inl">
-      <Filter>헤더 파일</Filter>
-    </None>
     <None Include="Scene\scene.inl">
       <Filter>02. Scene</Filter>
+    </None>
+    <None Include="type.inl">
+      <Filter>WinAPI GameFramework</Filter>
+    </None>
+    <None Include="singleton.inl">
+      <Filter>WinAPI GameFramework</Filter>
+    </None>
+    <None Include="Object\object_manager.inl">
+      <Filter>03. Object</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
