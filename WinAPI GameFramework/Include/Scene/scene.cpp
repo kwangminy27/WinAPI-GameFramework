@@ -2,10 +2,11 @@
 #include "layer.h"
 #include "scene_component.h"
 #include "main_scene.h"
+#include "../Object/object_manager.h"
 
 using namespace std;
 
-bool Scene::_Initialize(std::shared_ptr<Scene> const& scene)
+bool Scene::_Initialize()
 {
 	Tag::_Initialize();
 
@@ -13,11 +14,11 @@ bool Scene::_Initialize(std::shared_ptr<Scene> const& scene)
 	_CreateLayer("Default"s, 0);
 	_CreateLayer("UI"s, numeric_limits<int>::max());
 
-	for (auto& e : layer_list_)
-		e->_Initialize(scene);
+	for (auto const& layer : layer_list_)
+		layer->_Initialize();
 
 	scene_component_ = _CreateSceneCompoenet<MainScene>("MainScene"s);
-	scene_component_->_Initialize(scene);
+	scene_component_->_Initialize();
 
 	return true;
 }
@@ -142,9 +143,9 @@ void Scene::_Render(HDC device_context, float time)
 	}
 }
 
-unique_ptr<Layer, function<void(Layer*)>> const& Scene::FindLayer(std::string const& tag) const
+shared_ptr<Layer> Scene::FindLayer(std::string const& tag) const
 {
-	for (auto& e : layer_list_)
+	for (auto const& e : layer_list_)
 	{
 		if (e->tag() == tag)
 			return e;
@@ -159,17 +160,19 @@ void Scene::_Release()
 
 void Scene::_CreateLayer(string const& tag, int z_order)
 {
-	auto layer = unique_ptr<Layer, function<void(Layer*)>>(new Layer, [](Layer* p) {
+	auto layer = shared_ptr<Layer>(new Layer, [](Layer* p) {
 		p->_Release();
 		delete p;
 	});
 
-	layer->set_tag(tag);
+	layer->self_ = layer;
+	layer->set_scene(self_.lock());
 	layer->set_z_order(z_order);
+	layer->set_tag(tag);
 
-	layer_list_.push_back(move(layer));
+	layer_list_.push_back(layer);
 
 	layer_list_.sort([](auto const& left, auto const& right) -> bool {
-		return left->z_order_ < right->z_order_;
+		return left->z_order() < right->z_order();
 	});
 }

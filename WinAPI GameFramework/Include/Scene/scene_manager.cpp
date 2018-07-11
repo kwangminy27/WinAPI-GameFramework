@@ -6,7 +6,7 @@ using namespace std;
 bool SceneManager::Initialize()
 {
 	scene_ = _CreateScene("MainScene"s);
-	scene_->_Initialize(scene_);
+	scene_->_Initialize();
 
 	return true;
 }
@@ -47,6 +47,7 @@ shared_ptr<Scene> SceneManager::_CreateScene(string const& tag)
 		delete p;
 	});
 
+	scene->self_ = scene;
 	scene->set_tag(tag);
 
 	return scene;

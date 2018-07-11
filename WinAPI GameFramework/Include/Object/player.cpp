@@ -1,3 +1,4 @@
+#include "../Scene/scene.h"
 #include "player.h"
 
 using namespace std;
@@ -12,6 +13,8 @@ void Player::_Release()
 
 bool Player::_Initialize()
 {
+	Tag::_Initialize();
+
 	return true;
 }
 

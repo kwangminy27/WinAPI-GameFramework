@@ -1,23 +1,19 @@
-#include "main_scene.h"
 #include "scene.h"
 #include "layer.h"
+#include "main_scene.h"
+#include "../Object/object_manager.h"
+#include "../Object/player.h"
 
 void MainScene::_Release()
 {
 }
 
-bool MainScene::_Initialize(std::shared_ptr<Scene> const& scene)
+bool MainScene::_Initialize()
 {
 	Tag::_Initialize();
-
-	set_scene(scene);
-
-	auto const shared_scene = scene_.lock();
-
-	if (!shared_scene)
-		return false;
-
-	auto const& layer = shared_scene->FindLayer("Default"s);
+	
+	auto default_layer = scene()->FindLayer("Default"s);
+	auto player = ObjectManager::instance()->CreateObject<Player>("Player"s, default_layer);
 
 	return true;
 }

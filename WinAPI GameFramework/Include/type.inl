@@ -1,58 +1,58 @@
 #pragma once
 
-inline Point Point::operator+(float value) const
+inline XY XY::operator+(float value) const
 {
-	return Point{ x + value, y + value };
+	return XY{ x + value, y + value };
 }
 
-inline void Point::operator+=(float value)
+inline void XY::operator+=(float value)
 {
 	x += value;
 	y += value;
 }
 
-inline Point Point::operator-(float value) const
+inline XY XY::operator-(float value) const
 {
-	return Point{ x - value, y - value };
+	return XY{ x - value, y - value };
 }
 
-inline void Point::operator-=(float value)
+inline void XY::operator-=(float value)
 {
 	x -= value;
 	y -= value;
 }
 
-inline Point Point::operator*(float value) const
+inline XY XY::operator*(float value) const
 {
-	return Point{ x * value, y * value };
+	return XY{ x * value, y * value };
 }
 
-inline void Point::operator*=(float value)
+inline void XY::operator*=(float value)
 {
 	x *= value;
 	y *= value;
 }
 
-inline Point Point::operator/(float value) const
+inline XY XY::operator/(float value) const
 {
-	return Point{ x / value, y / value };
+	return XY{ x / value, y / value };
 }
 
-inline void Point::operator/=(float value)
+inline void XY::operator/=(float value)
 {
 	x /= value;
 	y /= value;
 }
 
-inline void Rect::SetRect(float l, float t, float r, float b)
+inline void LTRB::SetLTRB(float l, float t, float r, float b)
 {
-	Rect::l = l;
-	Rect::t = t;
-	Rect::r = r;
-	Rect::b = b;
+	LTRB::l = l;
+	LTRB::t = t;
+	LTRB::r = r;
+	LTRB::b = b;
 }
 
-inline void Rect::Move(float x, float y)
+inline void LTRB::Move(float x, float y)
 {
 	l += x;
 	t += y;
@@ -60,22 +60,22 @@ inline void Rect::Move(float x, float y)
 	b += y;
 }
 
-inline void Rect::Render(HDC device_context) const
+inline void LTRB::RenderRectangle(HDC device_context) const
 {
 	Rectangle(device_context, static_cast<int>(l), static_cast<int>(t), static_cast<int>(r), static_cast<int>(b));
 }
 
-inline void Rect::RenderEllipse(HDC device_context) const
+inline void LTRB::RenderEllipse(HDC device_context) const
 {
 	Ellipse(device_context, static_cast<int>(l), static_cast<int>(t), static_cast<int>(r), static_cast<int>(b));
 }
 
-inline float Rect::GetWidth() const
+inline float LTRB::GetWidth() const
 {
 	return r - l;
 }
 
-inline float Rect::GetHeight() const
+inline float LTRB::GetHeight() const
 {
 	return t - b;
 }

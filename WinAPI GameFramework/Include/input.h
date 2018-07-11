@@ -57,9 +57,9 @@ private:
 		key_collection_.insert(std::make_pair(std::move(tag), std::move(key_buffer_)));
 	}
 
-	std::unique_ptr<KeyInfo> const& _FindKey(string const& name) const;
+	std::unique_ptr<KeyInfo> const& _FindKey(string const& tag) const;
 
+	std::unique_ptr<KeyInfo> nullptr_key_{};
 	std::unordered_map<std::string, std::unique_ptr<KeyInfo>> key_collection_{};
 	std::unique_ptr<KeyInfo> key_buffer_{};
-	std::unique_ptr<KeyInfo> nullptr_key_{};
 };

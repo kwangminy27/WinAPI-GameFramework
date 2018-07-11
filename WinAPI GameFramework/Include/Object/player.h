@@ -4,6 +4,7 @@
 
 class Player final : public Character
 {
+	friend class ObjectManager;
 private:
 	Player() = default;
 	Player(Player const& other);
@@ -16,6 +17,6 @@ private:
 	virtual void _LateUpdate(float time) override;
 	virtual void _Collision(float time) override;
 	virtual void _Render(HDC device_context, float time) override;
+
 	virtual std::unique_ptr<Object, std::function<void(void*)>> _Clone() override;
 };
-

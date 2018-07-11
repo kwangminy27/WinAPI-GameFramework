@@ -46,23 +46,23 @@ void Input::Update(float delta_time)
 	}
 }
 
-bool Input::KeyPush(string const& name)
+bool Input::KeyPush(string const& tag)
 {
-	auto& key = _FindKey(name);
+	auto const& key = _FindKey(tag);
 
 	return key->push;
 }
 
-bool Input::KeyPressed(string const& name)
+bool Input::KeyPressed(string const& tag)
 {
-	auto& key = _FindKey(name);
+	auto const& key = _FindKey(tag);
 
 	return key->pressed;
 }
 
-bool Input::KeyUp(string const& name)
+bool Input::KeyUp(string const& tag)
 {
-	auto& key = _FindKey(name);
+	auto const& key = _FindKey(tag);
 
 	return key->up;
 }
@@ -71,9 +71,9 @@ void Input::_Release()
 {
 }
 
-unique_ptr<KeyInfo> const& Input::_FindKey(string const& name) const
+unique_ptr<KeyInfo> const& Input::_FindKey(string const& tag) const
 {
-	auto const iter = key_collection_.find(name);
+	auto const iter = key_collection_.find(tag);
 
 	if (iter == key_collection_.end())
 		return nullptr_key_;
