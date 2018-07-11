@@ -19,15 +19,23 @@ struct XY
 
 	XY operator+(float value) const;
 	void operator+=(float value);
+	XY operator+(XY value) const;
+	void operator+=(XY value);
 
 	XY operator-(float value) const;
 	void operator-=(float value);
+	XY operator-(XY value) const;
+	void operator-=(XY value);
 
 	XY operator*(float value) const;
 	void operator*=(float value);
+	XY operator*(XY value) const;
+	void operator*=(XY value);
 
 	XY operator/(float value) const;
 	void operator/=(float value);
+	XY operator/(XY value) const;
+	void operator/=(XY value);
 };
 
 struct LTRB

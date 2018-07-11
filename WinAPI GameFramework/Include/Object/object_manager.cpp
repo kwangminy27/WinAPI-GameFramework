@@ -1,6 +1,6 @@
+#include "object_manager.h"
 #include "../Scene/scene.h"
 #include "../Scene/layer.h"
-#include "object_manager.h"
 #include "object.h"
 
 using namespace std;

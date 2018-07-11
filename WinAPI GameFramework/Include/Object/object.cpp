@@ -72,6 +72,30 @@ void Object::set_layer(shared_ptr<Layer> const& layer)
 	layer_ = layer;
 }
 
+void Object::Move(float x, float y)
+{
+	position_.x += x;
+	position_.y += y;
+}
+
+void Object::Move(float x, float y, float time)
+{
+	position_.x += x * time;
+	position_.y += y * time;
+}
+
+void Object::Move(XY xy)
+{
+	position_.x += xy.x;
+	position_.y += xy.y;
+}
+
+void Object::Move(XY xy, float time)
+{
+	position_.x += xy.x * time;
+	position_.y += xy.y * time;
+}
+
 Object::Object(Object const& other)
 {
 	*this = other;

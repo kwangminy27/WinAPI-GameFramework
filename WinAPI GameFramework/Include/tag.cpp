@@ -2,14 +2,6 @@
 
 using namespace std;
 
-bool Tag::_Initialize()
-{
-	enablement_ = true;
-	activation_ = true;
-
-	return true;
-}
-
 void Tag::set_tag(string const& tag)
 {
 	tag_ = tag;

@@ -4,6 +4,9 @@
 
 class Character : public Object
 {
+public:
+	void set_move_speed(float move_speed);
+
 protected:
 	Character() = default;
 	Character(Character const& other);
@@ -17,5 +20,7 @@ protected:
 	virtual void _Collision(float time) override = 0;
 	virtual void _Render(HDC device_context, float time) override = 0;
 
-	virtual std::unique_ptr<Object, std::function<void(void*)>> _Clone() override = 0;
+	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override = 0;
+
+	float move_speed_{};
 };

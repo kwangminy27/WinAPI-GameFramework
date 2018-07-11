@@ -29,6 +29,12 @@
     <Filter Include="02. Scene\02. SceneComponent">
       <UniqueIdentifier>{17fdc712-eb9f-45a2-b2b3-85a5596b395f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Object\01. Character">
+      <UniqueIdentifier>{d62fd0ee-d2e7-461a-a73d-19986a2a25a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Object\02. Bullet">
+      <UniqueIdentifier>{a51194b2-72ae-4703-b1bd-2a470a69fcb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -58,12 +64,6 @@
     <ClCompile Include="Object\object.cpp">
       <Filter>03. Object</Filter>
     </ClCompile>
-    <ClCompile Include="Object\character.cpp">
-      <Filter>03. Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\player.cpp">
-      <Filter>03. Object</Filter>
-    </ClCompile>
     <ClCompile Include="WinAPI GameFramework.cpp">
       <Filter>WinAPI GameFramework</Filter>
     </ClCompile>
@@ -72,6 +72,15 @@
     </ClCompile>
     <ClCompile Include="Object\object_manager.cpp">
       <Filter>03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\character.cpp">
+      <Filter>03. Object\01. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\player.cpp">
+      <Filter>03. Object\01. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\bullet.cpp">
+      <Filter>03. Object\02. Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,12 +111,6 @@
     <ClInclude Include="Object\object.h">
       <Filter>03. Object</Filter>
     </ClInclude>
-    <ClInclude Include="Object\character.h">
-      <Filter>03. Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\player.h">
-      <Filter>03. Object</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>WinAPI GameFramework</Filter>
     </ClInclude>
@@ -125,6 +128,15 @@
     </ClInclude>
     <ClInclude Include="Object\object_manager.h">
       <Filter>03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\character.h">
+      <Filter>03. Object\01. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\player.h">
+      <Filter>03. Object\01. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\bullet.h">
+      <Filter>03. Object\02. Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

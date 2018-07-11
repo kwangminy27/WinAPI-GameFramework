@@ -27,6 +27,11 @@ public:
 	void set_scene(std::shared_ptr<Scene> const& scene);
 	void set_layer(std::shared_ptr<Layer> const& layer);
 
+	void Move(float x, float y);
+	void Move(float x, float y, float time);
+	void Move(XY xy);
+	void Move(XY xy, float time);
+
 protected:
 	Object() = default;
 	Object(Object const& other);
@@ -41,7 +46,7 @@ protected:
 	virtual void _Collision(float time) = 0;
 	virtual void _Render(HDC device_context, float time) = 0;
 
-	virtual std::unique_ptr<Object, std::function<void(void*)>> _Clone() = 0;
+	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() = 0;
 
 	XY position_{};
 	XY size_{};

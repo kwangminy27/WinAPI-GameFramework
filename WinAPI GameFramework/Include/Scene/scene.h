@@ -9,7 +9,7 @@ class Scene final : public Tag
 {
 	friend class SceneManager;
 public:
-	std::shared_ptr<Layer> FindLayer(std::string const& tag) const;
+	std::shared_ptr<Layer> const& FindLayer(std::string const& tag) const;
 
 private:
 	Scene() = default;
