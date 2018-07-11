@@ -19,9 +19,7 @@ protected:
 
 	virtual void _Release() = 0;
 
-	bool _Initialize();
-
 	std::string tag_{};
-	bool enablement_{};
-	bool activation_{};
+	bool enablement_{true};
+	bool activation_{true};
 };

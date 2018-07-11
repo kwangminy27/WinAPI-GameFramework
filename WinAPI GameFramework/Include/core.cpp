@@ -158,13 +158,13 @@ void Core::_Render(float time)
 	SetBkColor(device_context_, RGB(LTGRAY, LTGRAY, LTGRAY));
 	TextOut(device_context_, 0, 0, wstr.c_str(), static_cast<int>(wstr.size()));
 
-	random_device rd;
-	mt19937 gen(rd());
-	uniform_real_distribution<double> urdistr(0.0, 1.0);
-	bernoulli_distribution distr(urdistr(gen));
-	unordered_map<bool, int> histogram;
-	for (int i = 0; i < 100; ++i)
-		++histogram[distr(gen)];
+	//random_device rd;
+	//mt19937 gen(rd());
+	//uniform_real_distribution<double> urdistr(0.0, 1.0);
+	//bernoulli_distribution distr(urdistr(gen));
+	//unordered_map<bool, int> histogram;
+	//for (int i = 0; i < 100; ++i)
+	//	++histogram[distr(gen)];
 }
 
 bool Core::_GetFlag(FLAG flag) const

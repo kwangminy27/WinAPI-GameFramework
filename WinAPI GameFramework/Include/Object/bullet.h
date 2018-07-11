@@ -1,13 +1,17 @@
 #pragma once
 
-#include "character.h"
+#include "object.h"
 
-class Player final : public Character
+class Bullet : public Object
 {
 	friend class ObjectManager;
-private:
-	Player() = default;
-	Player(Player const& other);
+public:
+	void set_move_speed(float move_speed);
+	void set_dir(XY dir);
+
+protected:
+	Bullet() = default;
+	Bullet(Bullet const& other);
 
 	virtual void _Release() override;
 
@@ -19,4 +23,8 @@ private:
 	virtual void _Render(HDC device_context, float time) override;
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override;
+
+	float move_speed_{};
+	XY dir_{};
 };
+

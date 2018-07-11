@@ -1,3 +1,4 @@
+#include "type.h"
 #pragma once
 
 inline XY XY::operator+(float value) const
@@ -11,6 +12,17 @@ inline void XY::operator+=(float value)
 	y += value;
 }
 
+inline XY XY::operator+(XY value) const
+{
+	return XY{ x + value.x, y + value.y };
+}
+
+inline void XY::operator+=(XY value)
+{
+	x += value.x;
+	y += value.y;
+}
+
 inline XY XY::operator-(float value) const
 {
 	return XY{ x - value, y - value };
@@ -20,6 +32,17 @@ inline void XY::operator-=(float value)
 {
 	x -= value;
 	y -= value;
+}
+
+inline XY XY::operator-(XY value) const
+{
+	return XY{ x - value.x, y - value.y };
+}
+
+inline void XY::operator-=(XY value)
+{
+	x -= value.x;
+	y -= value.y;
 }
 
 inline XY XY::operator*(float value) const
@@ -33,6 +56,17 @@ inline void XY::operator*=(float value)
 	y *= value;
 }
 
+inline XY XY::operator*(XY value) const
+{
+	return XY{ x * value.x, y * value.y };
+}
+
+inline void XY::operator*=(XY value)
+{
+	x *= value.x;
+	y *= value.y;
+}
+
 inline XY XY::operator/(float value) const
 {
 	return XY{ x / value, y / value };
@@ -42,6 +76,17 @@ inline void XY::operator/=(float value)
 {
 	x /= value;
 	y /= value;
+}
+
+inline XY XY::operator/(XY value) const
+{
+	return XY{ x / value.x, y / value.y };
+}
+
+inline void XY::operator/=(XY value)
+{
+	x /= value.x;
+	y /= value.y;
 }
 
 inline void LTRB::SetLTRB(float l, float t, float r, float b)

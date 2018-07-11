@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="core.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="Object\bullet.cpp" />
     <ClCompile Include="Object\character.cpp" />
     <ClCompile Include="Object\object.cpp" />
     <ClCompile Include="Object\object_manager.cpp" />
@@ -37,6 +38,7 @@
   <ItemGroup>
     <ClInclude Include="core.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="Object\bullet.h" />
     <ClInclude Include="Object\character.h" />
     <ClInclude Include="Object\object.h" />
     <ClInclude Include="Object\object_manager.h" />

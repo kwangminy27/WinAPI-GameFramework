@@ -18,9 +18,9 @@ public:
 	bool Initialize();
 	void Update(float delta_time);
 
-	bool KeyPush(std::string const& name);
-	bool KeyPressed(std::string const& name);
-	bool KeyUp(std::string const& name);
+	bool KeyPush(std::string const& tag);
+	bool KeyPressed(std::string const& tag);
+	bool KeyUp(std::string const& tag);
 
 private:
 	Input() = default;

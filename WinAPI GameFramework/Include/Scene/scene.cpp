@@ -8,8 +8,6 @@ using namespace std;
 
 bool Scene::_Initialize()
 {
-	Tag::_Initialize();
-
 	_CreateLayer("BackGround"s, numeric_limits<int>::min());
 	_CreateLayer("Default"s, 0);
 	_CreateLayer("UI"s, numeric_limits<int>::max());
@@ -143,7 +141,7 @@ void Scene::_Render(HDC device_context, float time)
 	}
 }
 
-shared_ptr<Layer> Scene::FindLayer(std::string const& tag) const
+shared_ptr<Layer> const& Scene::FindLayer(std::string const& tag) const
 {
 	for (auto const& e : layer_list_)
 	{

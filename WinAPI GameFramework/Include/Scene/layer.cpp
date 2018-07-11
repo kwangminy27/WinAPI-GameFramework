@@ -40,8 +40,6 @@ void Layer::_Release()
 
 bool Layer::_Initialize()
 {
-	Tag::_Initialize();
-
 	return true;
 }
 
