@@ -4,12 +4,12 @@ using namespace std;
 
 bool Input::Initialize()
 {
-	_AddKey("MoveUp"s, VK_UP);
-	_AddKey("MoveDown"s, VK_DOWN);
-	_AddKey("MoveLeft"s, VK_LEFT);
-	_AddKey("MoveRight"s, VK_RIGHT);
-	_AddKey("Fire"s, VK_SPACE);
-	_AddKey("Pause"s, VK_CONTROL, '1');
+	AddKey("MoveUp"s, VK_UP);
+	AddKey("MoveDown"s, VK_DOWN);
+	AddKey("MoveLeft"s, VK_LEFT);
+	AddKey("MoveRight"s, VK_RIGHT);
+	AddKey("Fire"s, VK_SPACE);
+	AddKey("Pause"s, VK_CONTROL, '1');
 	
 	return true;
 }
@@ -79,4 +79,10 @@ unique_ptr<KeyInfo> const& Input::_FindKey(string const& tag) const
 		return nullptr_key_;
 	
 	return iter->second;
+}
+
+void Input::AddKey()
+{
+	string tag = key_buffer_->tag;
+	key_collection_.insert(make_pair(move(tag), move(key_buffer_)));
 }

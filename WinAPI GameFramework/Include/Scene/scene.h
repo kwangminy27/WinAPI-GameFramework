@@ -5,7 +5,7 @@
 class Layer;
 class SceneComponent;
 
-class Scene final : public Tag
+class Scene final : public Tag, public std::enable_shared_from_this<Scene>
 {
 	friend class SceneManager;
 public:
@@ -13,7 +13,7 @@ public:
 
 private:
 	Scene() = default;
-
+	
 	virtual void _Release() override;
 
 	void _CreateLayer(std::string const& tag, int z_order = 0);
@@ -25,11 +25,10 @@ private:
 	void _LateUpdate(float time);
 	void _Collision(float time);
 	void _Render(HDC device_context, float time);
-
+	
 	std::shared_ptr<Layer> nullptr_layer_{};
 	std::list<std::shared_ptr<Layer>> layer_list_{};
 	std::unique_ptr<SceneComponent, std::function<void(SceneComponent*)>> scene_component_{};
-	std::weak_ptr<Scene> self_{};
 };
 
 #include "scene.inl"

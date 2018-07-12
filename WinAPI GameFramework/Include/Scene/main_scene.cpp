@@ -3,6 +3,7 @@
 #include "layer.h"
 #include "../Object/object_manager.h"
 #include "../Object/player.h"
+#include "../Object/monster.h"
 #include "../Object/bullet.h"
 
 void MainScene::_Release()
@@ -12,13 +13,13 @@ void MainScene::_Release()
 bool MainScene::_Initialize()
 {
 	auto const& default_layer = scene()->FindLayer("Default"s);
-	auto player = ObjectManager::instance()->CreateObject<Player>("Player"s, default_layer);
+
+	weak_ptr<Object> player = ObjectManager::instance()->CreateObject<Player>("Player"s, default_layer);
+	weak_ptr<Object> monster = ObjectManager::instance()->CreateObject<Monster>("Mosnter"s, default_layer);
+
 	ObjectManager::instance()->CreatePrototype<Bullet>("Bullet"s, scene());
 
-	player->set_position(100.f, 100.f);
-	player->set_size(100.f, 100.f);
-	player->set_pivot(0.5f, 0.5f);
-
+	
 	return true;
 }
 

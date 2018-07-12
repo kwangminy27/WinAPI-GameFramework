@@ -2,14 +2,19 @@
 
 #include "character.h"
 
-class Bullet;
-
-class Player final : public Character
+class Monster final : public Character
 {
 	friend class ObjectManager;
+public:
+	float move_dir() const;
+	float fire_time() const;
+
+	void set_move_dir(float move_dir);
+	void set_fire_time(float fire_time);
+
 private:
-	Player() = default;
-	Player(Player const& other);
+	Monster() = default;
+	Monster(Monster const& other);
 
 	virtual void _Release() override;
 
@@ -22,5 +27,7 @@ private:
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override;
 
-	std::shared_ptr<Bullet> bullet_{};
+	float move_dir_{};
+	float fire_time_{};
 };
+

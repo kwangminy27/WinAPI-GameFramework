@@ -7,7 +7,10 @@ class Bullet : public Object
 	friend class ObjectManager;
 public:
 	void set_move_speed(float move_speed);
-	void set_dir(XY dir);
+	void set_move_dir(XY move_dir);
+	void set_range(float range);
+	void stop();
+	void start();
 
 protected:
 	Bullet() = default;
@@ -25,6 +28,8 @@ protected:
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override;
 
 	float move_speed_{};
-	XY dir_{};
+	XY move_dir_{};
+	float range_{};
+	bool move_{ true };
 };
 

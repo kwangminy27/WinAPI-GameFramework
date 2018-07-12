@@ -82,6 +82,9 @@
     <ClCompile Include="Object\bullet.cpp">
       <Filter>03. Object\02. Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="Object\monster.cpp">
+      <Filter>03. Object\01. Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="Object\bullet.h">
       <Filter>03. Object\02. Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="Object\monster.h">
+      <Filter>03. Object\01. Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scene\scene.inl">
@@ -151,6 +157,9 @@
     </None>
     <None Include="Object\object_manager.inl">
       <Filter>03. Object</Filter>
+    </None>
+    <None Include="input.inl">
+      <Filter>01. Core\02. Input</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

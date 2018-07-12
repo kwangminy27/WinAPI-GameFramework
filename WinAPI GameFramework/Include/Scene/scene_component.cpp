@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void SceneComponent::set_scene(shared_ptr<Scene> const& scene)
+void SceneComponent::set_scene(weak_ptr<Scene> const& scene)
 {
 	scene_ = scene;
 }

@@ -13,7 +13,7 @@ void ObjectManager::CreatePrototype(string const& tag, shared_ptr<Scene> const& 
 		delete p;
 	});
 
-	prototype->scene_ = scene;
+	prototype->set_scene(scene);
 	prototype->set_tag(tag);
 
 	if (!prototype->_Initialize())
@@ -33,8 +33,8 @@ shared_ptr<Object> ObjectManager::CreateObject(string const& tag, shared_ptr<Lay
 		delete p;
 	});
 
-	object->scene_ = layer->scene_.lock();
-	object->layer_ = layer->self_.lock();
+	object->scene_ = layer->scene();
+	object->layer_ = layer;
 	object->set_tag(tag);
 
 	if (!object->_Initialize())

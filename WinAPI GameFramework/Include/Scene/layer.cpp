@@ -3,7 +3,7 @@
 
 using namespace std;
 
-std::shared_ptr<Scene> Layer::scene() const
+shared_ptr<Scene> Layer::scene() const
 {
 	return scene_.lock();
 }
@@ -13,7 +13,7 @@ int Layer::z_order() const
 	return z_order_;
 }
 
-void Layer::set_scene(std::shared_ptr<Scene> const& scene)
+void Layer::set_scene(std::weak_ptr<Scene> const& scene)
 {
 	scene_ = scene;
 }

@@ -62,12 +62,12 @@ shared_ptr<Layer> Object::layer() const
 	return layer_.lock();
 }
 
-void Object::set_scene(shared_ptr<Scene> const& scene)
+void Object::set_scene(weak_ptr<Scene> const& scene)
 {
 	scene_ = scene;
 }
 
-void Object::set_layer(shared_ptr<Layer> const& layer)
+void Object::set_layer(weak_ptr<Layer> const& layer)
 {
 	layer_ = layer;
 }

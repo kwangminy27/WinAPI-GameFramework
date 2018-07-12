@@ -162,9 +162,8 @@ void Scene::_CreateLayer(string const& tag, int z_order)
 		p->_Release();
 		delete p;
 	});
-
-	layer->self_ = layer;
-	layer->set_scene(self_.lock());
+	
+	layer->set_scene(weak_from_this());
 	layer->set_z_order(z_order);
 	layer->set_tag(tag);
 

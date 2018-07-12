@@ -24,8 +24,8 @@ public:
 	std::shared_ptr<Scene> scene() const;
 	std::shared_ptr<Layer> layer() const;
 
-	void set_scene(std::shared_ptr<Scene> const& scene);
-	void set_layer(std::shared_ptr<Layer> const& layer);
+	void set_scene(std::weak_ptr<Scene> const& scene);
+	void set_layer(std::weak_ptr<Layer> const& layer);
 
 	void Move(float x, float y);
 	void Move(float x, float y, float time);

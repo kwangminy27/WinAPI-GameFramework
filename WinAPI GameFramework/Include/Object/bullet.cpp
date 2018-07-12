@@ -7,14 +7,31 @@ void Bullet::set_move_speed(float move_speed)
 	move_speed_ = move_speed;
 }
 
-void Bullet::set_dir(XY dir)
+void Bullet::set_move_dir(XY move_dir)
 {
-	dir_ = dir;
+	move_dir_ = move_dir;
+}
+
+void Bullet::set_range(float range)
+{
+	range_ = range;
+}
+
+void Bullet::stop()
+{
+	move_ = false;
+}
+
+void Bullet::start()
+{
+	move_ = true;
 }
 
 Bullet::Bullet(Bullet const& other) : Object(other)
 {
 	move_speed_ = other.move_speed_;
+	move_dir_ = other.move_dir_;
+	range_ = other.range_;
 }
 
 void Bullet::_Release()
@@ -23,10 +40,11 @@ void Bullet::_Release()
 
 bool Bullet::_Initialize()
 {
-	set_move_speed(500.f);
 	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
-	set_dir({ 1.f, 0.f });
+	set_move_speed(500.f);
+	set_move_dir({ 1.f, 0.f });
+	set_range(1000.f);
 
 	return true;
 }
@@ -37,7 +55,10 @@ void Bullet::_Input(float time)
 
 void Bullet::_Update(float time)
 {
-	//Move()
+	range_ -= move_ * move_speed_ * time;
+	Move(move_dir_ * move_ * move_speed_, time);
+	if (range_ <= 0)
+		set_activation(false);
 }
 
 void Bullet::_LateUpdate(float time)

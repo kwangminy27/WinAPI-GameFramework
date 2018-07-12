@@ -13,7 +13,7 @@ public:
 	std::shared_ptr<Scene> scene() const;
 	int z_order() const;
 
-	void set_scene(std::shared_ptr<Scene> const& scene);
+	void set_scene(std::weak_ptr<Scene> const& scene);
 	void set_z_order(int z_order);
 
 	std::shared_ptr<Object> const& FindObject(std::string const& tag) const;
@@ -37,5 +37,4 @@ private:
 	std::shared_ptr<Object> nullptr_object_{};
 	std::list<std::shared_ptr<Object>> object_list_{};
 	std::weak_ptr<Scene> scene_{};
-	std::weak_ptr<Layer> self_{};
 };

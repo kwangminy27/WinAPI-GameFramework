@@ -28,7 +28,7 @@ shared_ptr<Object> ObjectManager::CreateCloneObject(string const& tag, shared_pt
 	
 	shared_ptr<Object> object{ prototype->_Clone() };
 
-	object->set_layer(layer->self_.lock());
+	object->set_layer(layer);
 
 	if (!object->_Initialize())
 		return nullptr_object_;

@@ -20,6 +20,6 @@ protected:
 	virtual void _Release() = 0;
 
 	std::string tag_{};
-	bool enablement_{true};
-	bool activation_{true};
+	bool enablement_{ true };
+	bool activation_{ true };
 };

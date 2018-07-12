@@ -5,6 +5,7 @@
 class Character : public Object
 {
 public:
+	float move_speed() const;
 	void set_move_speed(float move_speed);
 
 protected:

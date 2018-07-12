@@ -9,7 +9,7 @@ class SceneComponent : public Tag
 	friend class Scene;
 public:
 	std::shared_ptr<Scene> scene() const;
-	void set_scene(std::shared_ptr<Scene> const& scene);
+	void set_scene(std::weak_ptr<Scene> const& scene);
 
 protected:
 	SceneComponent() = default;

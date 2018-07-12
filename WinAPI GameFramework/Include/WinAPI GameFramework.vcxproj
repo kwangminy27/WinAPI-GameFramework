@@ -23,6 +23,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="Object\bullet.cpp" />
     <ClCompile Include="Object\character.cpp" />
+    <ClCompile Include="Object\monster.cpp" />
     <ClCompile Include="Object\object.cpp" />
     <ClCompile Include="Object\object_manager.cpp" />
     <ClCompile Include="Object\player.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="Object\bullet.h" />
     <ClInclude Include="Object\character.h" />
+    <ClInclude Include="Object\monster.h" />
     <ClInclude Include="Object\object.h" />
     <ClInclude Include="Object\object_manager.h" />
     <ClInclude Include="Object\player.h" />
@@ -56,6 +58,7 @@
     <ClInclude Include="type.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="input.inl" />
     <None Include="Object\object_manager.inl" />
     <None Include="Scene\scene.inl" />
     <None Include="singleton.inl" />
