@@ -34,7 +34,7 @@ private:
 	void _EraseObject(std::shared_ptr<Object> const& object);
 
 	int z_order_{};
-	std::shared_ptr<Object> nullptr_object_{};
+	std::shared_ptr<Object> object_nullptr_{};
 	std::list<std::shared_ptr<Object>> object_list_{};
 	std::weak_ptr<Scene> scene_{};
 };

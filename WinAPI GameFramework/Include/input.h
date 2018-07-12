@@ -35,7 +35,7 @@ private:
 
 	std::unique_ptr<KeyInfo> const& _FindKey(string const& tag) const;
 
-	std::unique_ptr<KeyInfo> nullptr_key_{};
+	std::unique_ptr<KeyInfo> key_nullptr_{};
 	std::unordered_map<std::string, std::unique_ptr<KeyInfo>> key_collection_{};
 	std::unique_ptr<KeyInfo> key_buffer_{};
 };

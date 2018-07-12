@@ -31,7 +31,7 @@ shared_ptr<Object> const& Layer::FindObject(string const& tag) const
 			return *iter;
 	}
 
-	return nullptr_object_;
+	return object_nullptr_;
 }
 
 void Layer::_Release()

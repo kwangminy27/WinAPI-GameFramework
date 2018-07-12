@@ -9,8 +9,8 @@ class ResourceManager final : public Singleton<ResourceManager>
 	friend class Singleton<ResourceManager>;
 public:
 	bool Initialize();
-	std::shared_ptr<Texture> LoadTexture(std::string tag, std::string file_name, std::string path_tag = "TexturePath"s);
-	std::shared_ptr<Texture> const& FindTexture(std::string tag) const;
+	std::shared_ptr<Texture> LoadTexture(std::string const& tag, std::wstring const& file_name, std::string const& path_tag);
+	std::shared_ptr<Texture> const& FindTexture(std::string const& tag) const;
 
 private:
 	ResourceManager() = default;
@@ -19,6 +19,6 @@ private:
 
 	virtual void _Release() override;
 
-	std::shared_ptr<Texture> nullptr_texture_{};
+	std::shared_ptr<Texture> texture_nullptr_{};
 	std::unordered_map<std::string, shared_ptr<Texture>> texture_collection_{};
 };

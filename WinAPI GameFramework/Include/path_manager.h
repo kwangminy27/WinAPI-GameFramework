@@ -17,6 +17,6 @@ private:
 
 	virtual void _Release() override;
 
-	std::filesystem::path nullptr_path_{};
+	std::filesystem::path path_nullptr_{};
 	std::unordered_map<std::string, std::filesystem::path> path_collection_{};
 };

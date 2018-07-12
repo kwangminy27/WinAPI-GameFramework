@@ -76,7 +76,7 @@ unique_ptr<KeyInfo> const& Input::_FindKey(string const& tag) const
 	auto const iter = key_collection_.find(tag);
 
 	if (iter == key_collection_.end())
-		return nullptr_key_;
+		return key_nullptr_;
 	
 	return iter->second;
 }

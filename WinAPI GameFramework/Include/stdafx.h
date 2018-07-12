@@ -2,6 +2,8 @@
 
 #pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 
+#pragma comment(lib, "msimg32.lib")
+
 #include <cassert>
 #include <crtdbg.h>
 

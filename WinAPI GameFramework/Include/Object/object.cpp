@@ -1,6 +1,8 @@
 #include "object.h"
 #include "../Scene/scene.h"
 #include "../Scene/layer.h"
+#include "../Resource/resource_manager.h"
+#include "../Resource/texture.h"
 
 using namespace std;
 
@@ -72,6 +74,27 @@ void Object::set_layer(weak_ptr<Layer> const& layer)
 	layer_ = layer;
 }
 
+bool Object::set_texture(string const& tag, wstring const& file_name, string const& path_tag)
+{
+	texture_ = ResourceManager::instance()->LoadTexture(tag, file_name, path_tag);
+
+	return true;
+}
+
+bool Object::set_texture(std::string const& tag)
+{
+	texture_ = ResourceManager::instance()->FindTexture(tag);
+
+	return true;
+}
+
+bool Object::set_texture(weak_ptr<Texture> const& texture)
+{
+	texture_ = texture;
+
+	return true;
+}
+
 void Object::Move(float x, float y)
 {
 	position_.x += x;
@@ -99,4 +122,38 @@ void Object::Move(XY xy, float time)
 Object::Object(Object const& other)
 {
 	*this = other;
+}
+
+bool Object::_Initialize()
+{
+	return true;
+}
+
+void Object::_Input(float time)
+{
+}
+
+void Object::_Update(float time)
+{
+}
+
+void Object::_LateUpdate(float time)
+{
+}
+
+void Object::_Collision(float time)
+{
+}
+
+void Object::_Render(HDC device_context, float time)
+{
+	auto texture = texture_.lock();
+
+	if (texture)
+	{
+		float left{ position_.x - (size_.x * pivot_.x) };
+		float top{ position_.y - (size_.y * pivot_.y) };
+		BitBlt(device_context, static_cast<int>(left), static_cast<int>(top), size_.x, size_.y,
+			texture->memory_device_context(), 0, 0, SRCCOPY);
+	}
 }

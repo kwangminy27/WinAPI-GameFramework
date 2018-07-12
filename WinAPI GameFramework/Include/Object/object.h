@@ -4,6 +4,7 @@
 
 class Scene;
 class Layer;
+class Texture;
 
 class Object : public Tag
 {
@@ -26,6 +27,9 @@ public:
 
 	void set_scene(std::weak_ptr<Scene> const& scene);
 	void set_layer(std::weak_ptr<Layer> const& layer);
+	bool set_texture(std::string const& tag, std::wstring const& file_name, std::string const& path_tag);
+	bool set_texture(std::string const& tag);
+	bool set_texture(std::weak_ptr<Texture> const& texture);
 
 	void Move(float x, float y);
 	void Move(float x, float y, float time);
@@ -39,12 +43,12 @@ protected:
 
 	virtual void _Release() override = 0;
 
-	virtual bool _Initialize() = 0;
-	virtual void _Input(float time) = 0;
-	virtual void _Update(float time) = 0;
-	virtual void _LateUpdate(float time) = 0;
-	virtual void _Collision(float time) = 0;
-	virtual void _Render(HDC device_context, float time) = 0;
+	virtual bool _Initialize();
+	virtual void _Input(float time);
+	virtual void _Update(float time);
+	virtual void _LateUpdate(float time);
+	virtual void _Collision(float time);
+	virtual void _Render(HDC device_context, float time);
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() = 0;
 
@@ -53,4 +57,5 @@ protected:
 	XY pivot_{};
 	std::weak_ptr<Scene> scene_{};
 	std::weak_ptr<Layer> layer_{};
+	std::weak_ptr<Texture> texture_{};
 };

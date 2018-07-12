@@ -3,18 +3,19 @@
 #include "Input.h"
 #include "path_manager.h"
 #include "Scene/scene_manager.h"
+#include "Resource/resource_manager.h"
 
 using namespace std;
 
 bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HINSTANCE instance, HICON icon)
 {	
-	instance_ = instance;
+	main_instance_ = instance;
 	_SetFlag(FLAG::RUN, true);
 
 	_RegisterClass(class_name, icon);
 	_CreateWindow(class_name, window_name);
 
-	device_context_ = GetDC(window_);
+	device_context_ = GetDC(main_window_);
 
 	timer_ = unique_ptr<Timer, function<void(Timer*)>>(new Timer, [](Timer* p) {
 		delete p;
@@ -26,6 +27,9 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 		return false;
 
 	if (!PathManager::instance()->Initialize())
+		return false;
+
+	if (!ResourceManager::instance()->Initialize())
 		return false;
 
 	if (!SceneManager::instance()->Initialize())
@@ -53,9 +57,24 @@ int Core::Run()
 	return static_cast<int>(message.wParam);
 }
 
+HINSTANCE Core::main_instance() const
+{
+	return main_instance_;
+}
+
+HWND Core::main_window() const
+{
+	return main_window_;
+}
+
+HDC Core::device_context() const
+{
+	return device_context_;
+}
+
 void Core::_Release()
 {
-	ReleaseDC(window_, device_context_);
+	ReleaseDC(main_window_, device_context_);
 }
 
 LRESULT Core::_WindowProc(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
@@ -83,31 +102,31 @@ void Core::_RegisterClass(wchar_t const* class_name, HICON icon)
 {
 	WNDCLASS wc{};
 	wc.lpfnWndProc = Core::_WindowProc;
-	wc.hInstance = instance_;
+	wc.hInstance = main_instance_;
 	wc.hIcon = icon;
-	wc.hbrBackground = reinterpret_cast<HBRUSH>(GetStockObject(LTGRAY_BRUSH));
+	wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(LTGRAY_BRUSH));
 	wc.lpszClassName = class_name;
 	RegisterClass(&wc);
 }
 
 void Core::_CreateWindow(wchar_t const* class_name, wchar_t const* window_name)
 {
-	window_ = CreateWindow(
+	main_window_ = CreateWindow(
 		class_name, window_name,
 		WS_CAPTION | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		nullptr, nullptr, instance_,
+		nullptr, nullptr, main_instance_,
 		nullptr
 	);
 
-	if (!window_)
+	if (!main_window_)
 		return;
 
 	RECT rc{ 0, 0, static_cast<long>(RESOLUTION::WIDTH), static_cast<long>(RESOLUTION::HEIGHT) };
 	AdjustWindowRect(&rc, WS_CAPTION | WS_SYSMENU, false);
-	SetWindowPos(window_, HWND_TOP, 100, 100, rc.right - rc.left, rc.bottom - rc.top, NULL);
+	SetWindowPos(main_window_, HWND_TOP, 100, 100, rc.right - rc.left, rc.bottom - rc.top, NULL);
 
-	ShowWindow(window_, SW_SHOW);
+	ShowWindow(main_window_, SW_SHOW);
 }
 
 void Core::_SetFlag(FLAG flag, bool value)

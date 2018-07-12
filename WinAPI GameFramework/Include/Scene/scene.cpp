@@ -149,7 +149,7 @@ shared_ptr<Layer> const& Scene::FindLayer(std::string const& tag) const
 			return e;
 	}
 
-	return nullptr_layer_;
+	return layer_nullptr_;
 }
 
 void Scene::_Release()

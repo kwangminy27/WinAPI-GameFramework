@@ -17,7 +17,7 @@ void Player::_Release()
 bool Player::_Initialize()
 {
 	set_position(100.f, 100.f);
-	set_size(100.f, 100.f);
+	set_size(300.f, 200.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(300.f);
 
@@ -25,6 +25,8 @@ bool Player::_Initialize()
 
 	input_manager->AddKey("Skill1"s, '1');
 	input_manager->AddKey("Skill2"s, '2');
+
+	set_texture("Teemo"s, L"Teemo.bmp"s, "texturePath"s);
 
 	return true;
 }
@@ -103,9 +105,10 @@ void Player::_Collision(float time)
 
 void Player::_Render(HDC device_context, float time)
 {
-	float left{ position_.x - (size_.x * pivot_.x) };
-	float top{ position_.y - (size_.y * pivot_.y) };
-	Rectangle(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(left + size_.x), static_cast<int>(top + size_.y));
+	Character::_Render(device_context, time);
+	//float left{ position_.x - (size_.x * pivot_.x) };
+	//float top{ position_.y - (size_.y * pivot_.y) };
+	//Rectangle(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(left + size_.x), static_cast<int>(top + size_.y));
 }
 
 unique_ptr<Object, function<void(Object*)>> Player::_Clone()

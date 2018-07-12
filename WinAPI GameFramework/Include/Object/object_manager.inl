@@ -26,7 +26,7 @@ template <typename T>
 shared_ptr<Object> ObjectManager::CreateObject(string const& tag, shared_ptr<Layer> const& layer)
 {
 	if (!layer)
-		return nullptr_object_;
+		return object_nullptr_;
 
 	auto object = shared_ptr<Object>(new T, [](Object* p) {
 		p->_Release();
@@ -38,7 +38,7 @@ shared_ptr<Object> ObjectManager::CreateObject(string const& tag, shared_ptr<Lay
 	object->set_tag(tag);
 
 	if (!object->_Initialize())
-		return nullptr_object_;
+		return object_nullptr_;
 
 	layer->_AddObject(object);
 

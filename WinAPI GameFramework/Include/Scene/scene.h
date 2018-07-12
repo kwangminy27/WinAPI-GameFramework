@@ -26,7 +26,7 @@ private:
 	void _Collision(float time);
 	void _Render(HDC device_context, float time);
 	
-	std::shared_ptr<Layer> nullptr_layer_{};
+	std::shared_ptr<Layer> layer_nullptr_{};
 	std::list<std::shared_ptr<Layer>> layer_list_{};
 	std::unique_ptr<SceneComponent, std::function<void(SceneComponent*)>> scene_component_{};
 };

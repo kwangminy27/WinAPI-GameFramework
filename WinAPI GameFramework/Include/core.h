@@ -11,6 +11,10 @@ public:
 	bool Initialize(wchar_t const* class_name, wchar_t const* window_name, HINSTANCE instance, HICON icon);
 	int Run();
 
+	HINSTANCE main_instance() const;
+	HWND main_window() const;
+	HDC device_context() const;
+
 private:
 	Core() = default;
 	Core(Core const&) = delete;
@@ -31,8 +35,8 @@ private:
 	void _Collision(float time);
 	void _Render(float time);
 
-	HINSTANCE instance_{};
-	HWND window_{};
+	HINSTANCE main_instance_{};
+	HWND main_window_{};
 	HDC device_context_{};
 
 	std::array<bool, static_cast<int>(FLAG::END)> flag_{};

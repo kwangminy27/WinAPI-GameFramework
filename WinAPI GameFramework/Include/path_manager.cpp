@@ -36,7 +36,7 @@ path const& PathManager::FindPath(string tag) const
 	auto const iter = path_collection_.find(tag);
 
 	if (iter == path_collection_.end())
-		return nullptr_path_;
+		return path_nullptr_;
 
 	return iter->second;
 }
