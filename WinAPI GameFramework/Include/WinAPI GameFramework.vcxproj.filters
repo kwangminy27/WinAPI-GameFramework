@@ -35,6 +35,15 @@
     <Filter Include="03. Object\02. Bullet">
       <UniqueIdentifier>{a51194b2-72ae-4703-b1bd-2a470a69fcb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Resource">
+      <UniqueIdentifier>{f6a057c8-4984-4c46-a7fd-165b0c7ccd5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\03. Path">
+      <UniqueIdentifier>{71603d52-3ffb-4ec3-9028-ab2dfe93bc1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Resource\01. Texture">
+      <UniqueIdentifier>{c85d374e-319e-445a-a464-c791a013401c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -84,6 +93,15 @@
     </ClCompile>
     <ClCompile Include="Object\monster.cpp">
       <Filter>03. Object\01. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\resource_manager.cpp">
+      <Filter>04. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="path_manager.cpp">
+      <Filter>01. Core\03. Path</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\texture.cpp">
+      <Filter>04. Resource\01. Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +161,15 @@
     </ClInclude>
     <ClInclude Include="Object\monster.h">
       <Filter>03. Object\01. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\resource_manager.h">
+      <Filter>04. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="path_manager.h">
+      <Filter>01. Core\03. Path</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\texture.h">
+      <Filter>04. Resource\01. Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

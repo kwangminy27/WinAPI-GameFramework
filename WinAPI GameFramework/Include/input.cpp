@@ -46,21 +46,21 @@ void Input::Update(float delta_time)
 	}
 }
 
-bool Input::KeyPush(string const& tag)
+bool Input::KeyPush(string const& tag) const
 {
 	auto const& key = _FindKey(tag);
 
 	return key->push;
 }
 
-bool Input::KeyPressed(string const& tag)
+bool Input::KeyPressed(string const& tag) const
 {
 	auto const& key = _FindKey(tag);
 
 	return key->pressed;
 }
 
-bool Input::KeyUp(string const& tag)
+bool Input::KeyUp(string const& tag) const
 {
 	auto const& key = _FindKey(tag);
 

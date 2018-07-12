@@ -27,6 +27,9 @@
     <ClCompile Include="Object\object.cpp" />
     <ClCompile Include="Object\object_manager.cpp" />
     <ClCompile Include="Object\player.cpp" />
+    <ClCompile Include="path_manager.cpp" />
+    <ClCompile Include="Resource\resource_manager.cpp" />
+    <ClCompile Include="Resource\texture.cpp" />
     <ClCompile Include="Scene\layer.cpp" />
     <ClCompile Include="Scene\main_scene.cpp" />
     <ClCompile Include="Scene\scene.cpp" />
@@ -45,7 +48,10 @@
     <ClInclude Include="Object\object.h" />
     <ClInclude Include="Object\object_manager.h" />
     <ClInclude Include="Object\player.h" />
+    <ClInclude Include="path_manager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Resource\resource_manager.h" />
+    <ClInclude Include="Resource\texture.h" />
     <ClInclude Include="Scene\layer.h" />
     <ClInclude Include="Scene\main_scene.h" />
     <ClInclude Include="Scene\scene.h" />

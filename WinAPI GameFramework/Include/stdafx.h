@@ -1,12 +1,13 @@
 #pragma once
 
-//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 
 #include <cassert>
 #include <crtdbg.h>
 
 #include <array>
 #include <chrono>
+#include <filesystem>
 #include <functional>
 #include <iostream>
 #include <list>

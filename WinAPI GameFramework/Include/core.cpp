@@ -1,6 +1,7 @@
 #include "core.h"
 #include "timer.h"
 #include "Input.h"
+#include "path_manager.h"
 #include "Scene/scene_manager.h"
 
 using namespace std;
@@ -22,6 +23,9 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 	time_scale_ = 1.f;
 
 	if (!Input::instance()->Initialize())
+		return false;
+
+	if (!PathManager::instance()->Initialize())
 		return false;
 
 	if (!SceneManager::instance()->Initialize())

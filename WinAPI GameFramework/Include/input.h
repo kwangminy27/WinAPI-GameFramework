@@ -18,9 +18,9 @@ public:
 	bool Initialize();
 	void Update(float delta_time);
 
-	bool KeyPush(std::string const& tag);
-	bool KeyPressed(std::string const& tag);
-	bool KeyUp(std::string const& tag);
+	bool KeyPush(std::string const& tag) const;
+	bool KeyPressed(std::string const& tag) const;
+	bool KeyUp(std::string const& tag) const;
 
 	template <typename T, typename... Types> void AddKey(T const& element, Types... Args);
 	template <typename... Types> void AddKey(std::string const& tag, Types... Args);
