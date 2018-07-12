@@ -153,7 +153,13 @@ void Object::_Render(HDC device_context, float time)
 	{
 		float left{ position_.x - (size_.x * pivot_.x) };
 		float top{ position_.y - (size_.y * pivot_.y) };
-		BitBlt(device_context, static_cast<int>(left), static_cast<int>(top), size_.x, size_.y,
-			texture->memory_device_context(), 0, 0, SRCCOPY);
+		BitBlt(
+			device_context,
+			static_cast<int>(left),
+			static_cast<int>(top),
+			static_cast<int>(size_.x),
+			static_cast<int>(size_.y),
+			texture->memory_device_context(), 0, 0, SRCCOPY
+		);
 	}
 }

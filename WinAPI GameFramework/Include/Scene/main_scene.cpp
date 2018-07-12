@@ -14,8 +14,9 @@ bool MainScene::_Initialize()
 {
 	auto const& default_layer = scene()->FindLayer("Default"s);
 
-	weak_ptr<Object> player = ObjectManager::instance()->CreateObject<Player>("Player"s, default_layer);
-	weak_ptr<Object> monster = ObjectManager::instance()->CreateObject<Monster>("Mosnter"s, default_layer);
+	auto player = dynamic_pointer_cast<Player>(ObjectManager::instance()->CreateObject<Player>("Player"s, default_layer));
+	auto monster = dynamic_pointer_cast<Monster>(ObjectManager::instance()->CreateObject<Monster>("Mosnter"s, default_layer));
+	monster->set_target(player);
 
 	ObjectManager::instance()->CreatePrototype<Bullet>("Bullet"s, scene());
 

@@ -44,6 +44,9 @@
     <Filter Include="04. Resource\01. Texture">
       <UniqueIdentifier>{c85d374e-319e-445a-a464-c791a013401c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Core\04. Math">
+      <UniqueIdentifier>{37f4d1a3-0af5-4bc0-969a-6334f1de6ea4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -102,6 +105,12 @@
     </ClCompile>
     <ClCompile Include="Resource\texture.cpp">
       <Filter>04. Resource\01. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="type.cpp">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>01. Core\04. Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,13 +180,13 @@
     <ClInclude Include="Resource\texture.h">
       <Filter>04. Resource\01. Texture</Filter>
     </ClInclude>
+    <ClInclude Include="math.h">
+      <Filter>01. Core\04. Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scene\scene.inl">
       <Filter>02. Scene</Filter>
-    </None>
-    <None Include="type.inl">
-      <Filter>WinAPI GameFramework</Filter>
     </None>
     <None Include="singleton.inl">
       <Filter>WinAPI GameFramework</Filter>

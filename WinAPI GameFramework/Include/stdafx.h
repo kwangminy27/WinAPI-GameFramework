@@ -1,6 +1,6 @@
 #pragma once
 
-#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
 
 #pragma comment(lib, "msimg32.lib")
 
@@ -9,6 +9,7 @@
 
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <functional>
 #include <iostream>

@@ -8,9 +8,13 @@ class Monster final : public Character
 public:
 	float move_dir() const;
 	float fire_time() const;
+	float attack_range() const;
+	std::shared_ptr<Object> target() const;
 
 	void set_move_dir(float move_dir);
 	void set_fire_time(float fire_time);
+	void set_attack_range(float attack_range);
+	void set_target(std::weak_ptr<Object> const& target);
 
 private:
 	Monster() = default;
@@ -29,5 +33,8 @@ private:
 
 	float move_dir_{};
 	float fire_time_{};
+	float attack_range_{};
+
+	std::weak_ptr<Object> target_{};
 };
 

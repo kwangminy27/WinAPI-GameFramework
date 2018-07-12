@@ -1,4 +1,6 @@
 #include "bullet.h"
+#include "../Resource/resource_manager.h"
+#include "../Resource/texture.h"
 
 using namespace std;
 
@@ -46,6 +48,8 @@ bool Bullet::_Initialize()
 	set_move_dir({ 1.f, 0.f });
 	set_range(1000.f);
 
+	texture_ = ResourceManager::instance()->LoadTexture("Pistol"s, L"Pistol.bmp"s, "TexturePath"s);
+
 	return true;
 }
 
@@ -71,9 +75,7 @@ void Bullet::_Collision(float time)
 
 void Bullet::_Render(HDC device_context, float time)
 {
-	float left{ position_.x - size_.x * pivot_.x };
-	float top{ position_.y - size_.y * pivot_.y };
-	Rectangle(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(left + size_.x), static_cast<int>(top + size_.y));
+	Object::_Render(device_context, time);
 }
 
 unique_ptr<Object, function<void(Object*)>> Bullet::_Clone()

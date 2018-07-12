@@ -23,6 +23,4 @@ protected:
 	HBITMAP bitmap_{};
 	HBITMAP old_bitmap_{};
 	BITMAP bitmap_structure_{};
-	int width_{};
-	int height_{};
 };

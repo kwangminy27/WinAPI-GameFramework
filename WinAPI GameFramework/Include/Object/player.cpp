@@ -26,7 +26,7 @@ bool Player::_Initialize()
 	input_manager->AddKey("Skill1"s, '1');
 	input_manager->AddKey("Skill2"s, '2');
 
-	set_texture("Teemo"s, L"Teemo.bmp"s, "texturePath"s);
+	set_texture("Teemo"s, L"Teemo.bmp"s, "TexturePath"s);
 
 	return true;
 }

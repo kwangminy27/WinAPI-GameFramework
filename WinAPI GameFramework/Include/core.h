@@ -3,6 +3,7 @@
 #include "singleton.h"
 
 class Timer;
+class Texture;
 
 class Core final : public Singleton<Core>
 {
@@ -42,4 +43,6 @@ private:
 	std::array<bool, static_cast<int>(FLAG::END)> flag_{};
 	std::unique_ptr<Timer, std::function<void(Timer*)>> timer_{};
 	float time_scale_{};
+
+	weak_ptr<Texture> back_buffer_{};
 };

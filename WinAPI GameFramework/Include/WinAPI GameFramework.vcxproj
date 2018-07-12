@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="core.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="math.cpp" />
     <ClCompile Include="Object\bullet.cpp" />
     <ClCompile Include="Object\character.cpp" />
     <ClCompile Include="Object\monster.cpp" />
@@ -37,11 +38,13 @@
     <ClCompile Include="Scene\scene_manager.cpp" />
     <ClCompile Include="tag.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="type.cpp" />
     <ClCompile Include="WinAPI GameFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="math.h" />
     <ClInclude Include="Object\bullet.h" />
     <ClInclude Include="Object\character.h" />
     <ClInclude Include="Object\monster.h" />
@@ -68,7 +71,6 @@
     <None Include="Object\object_manager.inl" />
     <None Include="Scene\scene.inl" />
     <None Include="singleton.inl" />
-    <None Include="type.inl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinAPI GameFramework.rc" />
@@ -199,6 +201,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

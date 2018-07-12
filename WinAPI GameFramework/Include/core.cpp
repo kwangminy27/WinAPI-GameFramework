@@ -4,6 +4,7 @@
 #include "path_manager.h"
 #include "Scene/scene_manager.h"
 #include "Resource/resource_manager.h"
+#include "Resource/texture.h"
 
 using namespace std;
 
@@ -34,6 +35,8 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 
 	if (!SceneManager::instance()->Initialize())
 		return false;
+
+	back_buffer_ = ResourceManager::instance()->FindTexture("BackBuffer"s);
 
 	return true;
 }
@@ -173,7 +176,17 @@ void Core::_Collision(float time)
 void Core::_Render(float time)
 {
 	auto const& scene_manager = SceneManager::instance();
-	scene_manager->Render(device_context_, time);
+	auto back_buffer = back_buffer_.lock();
+
+	Rectangle(back_buffer->memory_device_context(),
+		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT));
+
+	scene_manager->Render(back_buffer_.lock()->memory_device_context(), time);
+
+	BitBlt(device_context_,
+		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT),
+		back_buffer_.lock()->memory_device_context(),
+		0, 0, SRCCOPY);
 
 	wstring wstr = to_wstring(timer_->frame_per_second());
 	wstr += L" FPS";

@@ -48,11 +48,6 @@ struct LTRB
 	void SetLTRB(float _l, float _t, float _r, float _b);
 	void Move(float x, float y);
 
-	void RenderRectangle(HDC device_context) const;
-	void RenderEllipse(HDC device_context) const;
-
 	float GetWidth() const;
 	float GetHeight() const;
 };
-
-#include "type.inl"

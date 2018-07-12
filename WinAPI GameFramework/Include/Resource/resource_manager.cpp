@@ -5,7 +5,7 @@ using namespace std;
 
 bool ResourceManager::Initialize()
 {
-	auto texture = LoadTexture("Teemo"s, L"Teemo.bmp"s, "TexturePath"s);
+	auto texture = LoadTexture("BackBuffer"s, L"BackBuffer.bmp"s, "TexturePath"s);
 
 	return true;
 }
