@@ -14,6 +14,11 @@ public:
 	XY position() const;
 	XY size() const;
 	XY pivot() const;
+	float angle() const;
+	float move_speed() const;
+	float rotation_speed() const;
+	COLORREF color_key() const;
+	bool is_color_key() const;
 
 	void set_position(float x, float y);
 	void set_position(XY const& xy);
@@ -21,6 +26,10 @@ public:
 	void set_size(XY const& xy);
 	void set_pivot(float x, float y);
 	void set_pivot(XY const& xy);
+	void set_angle(float angle);
+	void set_move_speed(float move_speed);
+	void set_rotation_speed(float rotation_speed);
+	void set_color_key(COLORREF color_key);
 
 	std::shared_ptr<Scene> scene() const;
 	std::shared_ptr<Layer> layer() const;
@@ -35,6 +44,8 @@ public:
 	void Move(float x, float y, float time);
 	void Move(XY xy);
 	void Move(XY xy, float time);
+	void MoveByAngle(float time);
+	void Rotate(float time);
 
 protected:
 	Object() = default;
@@ -55,6 +66,11 @@ protected:
 	XY position_{};
 	XY size_{};
 	XY pivot_{};
+	float angle_{};
+	float move_speed_{};
+	float rotation_speed_{};
+	COLORREF color_key_{};
+	bool is_color_key_{};
 	std::weak_ptr<Scene> scene_{};
 	std::weak_ptr<Layer> layer_{};
 	std::weak_ptr<Texture> texture_{};

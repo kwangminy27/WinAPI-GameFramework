@@ -1,4 +1,5 @@
 #include "object.h"
+#include "../math.h"
 #include "../Scene/scene.h"
 #include "../Scene/layer.h"
 #include "../Resource/resource_manager.h"
@@ -19,6 +20,31 @@ XY Object::size() const
 XY Object::pivot() const
 {
 	return pivot_;
+}
+
+float Object::angle() const
+{
+	return angle_;
+}
+
+float Object::move_speed() const
+{
+	return move_speed_;
+}
+
+float Object::rotation_speed() const
+{
+	return rotation_speed_;
+}
+
+DWORD Object::color_key() const
+{
+	return color_key_;
+}
+
+bool Object::is_color_key() const
+{
+	return is_color_key_;
 }
 
 void Object::set_position(float x, float y)
@@ -52,6 +78,27 @@ void Object::set_pivot(float x, float y)
 void Object::set_pivot(XY const & xy)
 {
 	pivot_ = xy;
+}
+
+void Object::set_angle(float angle)
+{
+	angle_ = angle;
+}
+
+void Object::set_move_speed(float move_speed)
+{
+	move_speed_ = move_speed;
+}
+
+void Object::set_rotation_speed(float rotation_speed)
+{
+	rotation_speed_ = rotation_speed;
+}
+
+void Object::set_color_key(COLORREF color_key)
+{
+	color_key_ = color_key;
+	is_color_key_ = true;
 }
 
 shared_ptr<Scene> Object::scene() const
@@ -119,6 +166,17 @@ void Object::Move(XY xy, float time)
 	position_.y += xy.y * time;
 }
 
+void Object::MoveByAngle(float time)
+{
+	position_.x += cos(Math::DegreeToRadian(angle_)) * move_speed_ * time;
+	position_.y += sin(Math::DegreeToRadian(angle_)) * move_speed_ * time;
+}
+
+void Object::Rotate(float time)
+{
+	angle_ += rotation_speed_ * time;
+}
+
 Object::Object(Object const& other)
 {
 	*this = other;
@@ -153,13 +211,10 @@ void Object::_Render(HDC device_context, float time)
 	{
 		float left{ position_.x - (size_.x * pivot_.x) };
 		float top{ position_.y - (size_.y * pivot_.y) };
-		BitBlt(
-			device_context,
-			static_cast<int>(left),
-			static_cast<int>(top),
-			static_cast<int>(size_.x),
-			static_cast<int>(size_.y),
-			texture->memory_device_context(), 0, 0, SRCCOPY
-		);
+
+		if (is_color_key_)
+			TransparentBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), texture->memory_device_context(), 0, 0, texture->width(), texture->height(), color_key_);
+		else
+			BitBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), texture->memory_device_context(), 0, 0, SRCCOPY);
 	}
 }

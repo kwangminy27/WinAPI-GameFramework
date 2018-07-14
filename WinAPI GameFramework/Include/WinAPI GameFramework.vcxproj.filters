@@ -112,6 +112,9 @@
     <ClCompile Include="math.cpp">
       <Filter>01. Core\04. Math</Filter>
     </ClCompile>
+    <ClCompile Include="Object\rotation_bullet.cpp">
+      <Filter>03. Object\02. Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -182,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="math.h">
       <Filter>01. Core\04. Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\rotation_bullet.h">
+      <Filter>03. Object\02. Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

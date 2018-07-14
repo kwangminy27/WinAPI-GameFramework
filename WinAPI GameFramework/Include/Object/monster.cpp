@@ -61,7 +61,7 @@ void Monster::_Release()
 
 bool Monster::_Initialize()
 {
-	set_position(700.f, 100.f);
+	set_position(400.f, 300.f);
 	set_size(100.f, 100.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(700.f);
@@ -96,9 +96,9 @@ void Monster::_Update(float time)
 
 	if (fire_time_ > 1.f)
 	{
-		weak_ptr<Object> bullet = ObjectManager::instance()->CreateCloneObject("Bullet"s, layer());
-		bullet.lock()->set_position(position_ - XY{ 75.f, 0.f });
-		dynamic_cast<Bullet*>(bullet.lock().get())->set_move_dir({ -1.f, 0.f });
+		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
+		bullet->set_position(position_);
+		bullet->set_angle(Math::GetAngle(position_, target()->position()));
 		fire_time_ -= 1.f;
 	}
 }

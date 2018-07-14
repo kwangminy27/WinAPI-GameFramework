@@ -17,6 +17,8 @@ struct XY
 	float x{};
 	float y{};
 
+	//XY operator=(XY const& )
+
 	XY operator+(float value) const;
 	void operator+=(float value);
 	XY operator+(XY value) const;

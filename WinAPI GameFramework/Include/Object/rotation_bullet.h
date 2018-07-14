@@ -1,19 +1,22 @@
 #pragma once
 
-#include "character.h"
+#include "bullet.h"
 
-class Bullet;
-
-class Player final : public Character
+class RotationBullet final : public Bullet
 {
 	friend class ObjectManager;
 public:
-	float barrel_size() const;
-	void set_barrel_size(float barrel_size);
+	XY rotation_center() const;
+	float rotation_range() const;
+	float rotation_angle() const;
+
+	void set_rotation_center(XY const& rotation_centor);
+	void set_rotation_range(float rotation_range);
+	void set_rotation_angle(float rotation_angle);
 
 private:
-	Player() = default;
-	Player(Player const& other);
+	RotationBullet() = default;
+	RotationBullet(RotationBullet const& other);
 
 	virtual void _Release() override;
 
@@ -26,6 +29,7 @@ private:
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override;
 
-	float barrel_size_{};
-	std::shared_ptr<Bullet> bullet_{};
+	XY rotation_center_{};
+	float rotation_range_{};
+	float rotation_angle_{};
 };

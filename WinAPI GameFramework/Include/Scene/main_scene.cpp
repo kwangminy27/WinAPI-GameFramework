@@ -5,6 +5,7 @@
 #include "../Object/player.h"
 #include "../Object/monster.h"
 #include "../Object/bullet.h"
+#include "../Object/rotation_bullet.h"
 
 void MainScene::_Release()
 {
@@ -19,7 +20,7 @@ bool MainScene::_Initialize()
 	monster->set_target(player);
 
 	ObjectManager::instance()->CreatePrototype<Bullet>("Bullet"s, scene());
-
+	ObjectManager::instance()->CreatePrototype<RotationBullet>("RotationBullet"s, scene());
 	
 	return true;
 }
