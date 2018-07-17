@@ -47,6 +47,9 @@
     <Filter Include="01. Core\04. Math">
       <UniqueIdentifier>{37f4d1a3-0af5-4bc0-969a-6334f1de6ea4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Object\03. Item">
+      <UniqueIdentifier>{08c02904-3045-4708-846b-9dd57ae1005d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -114,6 +117,15 @@
     </ClCompile>
     <ClCompile Include="Object\rotation_bullet.cpp">
       <Filter>03. Object\02. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\guided_bullet.cpp">
+      <Filter>03. Object\02. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\parabola_bullet.cpp">
+      <Filter>03. Object\02. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\item.cpp">
+      <Filter>03. Object\03. Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +200,15 @@
     </ClInclude>
     <ClInclude Include="Object\rotation_bullet.h">
       <Filter>03. Object\02. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\guided_bullet.h">
+      <Filter>03. Object\02. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\parabola_bullet.h">
+      <Filter>03. Object\02. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\item.h">
+      <Filter>03. Object\03. Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

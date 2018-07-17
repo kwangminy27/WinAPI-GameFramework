@@ -2,9 +2,12 @@
 #include "../input.h"
 #include "../math.h"
 #include "../Scene/scene.h"
+#include "../Scene/layer.h"
 #include "object_manager.h"
 #include "bullet.h"
 #include "rotation_bullet.h"
+#include "guided_bullet.h"
+#include "parabola_bullet.h"
 
 using namespace std;
 
@@ -29,7 +32,7 @@ void Player::_Release()
 bool Player::_Initialize()
 {
 	set_position(100.f, 100.f);
-	set_size(60.f, 40.f);
+	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(300.f);
 	set_rotation_speed(360.f);
@@ -40,6 +43,8 @@ bool Player::_Initialize()
 	input_manager->AddKey("Skill1"s, '1');
 	input_manager->AddKey("Skill2"s, '2');
 	input_manager->AddKey("Skill3"s, '3');
+	input_manager->AddKey("Skill4"s, '4');
+	input_manager->AddKey("Skill5"s, '5');
 
 	set_texture("Teemo"s, L"Teemo.bmp"s, "TexturePath"s);
 
@@ -122,6 +127,27 @@ void Player::_Input(float time)
 		rotation_bullet->set_rotation_center(barrel_end);
 		rotation_bullet->set_angle(angle_);
 		rotation_bullet->set_rotation_angle(angle_);
+	}
+
+	if (KeyPressed("Skill4"s))
+	{
+		auto guided_bullet = dynamic_pointer_cast<GuidedBullet>(ObjectManager::instance()->CreateCloneObject("GuidedBullet"s, layer()));
+
+		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
+
+		guided_bullet->set_position(barrel_end);
+		guided_bullet->set_angle(angle_);
+	}
+
+	if (KeyPressed("Skill5"s))
+	{
+		auto parabola_bullet = dynamic_pointer_cast<ParabolaBullet>(ObjectManager::instance()->CreateCloneObject("ParabolaBullet"s, layer()));
+
+		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
+
+		parabola_bullet->set_position(barrel_end);
+		parabola_bullet->set_angle(angle_ - 60.f);
+		parabola_bullet->set_start_angle(angle_ - 60.f);
 	}
 }
 

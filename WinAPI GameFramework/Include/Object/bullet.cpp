@@ -49,7 +49,7 @@ void Bullet::_Update(float time)
 {
 	range_ -= move_ * move_speed_ * time;
 	MoveByAngle(time);
-	if (range_ <= 0)
+	if (range_ <= 0.f)
 		set_activation(false);
 }
 

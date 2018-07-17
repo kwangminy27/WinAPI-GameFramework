@@ -7,6 +7,8 @@
 
 using namespace std;
 
+float const kBarrelSize = 50.f;
+
 float Monster::move_dir() const
 {
 	return move_dir_;
@@ -61,10 +63,9 @@ void Monster::_Release()
 
 bool Monster::_Initialize()
 {
-	set_position(400.f, 300.f);
-	set_size(100.f, 100.f);
+	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
-	set_move_speed(700.f);
+	set_move_speed(200.f);
 	move_dir_ = 1.f;
 	attack_range_ = 500.f;
 
@@ -97,7 +98,8 @@ void Monster::_Update(float time)
 	if (fire_time_ > 1.f)
 	{
 		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
-		bullet->set_position(position_);
+		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * kBarrelSize, position_.y + sin(Math::DegreeToRadian(angle_)) * kBarrelSize };
+		bullet->set_position(barrel_end);
 		bullet->set_angle(Math::GetAngle(position_, target()->position()));
 		fire_time_ -= 1.f;
 	}
@@ -114,6 +116,11 @@ void Monster::_Collision(float time)
 void Monster::_Render(HDC device_context, float time)
 {
 	Character::_Render(device_context, time);
+
+	MoveToEx(device_context, static_cast<int>(position_.x), static_cast<int>(position_.y), nullptr);
+	angle_ = Math::GetAngle(position_, target_.lock()->position());
+	XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * kBarrelSize, position_.y + sin(Math::DegreeToRadian(angle_)) * kBarrelSize };
+	LineTo(device_context, static_cast<int>(barrel_end.x), static_cast<int>(barrel_end.y));
 }
 
 unique_ptr<Object,function<void(Object*)>> Monster::_Clone()

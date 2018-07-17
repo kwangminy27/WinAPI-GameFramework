@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "path_manager.h"
 #include "Scene/scene_manager.h"
+#include "Object/object_manager.h"
 #include "Resource/resource_manager.h"
 #include "Resource/texture.h"
 
@@ -152,6 +153,8 @@ void Core::_Logic()
 
 	if(Input::instance()->KeyPush("Pause"s))
 		time_scale_ = time_scale_ == 1.f ? 0.f : 1.f;
+
+	ObjectManager::instance()->ClearExpiredSceneObject();
 }
 
 void Core::_Input(float time)

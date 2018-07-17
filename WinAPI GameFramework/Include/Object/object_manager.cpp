@@ -16,6 +16,20 @@ void ObjectManager::ErasePrototype(shared_ptr<Scene> const& scene)
 	}
 }
 
+void ObjectManager::ClearExpiredSceneObject() // weak을 들고 계속 살아있는 모듈에서 expired 된 요소들을 참조하는 weak_ptr을 정리하면 쓸데없는 계산을 안하도록 할 수 있게된다.
+{
+	for (auto iter = scene_object_collection_.begin(); iter != scene_object_collection_.end();)
+	{
+		if (iter->second.expired())
+		{
+			iter = scene_object_collection_.erase(iter);
+			continue;
+		}
+
+		++iter;
+	}
+}
+
 shared_ptr<Object> ObjectManager::CreateCloneObject(string const& tag, shared_ptr<Layer> const& layer)
 {
 	if (!layer)
@@ -34,8 +48,14 @@ shared_ptr<Object> ObjectManager::CreateCloneObject(string const& tag, shared_pt
 		return object_nullptr_;
 
 	layer->_AddObject(object);
+	scene_object_collection_.insert(make_pair(move(tag), object));
 
 	return object;
+}
+
+pair<unordered_multimap<string, weak_ptr<Object>>::iterator, unordered_multimap<string, weak_ptr<Object>>::iterator> ObjectManager::FindObjects(string const& tag)
+{
+	return scene_object_collection_.equal_range(tag);
 }
 
 void ObjectManager::_Release()

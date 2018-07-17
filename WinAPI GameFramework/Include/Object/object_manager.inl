@@ -41,6 +41,7 @@ shared_ptr<Object> ObjectManager::CreateObject(string const& tag, shared_ptr<Lay
 		return object_nullptr_;
 
 	layer->_AddObject(object);
+	scene_object_collection_.insert(make_pair(move(tag), object));
 
 	return object;
 }

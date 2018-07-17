@@ -6,6 +6,8 @@
 #include "../Object/monster.h"
 #include "../Object/bullet.h"
 #include "../Object/rotation_bullet.h"
+#include "../Object/guided_bullet.h"
+#include "../Object/parabola_bullet.h"
 
 void MainScene::_Release()
 {
@@ -13,15 +15,29 @@ void MainScene::_Release()
 
 bool MainScene::_Initialize()
 {
+	auto const& object_mananger = ObjectManager::instance();
+
 	auto const& default_layer = scene()->FindLayer("Default"s);
 
-	auto player = dynamic_pointer_cast<Player>(ObjectManager::instance()->CreateObject<Player>("Player"s, default_layer));
-	auto monster = dynamic_pointer_cast<Monster>(ObjectManager::instance()->CreateObject<Monster>("Mosnter"s, default_layer));
-	monster->set_target(player);
+	auto player = dynamic_pointer_cast<Player>(object_mananger->CreateObject<Player>("Player"s, default_layer));
 
-	ObjectManager::instance()->CreatePrototype<Bullet>("Bullet"s, scene());
-	ObjectManager::instance()->CreatePrototype<RotationBullet>("RotationBullet"s, scene());
+	auto monster1 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
+	monster1->set_position(300.f, 300.f);
+	monster1->set_target(player);
+
+	auto monster2 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
+	monster2->set_position(400.f, 300.f);
+	monster2->set_target(player);
+
+	auto monster3 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
+	monster3->set_position(500.f, 300.f);
+	monster3->set_target(player);
 	
+	object_mananger->CreatePrototype<Bullet>("Bullet"s, scene());
+	object_mananger->CreatePrototype<RotationBullet>("RotationBullet"s, scene());
+	object_mananger->CreatePrototype<GuidedBullet>("GuidedBullet"s, scene());
+	object_mananger->CreatePrototype<ParabolaBullet>("ParabolaBullet"s, scene());
+
 	return true;
 }
 
