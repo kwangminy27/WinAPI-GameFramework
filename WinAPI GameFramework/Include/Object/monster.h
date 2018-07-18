@@ -19,6 +19,9 @@ public:
 private:
 	Monster() = default;
 	Monster(Monster const& other);
+	Monster(Monster&& other) noexcept;
+	Monster& operator=(Monster const&) = default;
+	Monster& operator=(Monster&&) noexcept = default;
 
 	virtual void _Release() override;
 

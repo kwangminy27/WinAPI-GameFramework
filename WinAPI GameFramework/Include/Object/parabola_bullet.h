@@ -12,6 +12,9 @@ public:
 private:
 	ParabolaBullet() = default;
 	ParabolaBullet(ParabolaBullet const& other);
+	ParabolaBullet(ParabolaBullet&& other) noexcept;
+	ParabolaBullet& operator=(ParabolaBullet const&) = default;
+	ParabolaBullet& operator=(ParabolaBullet&&) noexcept = default;
 
 	virtual void _Release() override;
 

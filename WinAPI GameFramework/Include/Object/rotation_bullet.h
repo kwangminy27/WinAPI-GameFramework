@@ -17,6 +17,9 @@ public:
 private:
 	RotationBullet() = default;
 	RotationBullet(RotationBullet const& other);
+	RotationBullet(RotationBullet&& other) noexcept;
+	RotationBullet& operator=(RotationBullet const&) = default;
+	RotationBullet& operator=(RotationBullet&&) noexcept = default;
 
 	virtual void _Release() override;
 

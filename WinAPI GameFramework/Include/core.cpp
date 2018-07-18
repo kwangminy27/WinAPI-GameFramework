@@ -6,6 +6,8 @@
 #include "Object/object_manager.h"
 #include "Resource/resource_manager.h"
 #include "Resource/texture.h"
+#include "Collision/collision_manager.h"
+#include "Collision/collider.h"
 
 using namespace std;
 
@@ -35,6 +37,9 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 		return false;
 
 	if (!SceneManager::instance()->Initialize())
+		return false;
+	
+	if (!CollisionManager::instance()->Initialize())
 		return false;
 
 	back_buffer_ = ResourceManager::instance()->FindTexture("BackBuffer"s);
@@ -79,6 +84,10 @@ HDC Core::device_context() const
 void Core::_Release()
 {
 	ReleaseDC(main_window_, device_context_);
+
+	// Coliider Brush »èÁ¦
+	DeleteObject(Collider::red_brush_);
+	DeleteObject(Collider::green_brush_);
 }
 
 LRESULT Core::_WindowProc(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
@@ -184,11 +193,11 @@ void Core::_Render(float time)
 	Rectangle(back_buffer->memory_device_context(),
 		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT));
 
-	scene_manager->Render(back_buffer_.lock()->memory_device_context(), time);
+	scene_manager->Render(back_buffer->memory_device_context(), time);
 
 	BitBlt(device_context_,
 		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT),
-		back_buffer_.lock()->memory_device_context(),
+		back_buffer->memory_device_context(),
 		0, 0, SRCCOPY);
 
 	wstring wstr = to_wstring(timer_->frame_per_second());

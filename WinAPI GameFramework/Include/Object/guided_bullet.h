@@ -14,6 +14,9 @@ public:
 private:
 	GuidedBullet() = default;
 	GuidedBullet(GuidedBullet const& other);
+	GuidedBullet(GuidedBullet&& other) noexcept;
+	GuidedBullet& operator=(GuidedBullet const&) = default;
+	GuidedBullet& operator=(GuidedBullet&&) noexcept = default;
 
 	virtual void _Release() override;
 

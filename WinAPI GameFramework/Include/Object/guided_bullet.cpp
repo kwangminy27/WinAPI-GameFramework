@@ -25,6 +25,11 @@ GuidedBullet::GuidedBullet(GuidedBullet const& other) : Bullet(other)
 	target_ = other.target_;
 }
 
+GuidedBullet::GuidedBullet(GuidedBullet&& other) noexcept : Bullet(other)
+{
+	target_ = move(other.target_);
+}
+
 void GuidedBullet::_Release()
 {
 }
@@ -44,10 +49,13 @@ bool GuidedBullet::_Initialize()
 
 void GuidedBullet::_Input(float time)
 {
+	Object::_Input(time);
 }
 
 void GuidedBullet::_Update(float time)
 {
+	Object::_Update(time);
+
 	static float const kGuidedRange = 200.f;
 
 	if (range_ <= kGuidedRange)
@@ -89,10 +97,12 @@ void GuidedBullet::_Update(float time)
 
 void GuidedBullet::_LateUpdate(float time)
 {
+	Object::_LateUpdate(time);
 }
 
 void GuidedBullet::_Collision(float time)
 {
+	Object::_Collision(time);
 }
 
 void GuidedBullet::_Render(HDC device_context, float time)

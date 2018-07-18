@@ -41,6 +41,14 @@ RotationBullet::RotationBullet(RotationBullet const& other) : Bullet(other)
 	rotation_angle_ = other.rotation_angle_;
 }
 
+RotationBullet::RotationBullet(RotationBullet&& other) noexcept : Bullet(other)
+{
+	rotation_center_ = move(other.rotation_center_);
+	rotation_range_ = move(other.rotation_range_);
+	rotation_angle_ = move(other.rotation_angle_);
+
+}
+
 void RotationBullet::_Release()
 {
 }
@@ -62,10 +70,13 @@ bool RotationBullet::_Initialize()
 
 void RotationBullet::_Input(float time)
 {
+	Object::_Input(time);
 }
 
 void RotationBullet::_Update(float time)
 {
+	Object::_Update(time);
+
 	range_ -= move_speed_ * time;
 	
 	rotation_center_.x += cos(Math::DegreeToRadian(angle_)) * move_speed_ * time;
@@ -82,10 +93,12 @@ void RotationBullet::_Update(float time)
 
 void RotationBullet::_LateUpdate(float time)
 {
+	Object::_LateUpdate(time);
 }
 
 void RotationBullet::_Collision(float time)
 {
+	Object::_Collision(time);
 }
 
 void RotationBullet::_Render(HDC device_context, float time)

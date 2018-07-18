@@ -7,6 +7,9 @@ class Character : public Object
 protected:
 	Character() = default;
 	Character(Character const& other);
+	Character(Character&& other) noexcept;
+	Character& operator=(Character const&) = default;
+	Character& operator=(Character&&) noexcept = default;
 
 	virtual void _Release() override = 0;
 

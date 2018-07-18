@@ -8,6 +8,9 @@
 #include "rotation_bullet.h"
 #include "guided_bullet.h"
 #include "parabola_bullet.h"
+#include "../Collision/collision_manager.h"
+#include "../Collision/collider.h"
+#include "../Collision/collider_rect.h"
 
 using namespace std;
 
@@ -22,6 +25,10 @@ void Player::set_barrel_size(float barrel_size)
 }
 
 Player::Player(Player const& other) : Character(other)
+{
+}
+
+Player::Player(Player&& other) noexcept : Character(other)
 {
 }
 
@@ -48,11 +55,17 @@ bool Player::_Initialize()
 
 	set_texture("Teemo"s, L"Teemo.bmp"s, "TexturePath"s);
 
+	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"s));
+	collider->set_model({ 0.f, 0.f, 100.f, 100.f });
+	collider->set_pivot({ 0.5f, 0.5f });
+
 	return true;
 }
 
 void Player::_Input(float time)
 {
+	Character::_Input(time);
+
 	auto const& input_manager = Input::instance();
 
 	static auto KeyPush = [&input_manager](string tag) -> bool { return input_manager->KeyPush(tag); };
@@ -153,14 +166,17 @@ void Player::_Input(float time)
 
 void Player::_Update(float time)
 {
+	Character::_Update(time);
 }
 
 void Player::_LateUpdate(float time)
 {
+	Character::_LateUpdate(time);
 }
 
 void Player::_Collision(float time)
 {
+	Character::_Collision(time);
 }
 
 void Player::_Render(HDC device_context, float time)

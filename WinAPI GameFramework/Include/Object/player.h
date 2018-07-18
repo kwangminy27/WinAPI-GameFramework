@@ -14,6 +14,9 @@ public:
 private:
 	Player() = default;
 	Player(Player const& other);
+	Player(Player&& other) noexcept;
+	Player& operator=(Player const&) = default;
+	Player& operator=(Player&&) noexcept = default;
 
 	virtual void _Release() override;
 

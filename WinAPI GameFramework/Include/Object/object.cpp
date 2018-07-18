@@ -4,6 +4,8 @@
 #include "../Scene/layer.h"
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
+#include "../Collision/collision_manager.h"
+#include "../Collision/collider.h"
 
 using namespace std;
 
@@ -101,6 +103,11 @@ void Object::set_color_key(COLORREF color_key)
 	is_color_key_ = true;
 }
 
+list<shared_ptr<Collider>> const& Object::collider_collection() const
+{
+	return collider_collection_;
+}
+
 shared_ptr<Scene> Object::scene() const
 {
 	return scene_.lock();
@@ -177,9 +184,22 @@ void Object::Rotate(float time)
 	angle_ += rotation_speed_ * time;
 }
 
-Object::Object(Object const& other)
+Object::Object(Object const& other) : Tag(other)
 {
 	*this = other;
+
+	collider_collection_.clear();
+	for (auto const& collider : other.collider_collection_)
+	{
+		auto temp_collider = collider->_Clone();
+		temp_collider->set_object(weak_from_this());
+		collider_collection_.push_back(move(temp_collider));
+	}
+}
+
+Object::Object(Object&& other) noexcept : Tag(other)
+{
+	*this = move(other);
 }
 
 bool Object::_Initialize()
@@ -197,10 +217,13 @@ void Object::_Update(float time)
 
 void Object::_LateUpdate(float time)
 {
+	for (auto const& collider : collider_collection_)
+		collider->_Update(time);
 }
 
 void Object::_Collision(float time)
 {
+	CollisionManager::instance()->AddCollider(shared_from_this());
 }
 
 void Object::_Render(HDC device_context, float time)
@@ -217,4 +240,7 @@ void Object::_Render(HDC device_context, float time)
 		else
 			BitBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), texture->memory_device_context(), 0, 0, SRCCOPY);
 	}
+
+	for (auto const& collider : collider_collection_)
+		collider->_Render(device_context, time);
 }

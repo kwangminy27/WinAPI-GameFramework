@@ -5,8 +5,9 @@
 class Scene;
 class Layer;
 class Texture;
+class Collider;
 
-class Object : public Tag
+class Object : public Tag, public std::enable_shared_from_this<Object>
 {
 	friend class Layer;
 	friend class ObjectManager;
@@ -31,6 +32,8 @@ public:
 	void set_rotation_speed(float rotation_speed);
 	void set_color_key(COLORREF color_key);
 
+	std::list<std::shared_ptr<Collider>> const& collider_collection() const;
+
 	std::shared_ptr<Scene> scene() const;
 	std::shared_ptr<Layer> layer() const;
 
@@ -47,9 +50,14 @@ public:
 	void MoveByAngle(float time);
 	void Rotate(float time);
 
+	template <typename T> std::shared_ptr<Collider> AddCollider(std::string tag);
+
 protected:
 	Object() = default;
 	Object(Object const& other);
+	Object(Object&& other) noexcept;
+	Object& operator=(Object const&) = default;
+	Object& operator=(Object&&) noexcept = default;
 	virtual ~Object() = default;
 
 	virtual void _Release() override = 0;
@@ -71,7 +79,13 @@ protected:
 	float rotation_speed_{};
 	COLORREF color_key_{};
 	bool is_color_key_{};
+
+	std::shared_ptr<Collider> collider_nullptr_{};
+	std::list<std::shared_ptr<Collider>> collider_collection_{};
+
 	std::weak_ptr<Scene> scene_{};
 	std::weak_ptr<Layer> layer_{};
 	std::weak_ptr<Texture> texture_{};
 };
+
+#include "object.inl"

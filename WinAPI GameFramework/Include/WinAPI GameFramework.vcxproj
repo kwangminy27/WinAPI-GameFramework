@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision\collider.cpp" />
+    <ClCompile Include="Collision\collider_rect.cpp" />
+    <ClCompile Include="Collision\collision_manager.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="math.cpp" />
@@ -46,7 +49,11 @@
     <ClCompile Include="WinAPI GameFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision\collider.h" />
+    <ClInclude Include="Collision\collider_rect.h" />
+    <ClInclude Include="Collision\collision_manager.h" />
     <ClInclude Include="core.h" />
+    <ClInclude Include="enum.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="Object\bullet.h" />
@@ -76,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="input.inl" />
+    <None Include="Object\object.inl" />
     <None Include="Object\object_manager.inl" />
     <None Include="Scene\scene.inl" />
     <None Include="singleton.inl" />

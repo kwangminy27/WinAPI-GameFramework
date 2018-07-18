@@ -5,7 +5,8 @@ using namespace std;
 
 bool ResourceManager::Initialize()
 {
-	auto texture = LoadTexture("BackBuffer"s, L"BackBuffer.bmp"s, "TexturePath"s);
+	LoadTexture("BackBuffer"s, L"BackBuffer.bmp"s, "TexturePath"s);
+	LoadTexture("StarBack"s, L"StarBack.bmp"s, "TexturePath"s);
 
 	return true;
 }
@@ -21,6 +22,8 @@ shared_ptr<Texture> ResourceManager::LoadTexture(string const& tag, wstring cons
 		p->_Release();
 		delete p;
 	});
+
+	texture->set_tag(tag);
 
 	if (!texture->LoadTexture(tag, file_name, path_tag))
 		return texture_nullptr_;

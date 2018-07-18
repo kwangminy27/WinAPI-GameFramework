@@ -50,6 +50,9 @@
     <Filter Include="03. Object\03. Item">
       <UniqueIdentifier>{08c02904-3045-4708-846b-9dd57ae1005d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Collision">
+      <UniqueIdentifier>{83eed296-80f2-426d-95e8-fd88d75b5325}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -126,6 +129,15 @@
     </ClCompile>
     <ClCompile Include="Object\item.cpp">
       <Filter>03. Object\03. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\collision_manager.cpp">
+      <Filter>05. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\collider.cpp">
+      <Filter>05. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\collider_rect.cpp">
+      <Filter>05. Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +222,18 @@
     <ClInclude Include="Object\item.h">
       <Filter>03. Object\03. Item</Filter>
     </ClInclude>
+    <ClInclude Include="Collision\collision_manager.h">
+      <Filter>05. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\collider.h">
+      <Filter>05. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\collider_rect.h">
+      <Filter>05. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>WinAPI GameFramework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scene\scene.inl">
@@ -223,6 +247,9 @@
     </None>
     <None Include="input.inl">
       <Filter>01. Core\02. Input</Filter>
+    </None>
+    <None Include="Object\object.inl">
+      <Filter>03. Object</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

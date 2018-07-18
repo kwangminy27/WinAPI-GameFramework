@@ -13,6 +13,9 @@ public:
 protected:
 	Bullet() = default;
 	Bullet(Bullet const& other);
+	Bullet(Bullet&& other) noexcept;
+	Bullet& operator=(Bullet const&) = default;
+	Bullet& operator=(Bullet&&) noexcept = default;
 
 	virtual void _Release() override;
 

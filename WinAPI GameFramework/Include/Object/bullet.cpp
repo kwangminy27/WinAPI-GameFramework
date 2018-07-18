@@ -24,6 +24,11 @@ Bullet::Bullet(Bullet const& other) : Object(other)
 	range_ = other.range_;
 }
 
+Bullet::Bullet(Bullet && other) noexcept : Object(other)
+{
+	range_ = move(other.range_);
+}
+
 void Bullet::_Release()
 {
 }
@@ -43,10 +48,13 @@ bool Bullet::_Initialize()
 
 void Bullet::_Input(float time)
 {
+	Object::_Input(time);
 }
 
 void Bullet::_Update(float time)
 {
+	Object::_Update(time);
+
 	range_ -= move_ * move_speed_ * time;
 	MoveByAngle(time);
 	if (range_ <= 0.f)
@@ -55,10 +63,12 @@ void Bullet::_Update(float time)
 
 void Bullet::_LateUpdate(float time)
 {
+	Object::_LateUpdate(time);
 }
 
 void Bullet::_Collision(float time)
 {
+	Object::_Collision(time);
 }
 
 void Bullet::_Render(HDC device_context, float time)

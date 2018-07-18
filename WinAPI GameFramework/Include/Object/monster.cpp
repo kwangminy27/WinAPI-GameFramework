@@ -2,6 +2,7 @@
 #include "../math.h"
 #include "object_manager.h"
 #include "bullet.h"
+#include "item.h"
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
 
@@ -57,6 +58,14 @@ Monster::Monster(Monster const& other) : Character(other)
 	target_ = other.target_;
 }
 
+Monster::Monster(Monster&& other) noexcept : Character(other)
+{
+	move_dir_ = move(other.move_dir_);
+	fire_time_ = move(other.fire_time_);
+	attack_range_ = move(other.attack_range_);
+	target_ = move(other.target_);
+}
+
 void Monster::_Release()
 {
 }
@@ -76,10 +85,13 @@ bool Monster::_Initialize()
 
 void Monster::_Input(float time)
 {
+	Character::_Input(time);
 }
 
 void Monster::_Update(float time)
 {
+	Character::_Update(time);
+
 	Move(0.f, move_speed_ * move_dir_, time);
 	if (position_.y - pivot_.y * size_.y < 0.f)
 	{
@@ -101,16 +113,23 @@ void Monster::_Update(float time)
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * kBarrelSize, position_.y + sin(Math::DegreeToRadian(angle_)) * kBarrelSize };
 		bullet->set_position(barrel_end);
 		bullet->set_angle(Math::GetAngle(position_, target()->position()));
+
+		auto item = dynamic_pointer_cast<Item>(ObjectManager::instance()->CreateCloneObject("Item"s, layer()));
+		item->set_position(barrel_end);
+		item->set_angle(Math::GetAngle(position_, target()->position()));
+
 		fire_time_ -= 1.f;
 	}
 }
 
 void Monster::_LateUpdate(float time)
 {
+	Character::_LateUpdate(time);
 }
 
 void Monster::_Collision(float time)
 {
+	Character::_Collision(time);
 }
 
 void Monster::_Render(HDC device_context, float time)
