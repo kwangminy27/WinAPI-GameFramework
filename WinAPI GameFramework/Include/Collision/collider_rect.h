@@ -8,6 +8,7 @@ class ColliderRect final : public Collider
 public:
 	LTRB world() const;
 	void set_model(LTRB const& ltrb);
+	virtual bool Collision(std::shared_ptr<Collider> const& dest) override;
 
 private:
 	ColliderRect() = default;

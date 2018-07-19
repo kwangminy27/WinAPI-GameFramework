@@ -2,6 +2,7 @@
 #include "object_manager.h"
 #include "../Resource/resource_manager.h"
 #include "../math.h"
+#include "../Collision/collider_rect.h"
 
 using namespace std;
 
@@ -43,6 +44,10 @@ bool GuidedBullet::_Initialize()
 
 	texture_ = ResourceManager::instance()->LoadTexture("Bullet"s, L"Bullet.bmp"s, "TexturePath"s);
 	set_color_key(RGB(0, 248, 0));
+
+	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("GuidedBulletBody"s));
+	collider->set_model({ 0.f, 0.f, 10.f, 10.f });
+	collider->set_pivot({ 0.5f, 0.5f });
 
 	return true;
 }

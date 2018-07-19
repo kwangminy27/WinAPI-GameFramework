@@ -18,3 +18,11 @@ enum class COLLIDER
 	SPHERE,
 	PIXEL
 };
+
+enum class COLLISION_CALLBACK
+{
+	ENTER,
+	STAY,
+	LEAVE,
+	END
+};

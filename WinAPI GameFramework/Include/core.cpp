@@ -164,12 +164,12 @@ void Core::_Logic()
 		time_scale_ = time_scale_ == 1.f ? 0.f : 1.f;
 
 	ObjectManager::instance()->ClearExpiredSceneObject();
+	CollisionManager::instance()->ClearExpiredCollider();
 }
 
 void Core::_Input(float time)
 { 
-	auto const& scene_manager = SceneManager::instance();
-	scene_manager->Input(time);
+	SceneManager::instance()->Input(time);
 }
 
 void Core::_Update(float time)
@@ -181,8 +181,8 @@ void Core::_Update(float time)
 
 void Core::_Collision(float time)
 {
-	auto const& scene_manager = SceneManager::instance();
-	scene_manager->Collision(time);
+	SceneManager::instance()->Collision(time);
+	CollisionManager::instance()->Collision(time);
 }
 
 void Core::_Render(float time)

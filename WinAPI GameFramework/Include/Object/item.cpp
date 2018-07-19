@@ -1,5 +1,6 @@
 #include "item.h"
 #include "../Resource/resource_manager.h"
+#include "../Collision/collider_rect.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ Item::Item(Item const& other) : Object(other)
 	life_time_ = other.life_time_;
 }
 
-Item::Item(Item && other) noexcept : Object(other)
+Item::Item(Item&& other) noexcept : Object(other)
 {
 	life_time_ = move(other.life_time_);
 }
@@ -35,6 +36,10 @@ bool Item::_Initialize()
 	set_life_time(1.f);
 
 	texture_ = ResourceManager::instance()->FindTexture("StarBack"s);
+
+	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("ItemBody"s));
+	collider->set_model({ 0.f, 0.f, 10.f, 10.f });
+	collider->set_pivot({ 0.5f, 0.5f });
 
 	return true;
 }

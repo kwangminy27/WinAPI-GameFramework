@@ -1,5 +1,6 @@
 #include "layer.h"
 #include "../Object/object.h"
+#include "../Collision/collision_manager.h"
 
 using namespace std;
 
@@ -125,7 +126,7 @@ void Layer::_Collision(float time)
 		}
 		else
 		{
-			(*iter)->_Collision(time);
+			CollisionManager::instance()->AddCollider(*iter);
 			++iter;
 		}
 	}

@@ -8,8 +8,6 @@
 #include "rotation_bullet.h"
 #include "guided_bullet.h"
 #include "parabola_bullet.h"
-#include "../Collision/collision_manager.h"
-#include "../Collision/collider.h"
 #include "../Collision/collider_rect.h"
 
 using namespace std;
@@ -22,6 +20,10 @@ float Player::barrel_size() const
 void Player::set_barrel_size(float barrel_size)
 {
 	barrel_size_ = barrel_size;
+}
+
+void Player::BulletHit(std::weak_ptr<Collider> const & src, std::weak_ptr<Collider> const & dest, float time)
+{
 }
 
 Player::Player(Player const& other) : Character(other)
@@ -56,7 +58,7 @@ bool Player::_Initialize()
 	set_texture("Teemo"s, L"Teemo.bmp"s, "TexturePath"s);
 
 	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"s));
-	collider->set_model({ 0.f, 0.f, 100.f, 100.f });
+	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
 	collider->set_pivot({ 0.5f, 0.5f });
 
 	return true;

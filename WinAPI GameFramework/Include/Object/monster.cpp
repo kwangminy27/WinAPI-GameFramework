@@ -5,6 +5,7 @@
 #include "item.h"
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
+#include "../Collision/collider_rect.h"
 
 using namespace std;
 
@@ -80,6 +81,10 @@ bool Monster::_Initialize()
 
 	texture_ = ResourceManager::instance()->LoadTexture("Yasuo"s, L"Yasuo.bmp"s, "TexturePath"s);
 
+	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("MonsterBody"s));
+	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
+	collider->set_pivot({ 0.5f, 0.5f });
+
 	return true;
 }
 
@@ -107,18 +112,18 @@ void Monster::_Update(float time)
 	if(Math::GetDistance(position_, target()->position()) <= attack_range_)
 		fire_time_ += time;
 
-	if (fire_time_ > 1.f)
+	if (fire_time_ > 10.f)
 	{
 		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * kBarrelSize, position_.y + sin(Math::DegreeToRadian(angle_)) * kBarrelSize };
 		bullet->set_position(barrel_end);
 		bullet->set_angle(Math::GetAngle(position_, target()->position()));
 
-		auto item = dynamic_pointer_cast<Item>(ObjectManager::instance()->CreateCloneObject("Item"s, layer()));
-		item->set_position(barrel_end);
-		item->set_angle(Math::GetAngle(position_, target()->position()));
+		//auto item = dynamic_pointer_cast<Item>(ObjectManager::instance()->CreateCloneObject("Item"s, layer()));
+		//item->set_position(barrel_end);
+		//item->set_angle(Math::GetAngle(position_, target()->position()));
 
-		fire_time_ -= 1.f;
+		fire_time_ -= 10.f;
 	}
 }
 

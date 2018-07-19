@@ -11,8 +11,10 @@ class CollisionManager final : public Singleton<CollisionManager>
 public:
 	bool Initialize();
 	bool CreateCollisionGroup(std::string const& tag);
-	std::vector<std::weak_ptr<Collider>> const& FindCollisionGroup(std::string const& tag);
+	std::vector<std::weak_ptr<Collider>>& FindCollisionGroup(std::string const& tag);
 	void AddCollider(std::shared_ptr<Object> const& object);
+	void ClearExpiredCollider();
+	void Collision(float time);
 
 private:
 	CollisionManager() = default;

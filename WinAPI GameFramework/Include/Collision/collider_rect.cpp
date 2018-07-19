@@ -16,6 +16,20 @@ void ColliderRect::set_model(LTRB const& ltrb)
 	size_.y = ltrb.b - ltrb.t;
 }
 
+bool ColliderRect::Collision(shared_ptr<Collider> const& dest)
+{
+	if (!dest)
+		return false;
+
+	switch (dest->collider_type())
+	{
+	case COLLIDER::RECT:
+		return CollisionBetweenRectAndRect(world_, dynamic_pointer_cast<ColliderRect>(dest)->world_);
+	}
+
+	return false;
+}
+
 ColliderRect::ColliderRect(ColliderRect const& other) : Collider(other)
 {
 	model_ = other.model_;
@@ -30,6 +44,7 @@ ColliderRect::ColliderRect(ColliderRect&& other) noexcept : Collider(other)
 
 void ColliderRect::_Release()
 {
+	Collider::_Release();
 }
 
 bool ColliderRect::_Initialize()
@@ -45,18 +60,26 @@ void ColliderRect::_Update(float time)
 	size_.x = model_.r - model_.l;
 	size_.y = model_.b - model_.t;
 
-	XY object_position = object()->position();
-	world_.l = object_position.x + model_.l - pivot_.x * size_.x;
-	world_.t = object_position.y + model_.t - pivot_.y * size_.y;
-	world_.r = world_.l + size_.x;
-	world_.b = world_.t + size_.y;
+	if(!object_.expired())
+	{
+		XY object_position = object()->position();
+		world_.l = object_position.x + model_.l - pivot_.x * size_.x;
+		world_.t = object_position.y + model_.t - pivot_.y * size_.y;
+		world_.r = world_.l + size_.x;
+		world_.b = world_.t + size_.y;
+	}
 }
 
 void ColliderRect::_Render(HDC device_context, float time)
 {
 #ifdef _DEBUG
+	if (collided_collider_list_.empty())
+		brush_ = Collider::green_brush_;
+	else
+		brush_ = Collider::red_brush_;
+
 	RECT rc{ static_cast<long>(world_.l), static_cast<long>(world_.t), static_cast<long>(world_.r), static_cast<long>(world_.b) };
-	FrameRect(device_context, &rc, Collider::green_brush_);
+	FrameRect(device_context, &rc, brush_);
 #endif
 }
 

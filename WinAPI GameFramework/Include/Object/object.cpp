@@ -4,7 +4,6 @@
 #include "../Scene/layer.h"
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
-#include "../Collision/collision_manager.h"
 #include "../Collision/collider.h"
 
 using namespace std;
@@ -223,7 +222,6 @@ void Object::_LateUpdate(float time)
 
 void Object::_Collision(float time)
 {
-	CollisionManager::instance()->AddCollider(shared_from_this());
 }
 
 void Object::_Render(HDC device_context, float time)
