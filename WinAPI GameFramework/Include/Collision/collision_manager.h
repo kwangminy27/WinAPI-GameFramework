@@ -13,7 +13,6 @@ public:
 	bool CreateCollisionGroup(std::string const& tag);
 	std::vector<std::weak_ptr<Collider>>& FindCollisionGroup(std::string const& tag);
 	void AddCollider(std::shared_ptr<Object> const& object);
-	void ClearExpiredCollider();
 	void Collision(float time);
 
 private:

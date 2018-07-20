@@ -47,9 +47,6 @@
     <Filter Include="01. Core\04. Math">
       <UniqueIdentifier>{37f4d1a3-0af5-4bc0-969a-6334f1de6ea4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Object\03. Item">
-      <UniqueIdentifier>{08c02904-3045-4708-846b-9dd57ae1005d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="05. Collision">
       <UniqueIdentifier>{83eed296-80f2-426d-95e8-fd88d75b5325}</UniqueIdentifier>
     </Filter>
@@ -127,9 +124,6 @@
     <ClCompile Include="Object\parabola_bullet.cpp">
       <Filter>03. Object\02. Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Object\item.cpp">
-      <Filter>03. Object\03. Item</Filter>
-    </ClCompile>
     <ClCompile Include="Collision\collision_manager.cpp">
       <Filter>05. Collision</Filter>
     </ClCompile>
@@ -137,6 +131,9 @@
       <Filter>05. Collision</Filter>
     </ClCompile>
     <ClCompile Include="Collision\collider_rect.cpp">
+      <Filter>05. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\collider_sphere.cpp">
       <Filter>05. Collision</Filter>
     </ClCompile>
   </ItemGroup>
@@ -219,9 +216,6 @@
     <ClInclude Include="Object\parabola_bullet.h">
       <Filter>03. Object\02. Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Object\item.h">
-      <Filter>03. Object\03. Item</Filter>
-    </ClInclude>
     <ClInclude Include="Collision\collision_manager.h">
       <Filter>05. Collision</Filter>
     </ClInclude>
@@ -233,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="enum.h">
       <Filter>WinAPI GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\collider_sphere.h">
+      <Filter>05. Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +247,9 @@
     </None>
     <None Include="Object\object.inl">
       <Filter>03. Object</Filter>
+    </None>
+    <None Include="Collision\collider.inl">
+      <Filter>05. Collision</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

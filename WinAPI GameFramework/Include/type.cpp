@@ -90,12 +90,12 @@ void XY::operator/=(XY value)
 	y /= value.y;
 }
 
-void LTRB::SetLTRB(float l, float t, float r, float b)
+void LTRB::SetInfo(float _l, float _t, float _r, float _b)
 {
-	LTRB::l = l;
-	LTRB::t = t;
-	LTRB::r = r;
-	LTRB::b = b;
+	l = _l;
+	t = _t;
+	r = _r;
+	b = _b;
 }
 
 void LTRB::Move(float x, float y)
@@ -114,4 +114,17 @@ float LTRB::GetWidth() const
 float LTRB::GetHeight() const
 {
 	return t - b;
+}
+
+void SPHERE::SetInfo(float x, float y, float r)
+{
+	center.x = x;
+	center.y = y;
+	radius = r;
+}
+
+void SPHERE::Move(float x, float y)
+{
+	center.x += x;
+	center.y += y;
 }

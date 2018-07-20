@@ -1,6 +1,7 @@
 #include "parabola_bullet.h"
 #include "../Resource/resource_manager.h"
 #include "../Collision/collider_rect.h"
+#include "../Collision/collider_sphere.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ ParabolaBullet::ParabolaBullet(ParabolaBullet const& other) : Bullet(other)
 	start_angle_ = other.start_angle_;
 }
 
-ParabolaBullet::ParabolaBullet(ParabolaBullet&& other) noexcept : Bullet(other)
+ParabolaBullet::ParabolaBullet(ParabolaBullet&& other) noexcept : Bullet(move(other))
 {
 	start_angle_ = move(other.start_angle_);
 }
@@ -34,12 +35,8 @@ bool ParabolaBullet::_Initialize()
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);
 
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet"s, L"Bullet.bmp"s, "TexturePath"s);
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
 	set_color_key(RGB(0, 248, 0));
-
-	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("ParabolaBulletBody"s));
-	collider->set_model({ 0.f, 0.f, 10.f, 10.f });
-	collider->set_pivot({ 0.5f, 0.5f });
 
 	return true;
 }

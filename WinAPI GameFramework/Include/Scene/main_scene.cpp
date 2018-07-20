@@ -8,7 +8,6 @@
 #include "../Object/rotation_bullet.h"
 #include "../Object/guided_bullet.h"
 #include "../Object/parabola_bullet.h"
-#include "../Object/item.h"
 
 void MainScene::_Release()
 {
@@ -18,27 +17,25 @@ bool MainScene::_Initialize()
 {
 	auto const& object_mananger = ObjectManager::instance();
 
-	auto const& default_layer = scene()->FindLayer("Default"s);
+	auto const& default_layer = scene()->FindLayer("Default");
 
-	object_mananger->CreatePrototype<Bullet>("Bullet"s, scene());
-	object_mananger->CreatePrototype<RotationBullet>("RotationBullet"s, scene());
-	object_mananger->CreatePrototype<GuidedBullet>("GuidedBullet"s, scene());
-	object_mananger->CreatePrototype<ParabolaBullet>("ParabolaBullet"s, scene());
+	object_mananger->CreatePrototype<Bullet>("Bullet", scene());
+	object_mananger->CreatePrototype<RotationBullet>("RotationBullet", scene());
+	object_mananger->CreatePrototype<GuidedBullet>("GuidedBullet", scene());
+	object_mananger->CreatePrototype<ParabolaBullet>("ParabolaBullet", scene());
 
-	object_mananger->CreatePrototype<Item>("Item"s, scene());
+	auto player = dynamic_pointer_cast<Player>(object_mananger->CreateObject<Player>("Player", default_layer));
 
-	auto player = dynamic_pointer_cast<Player>(object_mananger->CreateObject<Player>("Player"s, default_layer));
-
-	auto monster1 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
+	auto monster1 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster", default_layer));
 	monster1->set_position(300.f, 300.f);
 	monster1->set_target(player);
 
-	auto monster2 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
-	monster2->set_position(400.f, 300.f);
+	auto monster2 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster", default_layer));
+	monster2->set_position(500.f, 400.f);
 	monster2->set_target(player);
 
-	auto monster3 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
-	monster3->set_position(500.f, 300.f);
+	auto monster3 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster", default_layer));
+	monster3->set_position(700.f, 500.f);
 	monster3->set_target(player);
 
 	return true;

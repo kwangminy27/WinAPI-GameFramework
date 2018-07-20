@@ -6,8 +6,8 @@ using namespace std;
 
 bool CollisionManager::Initialize()
 {
-	CreateCollisionGroup("Default"s);
-	CreateCollisionGroup("UI"s);
+	CreateCollisionGroup("Default");
+	CreateCollisionGroup("UI");
 
 	return true;
 }
@@ -53,12 +53,6 @@ void CollisionManager::AddCollider(shared_ptr<Object> const& object)
 	}
 }
 
-void CollisionManager::ClearExpiredCollider()
-{
-	for (auto& collision_group : collision_group_collection_)
-		collision_group.second.clear();
-}
-
 void CollisionManager::Collision(float time)
 {
 	for (auto& collision_group : collision_group_collection_)
@@ -100,11 +94,14 @@ void CollisionManager::Collision(float time)
 				}
 				else
 				{
-					src->RemoveCollidedCollider(dest);
-					dest->RemoveCollidedCollider(src);
+					if (src->IsCollidedCollider(dest))
+					{
+						src->RemoveCollidedCollider(dest);
+						dest->RemoveCollidedCollider(src);
 
-					src->OnCollisionLeave(dest, time);
-					dest->OnCollisionLeave(src, time);
+						src->OnCollisionLeave(dest, time);
+						dest->OnCollisionLeave(src, time);
+					}
 				}
 			}
 		}

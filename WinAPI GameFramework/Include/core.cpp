@@ -42,7 +42,7 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 	if (!CollisionManager::instance()->Initialize())
 		return false;
 
-	back_buffer_ = ResourceManager::instance()->FindTexture("BackBuffer"s);
+	back_buffer_ = ResourceManager::instance()->FindTexture("BackBuffer");
 
 	return true;
 }
@@ -85,9 +85,10 @@ void Core::_Release()
 {
 	ReleaseDC(main_window_, device_context_);
 
-	// Coliider Brush »èÁ¦
 	DeleteObject(Collider::red_brush_);
 	DeleteObject(Collider::green_brush_);
+	DeleteObject(Collider::red_pen_);
+	DeleteObject(Collider::green_pen_);
 }
 
 LRESULT Core::_WindowProc(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
@@ -160,11 +161,10 @@ void Core::_Logic()
 	_Collision(delta_time * time_scale_);
 	_Render(delta_time * time_scale_);
 
-	if(Input::instance()->KeyPush("Pause"s))
+	if(Input::instance()->KeyPush("Pause"))
 		time_scale_ = time_scale_ == 1.f ? 0.f : 1.f;
 
 	ObjectManager::instance()->ClearExpiredSceneObject();
-	CollisionManager::instance()->ClearExpiredCollider();
 }
 
 void Core::_Input(float time)

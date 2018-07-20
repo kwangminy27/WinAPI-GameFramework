@@ -19,7 +19,7 @@ void ObjectManager::CreatePrototype(string const& tag, shared_ptr<Scene> const& 
 	if (!prototype->_Initialize())
 		return;
 
-	prototype_collection_.insert(make_pair(string{ tag }, move(prototype)));
+	prototype_collection_.insert(make_pair(move(tag), move(prototype)));
 }
 
 template <typename T>

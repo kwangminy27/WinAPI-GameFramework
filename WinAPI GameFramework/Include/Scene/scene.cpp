@@ -8,14 +8,14 @@ using namespace std;
 
 bool Scene::_Initialize()
 {
-	_CreateLayer("BackGround"s, numeric_limits<int>::min());
-	_CreateLayer("Default"s, 0);
-	_CreateLayer("UI"s, numeric_limits<int>::max());
+	_CreateLayer("BackGround", numeric_limits<int>::min());
+	_CreateLayer("Default", 0);
+	_CreateLayer("UI", numeric_limits<int>::max());
 
 	for (auto const& layer : layer_list_)
 		layer->_Initialize();
 
-	scene_component_ = _CreateSceneCompoenet<MainScene>("MainScene"s);
+	scene_component_ = _CreateSceneCompoenet<MainScene>("MainScene");
 	scene_component_->_Initialize();
 
 	return true;

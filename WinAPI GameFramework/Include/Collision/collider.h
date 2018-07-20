@@ -12,7 +12,12 @@ class Collider : public Tag, public std::enable_shared_from_this<Collider>
 public:
 	static HBRUSH green_brush_;
 	static HBRUSH red_brush_;
+	static HPEN green_pen_;
+	static HPEN red_pen_;
 	HBRUSH brush_;
+	HPEN pen_;
+	HPEN old_pen_;
+
 
 	COLLIDER collider_type() const;
 	std::string const& collision_group_tag() const;
@@ -24,7 +29,7 @@ public:
 	virtual bool Collision(std::shared_ptr<Collider> const& dest) = 0;
 
 	void SetCallBack(std::function<void(std::weak_ptr<Collider>, std::weak_ptr<Collider>, float)> function, COLLISION_CALLBACK type);
-	void SetCallBack(std::weak_ptr<Collider> const& collider, std::function<void(std::weak_ptr<Collider>, std::weak_ptr<Collider>, float)> function, COLLISION_CALLBACK type);
+	template <typename T> void SetCallBack(T* object, void (T::*function)(std::weak_ptr<Collider>, std::weak_ptr<Collider>, float), COLLISION_CALLBACK type);
 
 	void OnCollisionEnter(std::weak_ptr<Collider> const& dest, float time);
 	void OnCollision(std::weak_ptr<Collider> const& dest, float time);
@@ -50,7 +55,9 @@ protected:
 
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>>_Clone() = 0;
 
-	bool CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest);
+	bool _CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest);
+	bool _CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest);
+	bool _CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& dest);
 
 	COLLIDER collider_type_{};
 	XY pivot_{};
@@ -60,3 +67,5 @@ protected:
 	std::list<std::weak_ptr<Collider>> collided_collider_list_{};
 	std::weak_ptr<Object> object_{};
 };
+
+#include "collider.inl"

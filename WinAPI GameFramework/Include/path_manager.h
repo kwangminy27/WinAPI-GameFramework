@@ -7,7 +7,7 @@ class PathManager final : public Singleton<PathManager>
 	friend class Singleton<PathManager>;
 public:
 	bool Initialize();
-	bool AddPath(std::string tag, std::filesystem::path path, std::string base_tag = "RootPath"s);
+	bool AddPath(std::string tag, std::filesystem::path path, std::string base_tag = "RootPath");
 	std::filesystem::path const& FindPath(std::string tag) const;
 
 private:

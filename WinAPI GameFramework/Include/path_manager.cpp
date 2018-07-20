@@ -6,10 +6,10 @@ using namespace filesystem;
 bool PathManager::Initialize()
 {
 	path path_buffer = current_path();
-	path_buffer.replace_filename("Bin\\"s);
+	path_buffer.replace_filename("Bin\\");
 
-	path_collection_.insert(make_pair("RootPath"s, move(path_buffer)));
-	AddPath("TexturePath"s, "Texture\\"s);
+	path_collection_.insert(make_pair("RootPath", move(path_buffer)));
+	AddPath("TexturePath", "Texture\\");
 
 	return true;
 }

@@ -2,10 +2,10 @@
 #include "../math.h"
 #include "object_manager.h"
 #include "bullet.h"
-#include "item.h"
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
 #include "../Collision/collider_rect.h"
+#include "../Collision/collider_sphere.h"
 
 using namespace std;
 
@@ -51,6 +51,19 @@ void Monster::set_target(weak_ptr<Object> const& target)
 	target_ = target;
 }
 
+void Monster::BulletHit(weak_ptr<Collider> src, weak_ptr<Collider> dest, float time)
+{
+	auto caching_dest = dest.lock();
+
+	if (!caching_dest)
+		return;
+
+	auto caching_tag = caching_dest->tag();
+
+	if (caching_tag == "BulletBody" || caching_tag == "GuidedBulletBody" || caching_tag == "ParabolaBulletBody" || caching_tag == "RotationBulletBody")
+		caching_dest->object()->set_activation(false);
+}
+
 Monster::Monster(Monster const& other) : Character(other)
 {
 	move_dir_ = other.move_dir_;
@@ -59,7 +72,7 @@ Monster::Monster(Monster const& other) : Character(other)
 	target_ = other.target_;
 }
 
-Monster::Monster(Monster&& other) noexcept : Character(other)
+Monster::Monster(Monster&& other) noexcept : Character(move(other))
 {
 	move_dir_ = move(other.move_dir_);
 	fire_time_ = move(other.fire_time_);
@@ -79,11 +92,12 @@ bool Monster::_Initialize()
 	move_dir_ = 1.f;
 	attack_range_ = 500.f;
 
-	texture_ = ResourceManager::instance()->LoadTexture("Yasuo"s, L"Yasuo.bmp"s, "TexturePath"s);
+	texture_ = ResourceManager::instance()->LoadTexture("Yasuo", L"Yasuo.bmp", "TexturePath");
 
-	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("MonsterBody"s));
+	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("MonsterBody"));
 	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
 	collider->set_pivot({ 0.5f, 0.5f });
+	collider->SetCallBack<Monster>(this, &Monster::BulletHit, COLLISION_CALLBACK::ENTER);
 
 	return true;
 }
@@ -112,18 +126,18 @@ void Monster::_Update(float time)
 	if(Math::GetDistance(position_, target()->position()) <= attack_range_)
 		fire_time_ += time;
 
-	if (fire_time_ > 10.f)
+	if (fire_time_ > 1.f)
 	{
-		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
+		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
+
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * kBarrelSize, position_.y + sin(Math::DegreeToRadian(angle_)) * kBarrelSize };
+
 		bullet->set_position(barrel_end);
 		bullet->set_angle(Math::GetAngle(position_, target()->position()));
+		auto collider = dynamic_pointer_cast<ColliderSphere>(bullet->AddCollider<ColliderSphere>("BulletBody"));
+		collider->set_model({ 0.f, 0.f, 5.f });
 
-		//auto item = dynamic_pointer_cast<Item>(ObjectManager::instance()->CreateCloneObject("Item"s, layer()));
-		//item->set_position(barrel_end);
-		//item->set_angle(Math::GetAngle(position_, target()->position()));
-
-		fire_time_ -= 10.f;
+		fire_time_ -= 1.f;
 	}
 }
 

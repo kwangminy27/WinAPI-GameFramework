@@ -44,9 +44,6 @@ shared_ptr<Object> ObjectManager::CreateCloneObject(string const& tag, shared_pt
 
 	object->set_layer(layer);
 
-	if (!object->_Initialize())
-		return object_nullptr_;
-
 	layer->_AddObject(object);
 	scene_object_collection_.insert(make_pair(move(tag), object));
 
@@ -67,7 +64,7 @@ unique_ptr<Object, function<void(Object*)>> const& ObjectManager::_FindPrototype
 	auto const iter = prototype_collection_.find(tag);
 
 	if (iter == prototype_collection_.end())
-		return nullptr_prototype_;
+		return prototype_nullptr_;
 
 	return iter->second;
 }

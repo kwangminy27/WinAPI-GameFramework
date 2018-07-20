@@ -35,9 +35,18 @@ struct LTRB
 	float r{};
 	float b{};
 
-	void SetLTRB(float _l, float _t, float _r, float _b);
+	void SetInfo(float _l, float _t, float _r, float _b);
 	void Move(float x, float y);
 
 	float GetWidth() const;
 	float GetHeight() const;
+};
+
+struct SPHERE
+{
+	XY center{};
+	float radius{};
+
+	void SetInfo(float x, float y, float r);
+	void Move(float x, float y);
 };

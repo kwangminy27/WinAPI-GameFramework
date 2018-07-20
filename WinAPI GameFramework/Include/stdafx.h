@@ -1,6 +1,8 @@
 #pragma once
 
-//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#ifdef _DEBUG
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#endif
 
 #pragma comment(lib, "msimg32.lib")
 

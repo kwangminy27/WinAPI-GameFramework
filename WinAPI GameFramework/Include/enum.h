@@ -16,7 +16,8 @@ enum class COLLIDER
 {
 	RECT,
 	SPHERE,
-	PIXEL
+	PIXEL,
+	POINT
 };
 
 enum class COLLISION_CALLBACK

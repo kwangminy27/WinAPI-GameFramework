@@ -27,7 +27,7 @@ private:
 	std::unique_ptr<Object, std::function<void(Object*)>> const& _FindPrototype(std::string const& tag) const;
 
 	std::shared_ptr<Object> object_nullptr_{};
-	std::unique_ptr<Object, std::function<void(Object*)>> nullptr_prototype_{};
+	std::unique_ptr<Object, std::function<void(Object*)>> prototype_nullptr_{};
 	std::unordered_map<std::string, std::unique_ptr<Object, std::function<void(Object*)>>> prototype_collection_{};
 	std::unordered_multimap<std::string, std::weak_ptr<Object>> scene_object_collection_{};
 };

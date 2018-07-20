@@ -3,6 +3,7 @@
 #include "../Resource/resource_manager.h"
 #include "../math.h"
 #include "../Collision/collider_rect.h"
+#include "../Collision/collider_sphere.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ GuidedBullet::GuidedBullet(GuidedBullet const& other) : Bullet(other)
 	target_ = other.target_;
 }
 
-GuidedBullet::GuidedBullet(GuidedBullet&& other) noexcept : Bullet(other)
+GuidedBullet::GuidedBullet(GuidedBullet&& other) noexcept : Bullet(move(other))
 {
 	target_ = move(other.target_);
 }
@@ -42,12 +43,8 @@ bool GuidedBullet::_Initialize()
 	set_move_speed(500.f);
 	set_range(500.f);
 
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet"s, L"Bullet.bmp"s, "TexturePath"s);
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
 	set_color_key(RGB(0, 248, 0));
-
-	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("GuidedBulletBody"s));
-	collider->set_model({ 0.f, 0.f, 10.f, 10.f });
-	collider->set_pivot({ 0.5f, 0.5f });
 
 	return true;
 }
@@ -69,7 +66,7 @@ void GuidedBullet::_Update(float time)
 		{
 			is_guided_ = true;
 
-			auto monsters = ObjectManager::instance()->FindObjects("Monster"s);
+			auto monsters = ObjectManager::instance()->FindObjects("Monster");
 			if (monsters.first != monsters.second)
 			{
 				auto destination = min_element(monsters.first, monsters.second, [this](auto const& e1, auto const& e2) {

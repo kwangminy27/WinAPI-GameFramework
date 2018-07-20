@@ -1,10 +1,13 @@
 #include "collider.h"
 #include "../Object/object.h"
+#include "../math.h"
 
 using namespace std;
 
 HBRUSH Collider::green_brush_ = CreateSolidBrush(RGB(0, 255, 0));
 HBRUSH Collider::red_brush_ = CreateSolidBrush(RGB(255, 0, 0));
+HPEN Collider::green_pen_ = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
+HPEN Collider::red_pen_ = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
 
 COLLIDER Collider::collider_type() const
 {
@@ -31,7 +34,7 @@ void Collider::set_collision_group_tag(string const& tag)
 	collision_group_tag_ = tag;
 }
 
-void Collider::set_object(std::weak_ptr<Object> const& object)
+void Collider::set_object(weak_ptr<Object> const& object)
 {
 	object_ = object;
 }
@@ -119,7 +122,7 @@ void Collider::_Render(HDC device_context, float time)
 {
 }
 
-bool Collider::CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest)
+bool Collider::_CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest)
 {
 	if (src.r < dest.l)
 		return false;
@@ -134,4 +137,19 @@ bool Collider::CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest)
 		return false;
 
 	return true;
+}
+
+bool Collider::_CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest)
+{
+	return Math::GetDistance(src.center, dest.center) <= src.radius + dest.radius;
+}
+
+bool Collider::_CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& dest)
+{
+	float closest_x = clamp(dest.center.x, src.l, src.r);
+	float closest_y = clamp(dest.center.y, src.t, src.b);
+
+	float distance = Math::GetDistance({ closest_x, closest_y }, dest.center);
+
+	return distance <= dest.radius;
 }
