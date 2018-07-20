@@ -6,6 +6,7 @@
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
 #include "../Collision/collider_rect.h"
+#include "../Collision/collider_sphere.h"
 
 using namespace std;
 
@@ -51,6 +52,19 @@ void Monster::set_target(weak_ptr<Object> const& target)
 	target_ = target;
 }
 
+void Monster::BulletHit(weak_ptr<Collider> src, weak_ptr<Collider> dest, float time)
+{
+	auto caching_dest = dest.lock();
+
+	if (!caching_dest)
+		return;
+
+	auto caching_tag = caching_dest->tag();
+
+	if (caching_tag == "BulletBody"s || caching_tag == "GuidedBulletBody"s || caching_tag == "ParabolaBulletBody"s || caching_tag == "RotationBulletBody"s)
+		caching_dest->object()->set_activation(false);
+}
+
 Monster::Monster(Monster const& other) : Character(other)
 {
 	move_dir_ = other.move_dir_;
@@ -75,7 +89,7 @@ bool Monster::_Initialize()
 {
 	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
-	set_move_speed(200.f);
+	set_move_speed(0.f);
 	move_dir_ = 1.f;
 	attack_range_ = 500.f;
 
@@ -84,6 +98,11 @@ bool Monster::_Initialize()
 	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("MonsterBody"s));
 	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
 	collider->set_pivot({ 0.5f, 0.5f });
+	collider->SetCallBack<Monster>(this, &Monster::BulletHit, COLLISION_CALLBACK::LEAVE);
+
+	//auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("MonsterBody"s));
+	//collider_sphere->set_model({ 0.f, 0.f, 25.f });
+	//collider_sphere->SetCallBack<Monster>(this, &Monster::BulletHit, COLLISION_CALLBACK::ENTER);
 
 	return true;
 }

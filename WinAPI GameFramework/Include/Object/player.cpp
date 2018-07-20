@@ -9,6 +9,7 @@
 #include "guided_bullet.h"
 #include "parabola_bullet.h"
 #include "../Collision/collider_rect.h"
+#include "../Collision/collider_sphere.h"
 
 using namespace std;
 
@@ -22,8 +23,15 @@ void Player::set_barrel_size(float barrel_size)
 	barrel_size_ = barrel_size;
 }
 
-void Player::BulletHit(std::weak_ptr<Collider> const & src, std::weak_ptr<Collider> const & dest, float time)
+void Player::BulletHit(weak_ptr<Collider> src, weak_ptr<Collider> dest, float time)
 {
+	auto caching_dest = dest.lock();
+
+	if(!caching_dest)
+		return;
+
+	if (caching_dest->tag() == "BulletBody"s)
+		caching_dest->object()->set_activation(false);
 }
 
 Player::Player(Player const& other) : Character(other)
@@ -57,9 +65,14 @@ bool Player::_Initialize()
 
 	set_texture("Teemo"s, L"Teemo.bmp"s, "TexturePath"s);
 
-	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"s));
-	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
-	collider->set_pivot({ 0.5f, 0.5f });
+	/*auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"s));
+	collider_rect->set_model({ 0.f, 0.f, 50.f, 50.f });
+	collider_rect->set_pivot({ 0.5f, 0.5f });
+	collider_rect->SetCallBack<Player>(this, &Player::BulletHit, COLLISION_CALLBACK::ENTER);*/
+
+	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("PlayerBody"s));
+	collider_sphere->set_model({ 0.f, 0.f, 25.f });
+	collider_sphere->SetCallBack<Player>(this, &Player::BulletHit, COLLISION_CALLBACK::LEAVE);
 
 	return true;
 }
@@ -96,7 +109,7 @@ void Player::_Input(float time)
 		bullet->set_angle(angle_);
 	}
 
-	if (KeyPressed("Skill1"s))
+	if (KeyPush("Skill1"s))
 	{
 		auto bullet1 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
 		auto bullet2 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
@@ -132,7 +145,7 @@ void Player::_Input(float time)
 		bullet_->start();
 	}
 
-	if (KeyPressed("Skill3"s))
+	if (KeyPush("Skill3"s))
 	{
 		auto rotation_bullet = dynamic_pointer_cast<RotationBullet>(ObjectManager::instance()->CreateCloneObject("RotationBullet"s, layer()));
 
@@ -144,7 +157,7 @@ void Player::_Input(float time)
 		rotation_bullet->set_rotation_angle(angle_);
 	}
 
-	if (KeyPressed("Skill4"s))
+	if (KeyPush("Skill4"s))
 	{
 		auto guided_bullet = dynamic_pointer_cast<GuidedBullet>(ObjectManager::instance()->CreateCloneObject("GuidedBullet"s, layer()));
 
@@ -154,7 +167,7 @@ void Player::_Input(float time)
 		guided_bullet->set_angle(angle_);
 	}
 
-	if (KeyPressed("Skill5"s))
+	if (KeyPush("Skill5"s))
 	{
 		auto parabola_bullet = dynamic_pointer_cast<ParabolaBullet>(ObjectManager::instance()->CreateCloneObject("ParabolaBullet"s, layer()));
 

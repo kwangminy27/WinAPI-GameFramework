@@ -1,5 +1,6 @@
 #include "collider_rect.h"
 #include "../Object/object.h"
+#include "collider_sphere.h"
 
 using namespace std;
 
@@ -8,12 +9,12 @@ LTRB ColliderRect::world() const
 	return world_;
 }
 
-void ColliderRect::set_model(LTRB const& ltrb)
+void ColliderRect::set_model(LTRB const& model)
 {
-	model_ = ltrb;
+	model_ = model;
 
-	size_.x = ltrb.r - ltrb.l;
-	size_.y = ltrb.b - ltrb.t;
+	size_.x = model.r - model.l;
+	size_.y = model.b - model.t;
 }
 
 bool ColliderRect::Collision(shared_ptr<Collider> const& dest)
@@ -24,7 +25,9 @@ bool ColliderRect::Collision(shared_ptr<Collider> const& dest)
 	switch (dest->collider_type())
 	{
 	case COLLIDER::RECT:
-		return CollisionBetweenRectAndRect(world_, dynamic_pointer_cast<ColliderRect>(dest)->world_);
+		return _CollisionBetweenRectAndRect(world_, dynamic_pointer_cast<ColliderRect>(dest)->world_);
+	case COLLIDER::SPHERE:
+		return _CollisionBetweenRectAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(dest)->world());
 	}
 
 	return false;
@@ -49,7 +52,6 @@ void ColliderRect::_Release()
 
 bool ColliderRect::_Initialize()
 {
-	set_tag("Rect"s);
 	collider_type_ = COLLIDER::RECT;
 
 	return true;

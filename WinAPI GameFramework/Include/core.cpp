@@ -85,9 +85,10 @@ void Core::_Release()
 {
 	ReleaseDC(main_window_, device_context_);
 
-	// Coliider Brush »èÁ¦
 	DeleteObject(Collider::red_brush_);
 	DeleteObject(Collider::green_brush_);
+	DeleteObject(Collider::red_pen_);
+	DeleteObject(Collider::green_pen_);
 }
 
 LRESULT Core::_WindowProc(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
@@ -164,7 +165,6 @@ void Core::_Logic()
 		time_scale_ = time_scale_ == 1.f ? 0.f : 1.f;
 
 	ObjectManager::instance()->ClearExpiredSceneObject();
-	CollisionManager::instance()->ClearExpiredCollider();
 }
 
 void Core::_Input(float time)

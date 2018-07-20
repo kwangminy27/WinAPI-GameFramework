@@ -34,11 +34,11 @@ bool MainScene::_Initialize()
 	monster1->set_target(player);
 
 	auto monster2 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
-	monster2->set_position(400.f, 300.f);
+	monster2->set_position(500.f, 400.f);
 	monster2->set_target(player);
 
 	auto monster3 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster"s, default_layer));
-	monster3->set_position(500.f, 300.f);
+	monster3->set_position(700.f, 500.f);
 	monster3->set_target(player);
 
 	return true;

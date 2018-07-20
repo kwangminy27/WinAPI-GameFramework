@@ -16,6 +16,8 @@ public:
 	void set_attack_range(float attack_range);
 	void set_target(std::weak_ptr<Object> const& target);
 
+	void BulletHit(weak_ptr<Collider> src, weak_ptr<Collider> dest, float time);
+
 private:
 	Monster() = default;
 	Monster(Monster const& other);
