@@ -10,7 +10,7 @@ class Player final : public Character
 public:
 	float barrel_size() const;
 	void set_barrel_size(float barrel_size);
-	void BulletHit(std::weak_ptr<Collider> src, std::weak_ptr<Collider> dest, float time);
+	void BeHit(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
 
 private:
 	Player() = default;

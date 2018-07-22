@@ -82,7 +82,6 @@
     <ClInclude Include="type.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Collision\collider.inl" />
     <None Include="input.inl" />
     <None Include="Object\object.inl" />
     <None Include="Object\object_manager.inl" />

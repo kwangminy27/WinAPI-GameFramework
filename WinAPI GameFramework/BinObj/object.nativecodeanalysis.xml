@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\kwang\source\repos\winapi gameframework\winapi gameframework\include\object\</FILEPATH>
+      <FILENAME>object.h</FILENAME>
+      <LINE>59</LINE>
+      <COLUMN>9</COLUMN>
+    </SFA>
+    <DEFECTCODE>26434</DEFECTCODE>
+    <DESCRIPTION>Function 'Object::operator=' hides a non-virtual function 'Tag::operator=' (c.128).</DESCRIPTION>
+    <FUNCTION>Object::=</FUNCTION>
+    <DECORATED>??4Object@@IEAAAEAV0@AEBV0@@Z</DECORATED>
+    <FUNCLINE>59</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\kwang\source\repos\winapi gameframework\winapi gameframework\include\object\</FILEPATH>
+      <FILENAME>object.h</FILENAME>
+      <LINE>60</LINE>
+      <COLUMN>9</COLUMN>
+    </SFA>
+    <DEFECTCODE>26434</DEFECTCODE>
+    <DESCRIPTION>Function 'Object::operator=' hides a non-virtual function 'Tag::operator=' (c.128).</DESCRIPTION>
+    <FUNCTION>Object::=</FUNCTION>
+    <DECORATED>??4Object@@IEAAAEAV0@$$QEAV0@@Z</DECORATED>
+    <FUNCLINE>60</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\kwang\source\repos\winapi gameframework\winapi gameframework\include\resource\</FILEPATH>
+      <FILENAME>resource_manager.h</FILENAME>
+      <LINE>16</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26439</DEFECTCODE>
+    <DESCRIPTION>This kind of function may not throw. Declare it 'noexcept' (f.6).</DESCRIPTION>
+    <FUNCTION>ResourceManager::{ctor}</FUNCTION>
+    <DECORATED>??0ResourceManager@@AEAA@XZ</DECORATED>
+    <FUNCLINE>16</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

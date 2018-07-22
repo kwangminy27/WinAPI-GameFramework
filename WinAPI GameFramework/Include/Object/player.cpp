@@ -23,12 +23,12 @@ void Player::set_barrel_size(float barrel_size)
 	barrel_size_ = barrel_size;
 }
 
-void Player::BulletHit(weak_ptr<Collider> src, weak_ptr<Collider> dest, float time)
+void Player::BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
 {
-	auto caching_dest = dest.lock();
-
-	if(!caching_dest)
+	if (src.expired() || dest.expired())
 		return;
+
+	auto caching_dest = dest.lock();
 
 	if (caching_dest->tag() == "BulletBody")
 		caching_dest->object()->set_activation(false);
@@ -67,7 +67,9 @@ bool Player::_Initialize()
 
 	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("PlayerBody"));
 	collider_sphere->set_model({ 0.f, 0.f, 25.f });
-	collider_sphere->SetCallBack<Player>(this, &Player::BulletHit, COLLISION_CALLBACK::ENTER);
+	collider_sphere->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeHit(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
 
 	return true;
 }
@@ -94,7 +96,7 @@ void Player::_Input(float time)
 	if (KeyPressed("MoveDown"))
 		MoveByAngle(-time);
 
-	if (KeyPressed("Fire"))
+	if (KeyPush("Fire"))
 	{
  		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
 

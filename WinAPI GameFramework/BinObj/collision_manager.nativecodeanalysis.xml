@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\kwang\source\repos\winapi gameframework\winapi gameframework\include\collision\</FILEPATH>
+      <FILENAME>collision_manager.cpp</FILENAME>
+      <LINE>23</LINE>
+      <COLUMN>28</COLUMN>
+    </SFA>
+    <DEFECTCODE>26444</DEFECTCODE>
+    <DESCRIPTION>Avoid unnamed objects with custom construction and destruction (es.84).</DESCRIPTION>
+    <FUNCTION>CollisionManager::CreateCollisionGroup</FUNCTION>
+    <DECORATED>?CreateCollisionGroup@CollisionManager@@QEAA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z</DECORATED>
+    <FUNCLINE>15</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

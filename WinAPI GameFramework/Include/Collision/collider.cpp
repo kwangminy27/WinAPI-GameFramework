@@ -42,7 +42,7 @@ void Collider::set_object(weak_ptr<Object> const& object)
 	object_ = object;
 }
 
-void Collider::SetCallBack(function<void(weak_ptr<Collider>, weak_ptr<Collider>, float)> function, COLLISION_CALLBACK type)
+void Collider::SetCallBack(function<void(weak_ptr<Collider> const&, weak_ptr<Collider> const&, float)> function, COLLISION_CALLBACK type)
 {
 	collision_callback_collection_.at(static_cast<size_t>(type)).push_back(function);
 }

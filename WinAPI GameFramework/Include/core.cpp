@@ -58,9 +58,7 @@ int Core::Run()
 			DispatchMessage(&message);
 		}
 		else
-		{
 			_Logic();
-		}
 	}
 
 	return static_cast<int>(message.wParam);

@@ -54,13 +54,12 @@ void Monster::set_target(weak_ptr<Object> const& target)
 	target_ = target;
 }
 
-void Monster::BulletHit(weak_ptr<Collider> src, weak_ptr<Collider> dest, float time)
+void Monster::BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
 {
-	auto caching_dest = dest.lock();
-
-	if (!caching_dest)
+	if (src.expired() || dest.expired())
 		return;
 
+	auto caching_dest = dest.lock();
 	auto caching_tag = caching_dest->tag();
 
 	if (caching_tag == "BulletBody" || caching_tag == "GuidedBulletBody" || caching_tag == "ParabolaBulletBody" || caching_tag == "RotationBulletBody")
@@ -100,7 +99,9 @@ bool Monster::_Initialize()
 	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("MonsterBody"));
 	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
 	collider->set_pivot({ 0.5f, 0.5f });
-	collider->SetCallBack<Monster>(this, &Monster::BulletHit, COLLISION_CALLBACK::ENTER);
+	collider->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeHit(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
 
 	return true;
 }

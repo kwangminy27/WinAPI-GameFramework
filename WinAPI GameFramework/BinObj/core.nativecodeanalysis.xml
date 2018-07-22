@@ -56,4 +56,18 @@
     <FUNCLINE>16</FUNCLINE>
     <PATH></PATH>
   </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\kwang\source\repos\winapi gameframework\winapi gameframework\include\collision\</FILEPATH>
+      <FILENAME>collision_manager.h</FILENAME>
+      <LINE>19</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>26439</DEFECTCODE>
+    <DESCRIPTION>This kind of function may not throw. Declare it 'noexcept' (f.6).</DESCRIPTION>
+    <FUNCTION>CollisionManager::{ctor}</FUNCTION>
+    <DECORATED>??0CollisionManager@@AEAA@XZ</DECORATED>
+    <FUNCLINE>19</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
 </DEFECTS>
