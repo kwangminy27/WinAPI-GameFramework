@@ -96,8 +96,8 @@ void CollisionManager::Collision(float time)
 				{
 					if (src->IsCollidedCollider(dest))
 					{
-						src->RemoveCollidedCollider();
-						dest->RemoveCollidedCollider();
+						src->RemoveCollidedCollider(dest);
+						dest->RemoveCollidedCollider(src);
 
 						src->OnCollisionLeave(dest, time);
 						dest->OnCollisionLeave(src, time);

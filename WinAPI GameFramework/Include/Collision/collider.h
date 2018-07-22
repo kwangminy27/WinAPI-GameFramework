@@ -37,7 +37,7 @@ public:
 
 	bool IsCollidedCollider(std::weak_ptr<Collider> const& collider);
 	void AddCollidedCollider(std::weak_ptr<Collider> const& collider);
-	void RemoveCollidedCollider();
+	void RemoveCollidedCollider(std::weak_ptr<Collider> const& collider);
 
 protected:
 	Collider() = default;

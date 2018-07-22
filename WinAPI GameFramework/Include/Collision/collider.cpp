@@ -89,11 +89,11 @@ void Collider::AddCollidedCollider(weak_ptr<Collider> const& collider)
 	collided_collider_list_.push_back(collider);
 }
 
-void Collider::RemoveCollidedCollider()
+void Collider::RemoveCollidedCollider(weak_ptr<Collider> const& collider)
 {
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end(); ++iter)
 	{
-		if ((*iter).expired())
+		if ((*iter).expired() || (*iter).lock() == collider.lock())
 		{
 			collided_collider_list_.erase(iter);
 			return;
@@ -115,7 +115,7 @@ void Collider::_Release()
 {
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end(); ++iter)
 	{
-		(*iter).lock()->RemoveCollidedCollider();
+		(*iter).lock()->RemoveCollidedCollider(weak_from_this());
 		(*iter).lock()->OnCollisionLeave(weak_from_this(), 0.f);
 	}
 }
