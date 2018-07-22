@@ -14,8 +14,11 @@ int Layer::z_order() const
 	return z_order_;
 }
 
-void Layer::set_scene(std::weak_ptr<Scene> const& scene)
+void Layer::set_scene(weak_ptr<Scene> const& scene)
 {
+	if (scene.expired())
+		return;
+
 	scene_ = scene;
 }
 
@@ -148,16 +151,24 @@ void Layer::_Render(HDC device_context, float time)
 	}
 }
 
-void Layer::_AddObject(shared_ptr<Object> const& object)
+void Layer::_AddObject(weak_ptr<Object> const& object)
 {
-	object_list_.push_back(object);
+	if (object.expired())
+		return;
+
+	object_list_.push_back(object.lock());
 }
 
-void Layer::_EraseObject(shared_ptr<Object> const& object)
+void Layer::_EraseObject(weak_ptr<Object> const& object)
 {
+	if (object.expired())
+		return;
+
+	auto caching_object = object.lock();
+
 	for (auto iter = object_list_.begin(); iter != object_list_.end();)
 	{
-		if ((*iter) == object)
+		if ((*iter) == caching_object)
 		{
 			object_list_.erase(iter);
 			return;

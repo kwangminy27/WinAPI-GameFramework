@@ -48,6 +48,9 @@ void Monster::set_attack_range(float attack_range)
 
 void Monster::set_target(weak_ptr<Object> const& target)
 {
+	if (target.expired())
+		return;
+
 	target_ = target;
 }
 
@@ -161,7 +164,10 @@ void Monster::_Render(HDC device_context, float time)
 	LineTo(device_context, static_cast<int>(barrel_end.x), static_cast<int>(barrel_end.y));
 }
 
-unique_ptr<Object,function<void(Object*)>> Monster::_Clone()
+unique_ptr<Object, function<void(Object*)>> Monster::_Clone()
 {
-	return std::unique_ptr<Object, std::function<void(Object*)>>();
+	return unique_ptr<Object, function<void(Object*)>>{new Monster(*this), [](Object* p) {
+		dynamic_cast<Monster*>(p)->_Release();
+		delete dynamic_cast<Monster*>(p);
+	}};
 }

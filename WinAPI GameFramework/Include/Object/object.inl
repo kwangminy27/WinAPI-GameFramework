@@ -11,7 +11,7 @@ shared_ptr<Collider> Object::AddCollider(string tag)
 	}};
 
 	collider->set_tag(tag);
-	collider->set_object(shared_from_this());
+	collider->set_object(weak_from_this());
 
 	if (!collider->_Initialize())
 		return collider_nullptr_;

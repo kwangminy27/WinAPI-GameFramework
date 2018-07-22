@@ -9,7 +9,7 @@ public:
 	bool is_guided() const;
 	std::shared_ptr<Object> target() const;
 
-	void set_target(std::shared_ptr<Object> const& target);
+	void set_target(std::weak_ptr<Object> const& target);
 
 private:
 	GuidedBullet() = default;

@@ -67,8 +67,9 @@ void Bullet::_Update(float time)
 	for (auto& collider : collider_collection_)
 		dynamic_pointer_cast<ColliderSphere>(collider)->set_model({ 0.f, 0.f, size_.x / 2.f });
 
-	range_ -= move_ * move_speed_ * time;
 	MoveByAngle(time);
+
+	range_ -= move_ * move_speed_ * time;
 	if (range_ <= 0.f)
 		set_activation(false);
 }

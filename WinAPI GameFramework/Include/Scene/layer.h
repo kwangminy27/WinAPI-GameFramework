@@ -30,8 +30,8 @@ private:
 	void _Collision(float time);
 	void _Render(HDC device_context, float time);
 
-	void _AddObject(std::shared_ptr<Object> const& object);
-	void _EraseObject(std::shared_ptr<Object> const& object);
+	void _AddObject(std::weak_ptr<Object> const& object);
+	void _EraseObject(std::weak_ptr<Object> const& object);
 
 	int z_order_{};
 	std::shared_ptr<Object> object_nullptr_{};

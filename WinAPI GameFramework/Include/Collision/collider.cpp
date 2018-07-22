@@ -36,6 +36,9 @@ void Collider::set_collision_group_tag(string const& tag)
 
 void Collider::set_object(weak_ptr<Object> const& object)
 {
+	if (object.expired())
+		return;
+
 	object_ = object;
 }
 
@@ -64,9 +67,14 @@ void Collider::OnCollisionLeave(weak_ptr<Collider> const& dest, float time)
 
 bool Collider::IsCollidedCollider(weak_ptr<Collider> const& collider)
 {
+	if (collider.expired())
+		return false;
+
+	auto caching_collider = collider.lock();
+
 	for (auto const& collided_collider : collided_collider_list_)
 	{
-		if (collided_collider.lock() == collider.lock())
+		if (collided_collider.lock() == caching_collider)
 			return true;
 	}
 
@@ -75,14 +83,17 @@ bool Collider::IsCollidedCollider(weak_ptr<Collider> const& collider)
 
 void Collider::AddCollidedCollider(weak_ptr<Collider> const& collider)
 {
+	if (collider.expired())
+		return;
+
 	collided_collider_list_.push_back(collider);
 }
 
-void Collider::RemoveCollidedCollider(weak_ptr<Collider> const& collider)
+void Collider::RemoveCollidedCollider()
 {
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end(); ++iter)
 	{
-		if ((*iter).lock() == collider.lock())
+		if ((*iter).expired())
 		{
 			collided_collider_list_.erase(iter);
 			return;
@@ -104,7 +115,7 @@ void Collider::_Release()
 {
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end(); ++iter)
 	{
-		(*iter).lock()->RemoveCollidedCollider(weak_from_this());
+		(*iter).lock()->RemoveCollidedCollider();
 		(*iter).lock()->OnCollisionLeave(weak_from_this(), 0.f);
 	}
 }

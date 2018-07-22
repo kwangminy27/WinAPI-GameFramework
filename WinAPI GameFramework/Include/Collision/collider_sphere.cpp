@@ -38,7 +38,7 @@ ColliderSphere::ColliderSphere(ColliderSphere const& other) : Collider(other)
 	world_ = other.world_;
 }
 
-ColliderSphere::ColliderSphere(ColliderSphere&& other) noexcept : Collider(other)
+ColliderSphere::ColliderSphere(ColliderSphere&& other) noexcept : Collider(move(other))
 {
 	model_ = move(other.model_);
 	world_ = move(other.world_);
@@ -81,7 +81,7 @@ void ColliderSphere::_Render(HDC device_context, float time)
 		old_pen_ = static_cast<HPEN>(SelectObject(device_context, pen_));
 		XY position = world_.center;
 		MoveToEx(device_context, static_cast<int>(position.x + world_.radius), static_cast<int>(position.y), nullptr);
-		for (size_t i = 6; i <= 360; i += 6)
+		for (size_t i = 30; i <= 360; i += 30)
 		{
 			position.x = world_.center.x + cosf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
 			position.y = world_.center.y + sinf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;

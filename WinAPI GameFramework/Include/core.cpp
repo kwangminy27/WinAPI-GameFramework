@@ -188,16 +188,20 @@ void Core::_Collision(float time)
 void Core::_Render(float time)
 {
 	auto const& scene_manager = SceneManager::instance();
-	auto back_buffer = back_buffer_.lock();
 
-	Rectangle(back_buffer->memory_device_context(),
+	if (back_buffer_.expired())
+		return;
+	
+	auto caching_back_buffer = back_buffer_.lock();
+
+	Rectangle(caching_back_buffer->memory_device_context(),
 		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT));
 
-	scene_manager->Render(back_buffer->memory_device_context(), time);
+	scene_manager->Render(caching_back_buffer->memory_device_context(), time);
 
 	BitBlt(device_context_,
 		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT),
-		back_buffer->memory_device_context(),
+		caching_back_buffer->memory_device_context(),
 		0, 0, SRCCOPY);
 
 	wstring wstr = to_wstring(timer_->frame_per_second());

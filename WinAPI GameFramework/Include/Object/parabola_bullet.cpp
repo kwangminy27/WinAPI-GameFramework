@@ -52,7 +52,6 @@ void ParabolaBullet::_Update(float time)
 
 	angle_ += 120.f * time * 3.f;
 	MoveByAngle(time * 3.f);
-
 	if (angle_ >= start_angle_ + 120.f)
 		set_activation(false);
 }

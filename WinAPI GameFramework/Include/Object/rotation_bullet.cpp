@@ -79,8 +79,6 @@ void RotationBullet::_Update(float time)
 {
 	Object::_Update(time);
 
-	range_ -= move_speed_ * time;
-	
 	rotation_center_.x += cos(Math::DegreeToRadian(angle_)) * move_speed_ * time;
 	rotation_center_.y += sin(Math::DegreeToRadian(angle_)) * move_speed_ * time;
 
@@ -89,6 +87,7 @@ void RotationBullet::_Update(float time)
 	position_.x = rotation_center_.x + cos(Math::DegreeToRadian(rotation_angle_)) * rotation_range_;
 	position_.y = rotation_center_.y + sin(Math::DegreeToRadian(rotation_angle_)) * rotation_range_;
 
+	range_ -= move_speed_ * time;
 	if (range_ <= 0)
 		set_activation(false);
 }
