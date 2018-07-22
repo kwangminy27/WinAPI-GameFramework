@@ -1,5 +1,6 @@
 #include "collider_rect.h"
 #include "../Object/object.h"
+#include "collider_point.h"
 #include "collider_sphere.h"
 
 using namespace std;
@@ -17,17 +18,23 @@ void ColliderRect::set_model(LTRB const& model)
 	size_.y = model.b - model.t;
 }
 
-bool ColliderRect::Collision(shared_ptr<Collider> const& dest)
+bool ColliderRect::Collision(weak_ptr<Collider> const& dest)
 {
-	if (!dest)
+	if (dest.expired())
 		return false;
 
-	switch (dest->collider_type())
+	auto caching_dest = dest.lock();
+
+	switch (caching_dest->collider_type())
 	{
+	case COLLIDER::POINT:
+		return _CollisionBetweenPointAndRect(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world_);
 	case COLLIDER::RECT:
-		return _CollisionBetweenRectAndRect(world_, dynamic_pointer_cast<ColliderRect>(dest)->world_);
+		return _CollisionBetweenRectAndRect(world_, dynamic_pointer_cast<ColliderRect>(caching_dest)->world_);
 	case COLLIDER::SPHERE:
-		return _CollisionBetweenRectAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(dest)->world());
+		return _CollisionBetweenRectAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(caching_dest)->world());
+	case COLLIDER::PIXEL:
+		break;
 	}
 
 	return false;

@@ -2,20 +2,20 @@
 
 #include "collider.h"
 
-class ColliderRect final : public Collider
+class ColliderPoint final : public Collider
 {
 	friend class Object;
 public:
-	LTRB world() const;
-	void set_model(LTRB const& model);
+	XY world() const;
+	void set_model(XY const& model);
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
 
 private:
-	ColliderRect() = default;
-	ColliderRect(ColliderRect const& other);
-	ColliderRect(ColliderRect&& other) noexcept;
-	ColliderRect& operator=(ColliderRect const& other) = default;
-	ColliderRect& operator=(ColliderRect&& other) noexcept = default;
+	ColliderPoint() = default;
+	ColliderPoint(ColliderPoint const& other);
+	ColliderPoint(ColliderPoint&& other) noexcept;
+	ColliderPoint& operator=(ColliderPoint const& other) = default;
+	ColliderPoint& operator=(ColliderPoint&& other) noexcept = default;
 
 	virtual void _Release() override;
 
@@ -25,6 +25,6 @@ private:
 
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>> _Clone() override;
 
-	LTRB model_{};
-	LTRB world_{};
+	XY model_{};
+	XY world_{};
 };

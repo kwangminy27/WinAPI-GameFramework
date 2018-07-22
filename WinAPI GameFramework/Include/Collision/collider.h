@@ -26,9 +26,9 @@ public:
 	void set_collision_group_tag(std::string const& tag);
 	void set_object(std::weak_ptr<Object> const& object);
 
-	virtual bool Collision(std::shared_ptr<Collider> const& dest) = 0;
+	virtual bool Collision(std::weak_ptr<Collider> const& dest) = 0;
 
-	void SetCallBack(std::function<void(std::weak_ptr<Collider> const&, std::weak_ptr<Collider> const&, float)> function, COLLISION_CALLBACK type);
+	void SetCallBack(std::function<void(std::weak_ptr<Collider> const&, std::weak_ptr<Collider> const&, float)> const& function, COLLISION_CALLBACK type);
 
 	void OnCollisionEnter(std::weak_ptr<Collider> const& dest, float time);
 	void OnCollision(std::weak_ptr<Collider> const& dest, float time);
@@ -54,9 +54,12 @@ protected:
 
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>>_Clone() = 0;
 
+	bool _CollisionBetweenPointAndPoint(XY const& src, XY const& dest);
+	bool _CollisionBetweenPointAndRect(XY const& src, LTRB const& dest);
+	bool _CollisionBetweenPointAndSphere(XY const& src, SPHERE const& dest);
 	bool _CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest);
-	bool _CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest);
 	bool _CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& dest);
+	bool _CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest);
 
 	COLLIDER collider_type_{};
 	XY pivot_{};

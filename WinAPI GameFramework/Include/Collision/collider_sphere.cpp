@@ -1,6 +1,7 @@
 #include "collider_sphere.h"
 #include "../math.h"
 #include "../Object/object.h"
+#include "collider_point.h"
 #include "collider_rect.h"
 
 using namespace std;
@@ -16,17 +17,23 @@ void ColliderSphere::set_model(SPHERE const& model)
 	model_.radius = model.radius;
 }
 
-bool ColliderSphere::Collision(shared_ptr<Collider> const& dest)
+bool ColliderSphere::Collision(weak_ptr<Collider> const& dest)
 {
-	if (!dest)
+	if (dest.expired())
 		return false;
 
-	switch (dest->collider_type())
+	auto caching_dest = dest.lock();
+
+	switch (caching_dest->collider_type())
 	{
+	case COLLIDER::POINT:
+		return _CollisionBetweenPointAndSphere(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world_);
 	case COLLIDER::RECT:
-		return _CollisionBetweenRectAndSphere(dynamic_pointer_cast<ColliderRect>(dest)->world(), world_);
+		return _CollisionBetweenRectAndSphere(dynamic_pointer_cast<ColliderRect>(caching_dest)->world(), world_);
 	case COLLIDER::SPHERE:
-		return _CollisionBetweenSphereAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(dest)->world_);
+		return _CollisionBetweenSphereAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(caching_dest)->world_);
+	case COLLIDER::PIXEL:
+		break;
 	}
 
 	return false;

@@ -14,10 +14,10 @@ enum class FLAG
 
 enum class COLLIDER
 {
+	POINT,
 	RECT,
 	SPHERE,
-	PIXEL,
-	POINT
+	PIXEL
 };
 
 enum class COLLISION_CALLBACK

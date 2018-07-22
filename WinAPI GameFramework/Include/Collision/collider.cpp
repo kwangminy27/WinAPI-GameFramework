@@ -42,9 +42,9 @@ void Collider::set_object(weak_ptr<Object> const& object)
 	object_ = object;
 }
 
-void Collider::SetCallBack(function<void(weak_ptr<Collider> const&, weak_ptr<Collider> const&, float)> function, COLLISION_CALLBACK type)
+void Collider::SetCallBack(function<void(weak_ptr<Collider> const&, weak_ptr<Collider> const&, float)> const& function, COLLISION_CALLBACK type)
 {
-	collision_callback_collection_.at(static_cast<size_t>(type)).push_back(function);
+	collision_callback_collection_.at(static_cast<size_t>(type)).push_back(move(function));
 }
 
 void Collider::OnCollisionEnter(weak_ptr<Collider> const& dest, float time)
@@ -133,6 +133,33 @@ void Collider::_Render(HDC device_context, float time)
 {
 }
 
+bool Collider::_CollisionBetweenPointAndPoint(XY const & src, XY const & dest)
+{
+	return (src.x == dest.x) && (src.y == dest.y);
+}
+
+bool Collider::_CollisionBetweenPointAndRect(XY const & src, LTRB const & dest)
+{
+	if (src.x < dest.l)
+		return false;
+
+	if (src.x > dest.r)
+		return false;
+
+	if (src.y < dest.t)
+		return false;
+
+	if (src.y > dest.b)
+		return false;
+
+	return true;
+}
+
+bool Collider::_CollisionBetweenPointAndSphere(XY const & src, SPHERE const & dest)
+{
+	return Math::GetDistance(src, dest.center) <= dest.radius;
+}
+
 bool Collider::_CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest)
 {
 	if (src.r < dest.l)
@@ -150,11 +177,6 @@ bool Collider::_CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest)
 	return true;
 }
 
-bool Collider::_CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest)
-{
-	return Math::GetDistance(src.center, dest.center) <= src.radius + dest.radius;
-}
-
 bool Collider::_CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& dest)
 {
 	float closest_x = clamp(dest.center.x, src.l, src.r);
@@ -163,4 +185,9 @@ bool Collider::_CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& des
 	float distance = Math::GetDistance({ closest_x, closest_y }, dest.center);
 
 	return distance <= dest.radius;
+}
+
+bool Collider::_CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest)
+{
+	return Math::GetDistance(src.center, dest.center) <= src.radius + dest.radius;
 }

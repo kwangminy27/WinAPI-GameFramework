@@ -8,7 +8,7 @@ class ColliderSphere final : public Collider
 public:
 	SPHERE world() const;
 	void set_model(SPHERE const& model);
-	virtual bool Collision(std::shared_ptr<Collider> const& dest) override;
+	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
 
 private:
 	ColliderSphere() = default;

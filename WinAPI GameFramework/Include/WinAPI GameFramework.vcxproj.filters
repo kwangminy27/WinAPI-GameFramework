@@ -136,6 +136,9 @@
     <ClCompile Include="Collision\collider_sphere.cpp">
       <Filter>05. Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Collision\collider_point.cpp">
+      <Filter>05. Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -229,6 +232,9 @@
       <Filter>WinAPI GameFramework</Filter>
     </ClInclude>
     <ClInclude Include="Collision\collider_sphere.h">
+      <Filter>05. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\collider_point.h">
       <Filter>05. Collision</Filter>
     </ClInclude>
   </ItemGroup>
