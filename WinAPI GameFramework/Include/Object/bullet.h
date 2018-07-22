@@ -10,6 +10,8 @@ public:
 	void stop();
 	void start();
 
+	void set_growth_speed(float speed);
+
 protected:
 	Bullet() = default;
 	Bullet(Bullet const& other);
@@ -28,6 +30,7 @@ protected:
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override;
 
+	float growth_speed_{};
 	float range_{};
 	bool move_{ true };
 };

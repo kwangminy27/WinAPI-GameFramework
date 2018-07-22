@@ -5,11 +5,16 @@
 
 using namespace std;
 
-void ObjectManager::ErasePrototype(shared_ptr<Scene> const& scene)
+void ObjectManager::ErasePrototype(weak_ptr<Scene> const& scene)
 {
+	if (scene.expired())
+		return;
+
+	auto caching_scene = scene.lock();
+
 	for (auto iter = prototype_collection_.begin(); iter != prototype_collection_.end();)
 	{
-		if (iter->second->scene() == scene)
+		if (iter->second->scene() == caching_scene)
 			iter = prototype_collection_.erase(iter);
 		else
 			++iter;
@@ -30,10 +35,12 @@ void ObjectManager::ClearExpiredSceneObject() // weak을 들고 계속 살아있는 모듈�
 	}
 }
 
-shared_ptr<Object> ObjectManager::CreateCloneObject(string const& tag, shared_ptr<Layer> const& layer)
+shared_ptr<Object> ObjectManager::CreateCloneObject(string const& tag, weak_ptr<Layer> const& layer)
 {
-	if (!layer)
+	if (layer.expired())
 		return object_nullptr_;
+
+	auto caching_layer = layer.lock();
 
 	auto const& prototype = _FindPrototype(tag);
 
@@ -44,10 +51,7 @@ shared_ptr<Object> ObjectManager::CreateCloneObject(string const& tag, shared_pt
 
 	object->set_layer(layer);
 
-	if (!object->_Initialize())
-		return object_nullptr_;
-
-	layer->_AddObject(object);
+	caching_layer->_AddObject(object);
 	scene_object_collection_.insert(make_pair(move(tag), object));
 
 	return object;
@@ -67,7 +71,7 @@ unique_ptr<Object, function<void(Object*)>> const& ObjectManager::_FindPrototype
 	auto const iter = prototype_collection_.find(tag);
 
 	if (iter == prototype_collection_.end())
-		return nullptr_prototype_;
+		return prototype_nullptr_;
 
 	return iter->second;
 }

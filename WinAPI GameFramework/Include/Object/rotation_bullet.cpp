@@ -43,7 +43,7 @@ RotationBullet::RotationBullet(RotationBullet const& other) : Bullet(other)
 	rotation_angle_ = other.rotation_angle_;
 }
 
-RotationBullet::RotationBullet(RotationBullet&& other) noexcept : Bullet(other)
+RotationBullet::RotationBullet(RotationBullet&& other) noexcept : Bullet(move(other))
 {
 	rotation_center_ = move(other.rotation_center_);
 	rotation_range_ = move(other.rotation_range_);
@@ -64,15 +64,8 @@ bool RotationBullet::_Initialize()
 	set_range(1000.f);
 	set_rotation_range(50.f);
 
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet"s, L"Bullet.bmp"s, "TexturePath"s);
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
 	set_color_key(RGB(0, 248, 0));
-
-	//auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("RotationBulletBody"s));
-	//collider->set_model({ 0.f, 0.f, 10.f, 10.f });
-	//collider->set_pivot({ 0.5f, 0.5f });
-
-	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("RotationBulletBody"s));
-	collider_sphere->set_model({ 0.f, 0.f, 5.f });
 
 	return true;
 }
@@ -86,8 +79,6 @@ void RotationBullet::_Update(float time)
 {
 	Object::_Update(time);
 
-	range_ -= move_speed_ * time;
-	
 	rotation_center_.x += cos(Math::DegreeToRadian(angle_)) * move_speed_ * time;
 	rotation_center_.y += sin(Math::DegreeToRadian(angle_)) * move_speed_ * time;
 
@@ -96,6 +87,7 @@ void RotationBullet::_Update(float time)
 	position_.x = rotation_center_.x + cos(Math::DegreeToRadian(rotation_angle_)) * rotation_range_;
 	position_.y = rotation_center_.y + sin(Math::DegreeToRadian(rotation_angle_)) * rotation_range_;
 
+	range_ -= move_speed_ * time;
 	if (range_ <= 0)
 		set_activation(false);
 }

@@ -21,14 +21,21 @@ void Bullet::start()
 	move_ = true;
 }
 
+void Bullet::set_growth_speed(float speed)
+{
+	growth_speed_ = speed;
+}
+
 Bullet::Bullet(Bullet const& other) : Object(other)
 {
 	range_ = other.range_;
+	growth_speed_ = other.growth_speed_;
 }
 
-Bullet::Bullet(Bullet&& other) noexcept : Object(other)
+Bullet::Bullet(Bullet&& other) noexcept : Object(move(other))
 {
 	range_ = move(other.range_);
+	growth_speed_ = move(other.growth_speed_);
 }
 
 void Bullet::_Release()
@@ -42,15 +49,8 @@ bool Bullet::_Initialize()
 	set_move_speed(500.f);
 	set_range(1000.f);
 
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet"s, L"Bullet.bmp"s, "TexturePath"s);
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
 	set_color_key(RGB(0, 248, 0));
-
-	//auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("BulletBody"s));
-	//collider->set_model({ 0.f, 0.f, 10.f, 10.f });
-	//collider->set_pivot({ 0.5f, 0.5f });
-
-	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("BulletBody"s));
-	collider_sphere->set_model({ 0.f, 0.f, 5.f });
 
 	return true;
 }
@@ -64,8 +64,12 @@ void Bullet::_Update(float time)
 {
 	Object::_Update(time);
 
-	range_ -= move_ * move_speed_ * time;
+	for (auto& collider : collider_collection_)
+		dynamic_pointer_cast<ColliderSphere>(collider)->set_model({ 0.f, 0.f, size_.x / 2.f });
+
 	MoveByAngle(time);
+
+	range_ -= move_ * move_speed_ * time;
 	if (range_ <= 0.f)
 		set_activation(false);
 }

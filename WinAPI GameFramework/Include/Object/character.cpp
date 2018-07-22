@@ -6,7 +6,7 @@ Character::Character(Character const& other) : Object(other)
 {
 }
 
-Character::Character(Character&& other) noexcept : Object(other)
+Character::Character(Character&& other) noexcept : Object(move(other))
 {
 }
 

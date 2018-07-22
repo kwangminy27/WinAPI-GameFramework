@@ -6,8 +6,8 @@ using namespace std;
 
 bool CollisionManager::Initialize()
 {
-	CreateCollisionGroup("Default"s);
-	CreateCollisionGroup("UI"s);
+	CreateCollisionGroup("Default");
+	CreateCollisionGroup("UI");
 
 	return true;
 }
@@ -96,8 +96,8 @@ void CollisionManager::Collision(float time)
 				{
 					if (src->IsCollidedCollider(dest))
 					{
-						src->RemoveCollidedCollider(dest);
-						dest->RemoveCollidedCollider(src);
+						src->RemoveCollidedCollider();
+						dest->RemoveCollidedCollider();
 
 						src->OnCollisionLeave(dest, time);
 						dest->OnCollisionLeave(src, time);

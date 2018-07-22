@@ -119,12 +119,26 @@ shared_ptr<Layer> Object::layer() const
 
 void Object::set_scene(weak_ptr<Scene> const& scene)
 {
+	if (scene.expired())
+		return;
+
 	scene_ = scene;
 }
 
 void Object::set_layer(weak_ptr<Layer> const& layer)
 {
+	if (layer.expired())
+		return;
+
 	layer_ = layer;
+}
+
+void Object::set_texture(weak_ptr<Texture> const& texture)
+{
+	if (texture.expired())
+		return;
+
+	texture_ = texture;
 }
 
 bool Object::set_texture(string const& tag, wstring const& file_name, string const& path_tag)
@@ -137,13 +151,6 @@ bool Object::set_texture(string const& tag, wstring const& file_name, string con
 bool Object::set_texture(std::string const& tag)
 {
 	texture_ = ResourceManager::instance()->FindTexture(tag);
-
-	return true;
-}
-
-bool Object::set_texture(weak_ptr<Texture> const& texture)
-{
-	texture_ = texture;
 
 	return true;
 }
@@ -190,9 +197,9 @@ Object::Object(Object const& other) : Tag(other)
 	collider_collection_.clear();
 	for (auto const& collider : other.collider_collection_)
 	{
-		auto temp_collider = collider->_Clone();
-		temp_collider->set_object(weak_from_this());
-		collider_collection_.push_back(move(temp_collider));
+		auto caching_collider = collider->_Clone();
+		caching_collider->set_object(shared_from_this());
+		collider_collection_.push_back(move(caching_collider));
 	}
 }
 
@@ -226,18 +233,18 @@ void Object::_Collision(float time)
 
 void Object::_Render(HDC device_context, float time)
 {
-	auto texture = texture_.lock();
+	if (texture_.expired())
+		return;
 
-	if (texture)
-	{
-		float left{ position_.x - (size_.x * pivot_.x) };
-		float top{ position_.y - (size_.y * pivot_.y) };
+	auto caching_texture = texture_.lock();
 
-		if (is_color_key_)
-			TransparentBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), texture->memory_device_context(), 0, 0, texture->width(), texture->height(), color_key_);
-		else
-			BitBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), texture->memory_device_context(), 0, 0, SRCCOPY);
-	}
+	float left{ position_.x - (size_.x * pivot_.x) };
+	float top{ position_.y - (size_.y * pivot_.y) };
+
+	if (is_color_key_)
+		TransparentBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), caching_texture->memory_device_context(), 0, 0, caching_texture->width(), caching_texture->height(), color_key_);
+	else
+		BitBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), caching_texture->memory_device_context(), 0, 0, SRCCOPY);
 
 	for (auto const& collider : collider_collection_)
 		collider->_Render(device_context, time);

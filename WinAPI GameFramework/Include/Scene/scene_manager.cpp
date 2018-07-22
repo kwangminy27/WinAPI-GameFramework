@@ -5,7 +5,7 @@ using namespace std;
 
 bool SceneManager::Initialize()
 {
-	scene_ = _CreateScene("MainScene"s);
+	scene_ = _CreateScene("MainScene");
 	scene_->_Initialize();
 
 	return true;

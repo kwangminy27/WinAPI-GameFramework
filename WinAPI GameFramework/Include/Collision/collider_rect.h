@@ -13,8 +13,8 @@ public:
 private:
 	ColliderRect() = default;
 	ColliderRect(ColliderRect const& other);
-	ColliderRect& operator=(ColliderRect const& other) = default;
 	ColliderRect(ColliderRect&& other) noexcept;
+	ColliderRect& operator=(ColliderRect const& other) = default;
 	ColliderRect& operator=(ColliderRect&& other) noexcept = default;
 
 	virtual void _Release() override;

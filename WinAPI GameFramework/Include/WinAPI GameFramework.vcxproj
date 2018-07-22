@@ -29,7 +29,6 @@
     <ClCompile Include="Object\bullet.cpp" />
     <ClCompile Include="Object\character.cpp" />
     <ClCompile Include="Object\guided_bullet.cpp" />
-    <ClCompile Include="Object\item.cpp" />
     <ClCompile Include="Object\monster.cpp" />
     <ClCompile Include="Object\object.cpp" />
     <ClCompile Include="Object\object_manager.cpp" />
@@ -61,7 +60,6 @@
     <ClInclude Include="Object\bullet.h" />
     <ClInclude Include="Object\character.h" />
     <ClInclude Include="Object\guided_bullet.h" />
-    <ClInclude Include="Object\item.h" />
     <ClInclude Include="Object\monster.h" />
     <ClInclude Include="Object\object.h" />
     <ClInclude Include="Object\object_manager.h" />

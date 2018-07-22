@@ -5,8 +5,8 @@ using namespace std;
 
 bool ResourceManager::Initialize()
 {
-	LoadTexture("BackBuffer"s, L"BackBuffer.bmp"s, "TexturePath"s);
-	LoadTexture("StarBack"s, L"StarBack.bmp"s, "TexturePath"s);
+	LoadTexture("BackBuffer", L"BackBuffer.bmp", "TexturePath");
+	LoadTexture("StarBack", L"StarBack.bmp", "TexturePath");
 
 	return true;
 }

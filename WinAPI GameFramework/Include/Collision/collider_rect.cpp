@@ -39,7 +39,7 @@ ColliderRect::ColliderRect(ColliderRect const& other) : Collider(other)
 	world_ = other.world_;
 }
 
-ColliderRect::ColliderRect(ColliderRect&& other) noexcept : Collider(other)
+ColliderRect::ColliderRect(ColliderRect&& other) noexcept : Collider(move(other))
 {
 	model_ = move(other.model_);
 	world_ = move(other.world_);
@@ -53,7 +53,7 @@ void ColliderRect::_Release()
 bool ColliderRect::_Initialize()
 {
 	collider_type_ = COLLIDER::RECT;
-
+	
 	return true;
 }
 

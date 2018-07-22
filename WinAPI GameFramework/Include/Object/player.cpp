@@ -30,7 +30,7 @@ void Player::BulletHit(weak_ptr<Collider> src, weak_ptr<Collider> dest, float ti
 	if(!caching_dest)
 		return;
 
-	if (caching_dest->tag() == "BulletBody"s)
+	if (caching_dest->tag() == "BulletBody")
 		caching_dest->object()->set_activation(false);
 }
 
@@ -38,7 +38,7 @@ Player::Player(Player const& other) : Character(other)
 {
 }
 
-Player::Player(Player&& other) noexcept : Character(other)
+Player::Player(Player&& other) noexcept : Character(move(other))
 {
 }
 
@@ -63,16 +63,11 @@ bool Player::_Initialize()
 	input_manager->AddKey("Skill4"s, '4');
 	input_manager->AddKey("Skill5"s, '5');
 
-	set_texture("Teemo"s, L"Teemo.bmp"s, "TexturePath"s);
+	set_texture("Teemo", L"Teemo.bmp", "TexturePath");
 
-	/*auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"s));
-	collider_rect->set_model({ 0.f, 0.f, 50.f, 50.f });
-	collider_rect->set_pivot({ 0.5f, 0.5f });
-	collider_rect->SetCallBack<Player>(this, &Player::BulletHit, COLLISION_CALLBACK::ENTER);*/
-
-	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("PlayerBody"s));
+	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("PlayerBody"));
 	collider_sphere->set_model({ 0.f, 0.f, 25.f });
-	collider_sphere->SetCallBack<Player>(this, &Player::BulletHit, COLLISION_CALLBACK::LEAVE);
+	collider_sphere->SetCallBack<Player>(this, &Player::BulletHit, COLLISION_CALLBACK::ENTER);
 
 	return true;
 }
@@ -87,50 +82,62 @@ void Player::_Input(float time)
 	static auto KeyPressed = [&input_manager](string tag) -> bool { return input_manager->KeyPressed(tag); };
 	static auto KeyUp = [&input_manager](string tag) -> bool { return input_manager->KeyUp(tag); };
 
-	if (KeyPressed("MoveLeft"s))
+	if (KeyPressed("MoveLeft"))
 		Rotate(-time);
 
-	if (KeyPressed("MoveRight"s))
+	if (KeyPressed("MoveRight"))
 		Rotate(time);
 
-	if (KeyPressed("MoveUp"s))
+	if (KeyPressed("MoveUp"))
 		MoveByAngle(time);
 
-	if (KeyPressed("MoveDown"s))
+	if (KeyPressed("MoveDown"))
 		MoveByAngle(-time);
 
-	if (KeyPressed("Fire"s))
+	if (KeyPressed("Fire"))
 	{
-		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
+ 		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
 
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
 
 		bullet->set_position(barrel_end);
 		bullet->set_angle(angle_);
+		auto collider = dynamic_pointer_cast<ColliderSphere>(bullet->AddCollider<ColliderSphere>("BulletBody"));
+		collider->set_model({ 0.f, 0.f, 5.f });
 	}
 
-	if (KeyPush("Skill1"s))
+	if (KeyPush("Skill1"))
 	{
-		auto bullet1 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
-		auto bullet2 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
-		auto bullet3 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
+		auto bullet1 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
+		auto bullet2 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
+		auto bullet3 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
 
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
 
 		bullet1->set_position(barrel_end);
 		bullet1->set_angle(angle_ - 30.f);
+		auto collider1 = dynamic_pointer_cast<ColliderSphere>(bullet1->AddCollider<ColliderSphere>("BulletBody"));
+		collider1->set_model({ 0.f, 0.f, 5.f });
+
 		bullet2->set_position(barrel_end);
 		bullet2->set_angle(angle_);
+		auto collider2 = dynamic_pointer_cast<ColliderSphere>(bullet2->AddCollider<ColliderSphere>("BulletBody"));
+		collider2->set_model({ 0.f, 0.f, 5.f });
+
 		bullet3->set_position(barrel_end);
 		bullet3->set_angle(angle_ + 30.f);
+		auto collider3 = dynamic_pointer_cast<ColliderSphere>(bullet3->AddCollider<ColliderSphere>("BulletBody"));
+		collider3->set_model({ 0.f, 0.f, 5.f });
 	}
 
-	if (KeyPush("Skill2"s))
+	if (KeyPush("Skill2"))
 	{
-		bullet_ = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet"s, layer()));
+		bullet_ = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
+		auto collider = dynamic_pointer_cast<ColliderSphere>(bullet_->AddCollider<ColliderSphere>("BulletBody"));
+		collider->set_model({ 0.f, 0.f, 5.f });
 		bullet_->stop();
 	}
-	else if (KeyPressed("Skill2"s))
+	else if (KeyPressed("Skill2"))
 	{
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
 
@@ -139,15 +146,16 @@ void Player::_Input(float time)
 
 		static float const kGrowthSpeed = 200.f;
 		bullet_->set_size(bullet_->size() + (kGrowthSpeed * time));
+		bullet_->set_growth_speed(kGrowthSpeed);
 	}
-	else if (KeyUp("Skill2"s))
+	else if (KeyUp("Skill2"))
 	{
 		bullet_->start();
 	}
 
-	if (KeyPush("Skill3"s))
+	if (KeyPush("Skill3"))
 	{
-		auto rotation_bullet = dynamic_pointer_cast<RotationBullet>(ObjectManager::instance()->CreateCloneObject("RotationBullet"s, layer()));
+		auto rotation_bullet = dynamic_pointer_cast<RotationBullet>(ObjectManager::instance()->CreateCloneObject("RotationBullet", layer()));
 
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
 		barrel_end -= XY{ cos(Math::DegreeToRadian(angle_)) * rotation_bullet->rotation_range(), sin(Math::DegreeToRadian(angle_)) * rotation_bullet->rotation_range() };
@@ -155,27 +163,33 @@ void Player::_Input(float time)
 		rotation_bullet->set_rotation_center(barrel_end);
 		rotation_bullet->set_angle(angle_);
 		rotation_bullet->set_rotation_angle(angle_);
+		auto collider = dynamic_pointer_cast<ColliderSphere>(rotation_bullet->AddCollider<ColliderSphere>("RotationBulletBody"));
+		collider->set_model({ 0.f, 0.f, 5.f });
 	}
 
-	if (KeyPush("Skill4"s))
+	if (KeyPush("Skill4"))
 	{
-		auto guided_bullet = dynamic_pointer_cast<GuidedBullet>(ObjectManager::instance()->CreateCloneObject("GuidedBullet"s, layer()));
+		auto guided_bullet = dynamic_pointer_cast<GuidedBullet>(ObjectManager::instance()->CreateCloneObject("GuidedBullet", layer()));
 
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
 
 		guided_bullet->set_position(barrel_end);
 		guided_bullet->set_angle(angle_);
+		auto collider = dynamic_pointer_cast<ColliderSphere>(guided_bullet->AddCollider<ColliderSphere>("GuidedBulletBody"));
+		collider->set_model({ 0.f, 0.f, 5.f });
 	}
 
-	if (KeyPush("Skill5"s))
+	if (KeyPush("Skill5"))
 	{
-		auto parabola_bullet = dynamic_pointer_cast<ParabolaBullet>(ObjectManager::instance()->CreateCloneObject("ParabolaBullet"s, layer()));
+		auto parabola_bullet = dynamic_pointer_cast<ParabolaBullet>(ObjectManager::instance()->CreateCloneObject("ParabolaBullet", layer()));
 
 		XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
 
 		parabola_bullet->set_position(barrel_end);
 		parabola_bullet->set_angle(angle_ - 60.f);
 		parabola_bullet->set_start_angle(angle_ - 60.f);
+		auto collider = dynamic_pointer_cast<ColliderSphere>(parabola_bullet->AddCollider<ColliderSphere>("ParabolaBulletBody"));
+		collider->set_model({ 0.f, 0.f, 5.f });
 	}
 }
 

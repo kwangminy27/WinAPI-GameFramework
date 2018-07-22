@@ -20,7 +20,7 @@ ParabolaBullet::ParabolaBullet(ParabolaBullet const& other) : Bullet(other)
 	start_angle_ = other.start_angle_;
 }
 
-ParabolaBullet::ParabolaBullet(ParabolaBullet&& other) noexcept : Bullet(other)
+ParabolaBullet::ParabolaBullet(ParabolaBullet&& other) noexcept : Bullet(move(other))
 {
 	start_angle_ = move(other.start_angle_);
 }
@@ -35,15 +35,8 @@ bool ParabolaBullet::_Initialize()
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);
 
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet"s, L"Bullet.bmp"s, "TexturePath"s);
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
 	set_color_key(RGB(0, 248, 0));
-
-	//auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("ParabolaBulletBody"s));
-	//collider->set_model({ 0.f, 0.f, 10.f, 10.f });
-	//collider->set_pivot({ 0.5f, 0.5f });
-
-	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("ParabolaBulletBody"s));
-	collider_sphere->set_model({ 0.f, 0.f, 5.f });
 
 	return true;
 }
@@ -59,7 +52,6 @@ void ParabolaBullet::_Update(float time)
 
 	angle_ += 120.f * time * 3.f;
 	MoveByAngle(time * 3.f);
-
 	if (angle_ >= start_angle_ + 120.f)
 		set_activation(false);
 }

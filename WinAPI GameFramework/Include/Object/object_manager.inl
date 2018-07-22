@@ -3,9 +3,12 @@
 using namespace std;
 
 template <typename T>
-void ObjectManager::CreatePrototype(string const& tag, shared_ptr<Scene> const& scene)
+void ObjectManager::CreatePrototype(string const& tag, weak_ptr<Scene> const& scene)
 {
 	if (_FindPrototype(tag))
+		return;
+
+	if (scene.expired())
 		return;
 
 	auto prototype = unique_ptr<Object, function<void(Object*)>>(new T, [](Object* p) {
@@ -19,28 +22,30 @@ void ObjectManager::CreatePrototype(string const& tag, shared_ptr<Scene> const& 
 	if (!prototype->_Initialize())
 		return;
 
-	prototype_collection_.insert(make_pair(string{ tag }, move(prototype)));
+	prototype_collection_.insert(make_pair(move(tag), move(prototype)));
 }
 
 template <typename T>
-shared_ptr<Object> ObjectManager::CreateObject(string const& tag, shared_ptr<Layer> const& layer)
+shared_ptr<Object> ObjectManager::CreateObject(string const& tag, weak_ptr<Layer> const& layer)
 {
-	if (!layer)
+	if (layer.expired())
 		return object_nullptr_;
+
+	auto caching_layer = layer.lock();
 
 	auto object = shared_ptr<Object>(new T, [](Object* p) {
 		p->_Release();
 		delete p;
 	});
 
-	object->scene_ = layer->scene();
-	object->layer_ = layer;
+	object->scene_ = caching_layer->scene();
+	object->layer_ = caching_layer;
 	object->set_tag(tag);
 
 	if (!object->_Initialize())
 		return object_nullptr_;
 
-	layer->_AddObject(object);
+	caching_layer->_AddObject(object);
 	scene_object_collection_.insert(make_pair(move(tag), object));
 
 	return object;
