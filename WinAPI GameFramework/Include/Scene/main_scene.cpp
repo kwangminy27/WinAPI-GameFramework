@@ -8,6 +8,7 @@
 #include "../Object/rotation_bullet.h"
 #include "../Object/guided_bullet.h"
 #include "../Object/parabola_bullet.h"
+#include "../Collision/collider_circle.h"
 
 void MainScene::_Release()
 {
@@ -27,16 +28,13 @@ bool MainScene::_Initialize()
 	auto player = dynamic_pointer_cast<Player>(object_mananger->CreateObject<Player>("Player", default_layer));
 
 	auto monster1 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster", default_layer));
-	monster1->set_position(300.f, 300.f);
-	monster1->set_target(player);
+	monster1->set_position(200.f, 0.f);
 
 	auto monster2 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster", default_layer));
-	monster2->set_position(500.f, 400.f);
-	monster2->set_target(player);
+	monster2->set_position(640.f, 360.f);
 
 	auto monster3 = dynamic_pointer_cast<Monster>(object_mananger->CreateObject<Monster>("Monster", default_layer));
-	monster3->set_position(700.f, 500.f);
-	monster3->set_target(player);
+	monster3->set_position(1080.f, 720.f);
 
 	return true;
 }

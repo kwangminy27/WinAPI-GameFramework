@@ -20,9 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collision\collider.cpp" />
+    <ClCompile Include="Collision\collider_pixel.cpp" />
     <ClCompile Include="Collision\collider_point.cpp" />
     <ClCompile Include="Collision\collider_rect.cpp" />
-    <ClCompile Include="Collision\collider_sphere.cpp" />
+    <ClCompile Include="Collision\collider_circle.cpp" />
     <ClCompile Include="Collision\collision_manager.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="input.cpp" />
@@ -51,9 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision\collider.h" />
+    <ClInclude Include="Collision\collider_pixel.h" />
     <ClInclude Include="Collision\collider_point.h" />
     <ClInclude Include="Collision\collider_rect.h" />
-    <ClInclude Include="Collision\collider_sphere.h" />
+    <ClInclude Include="Collision\collider_circle.h" />
     <ClInclude Include="Collision\collision_manager.h" />
     <ClInclude Include="core.h" />
     <ClInclude Include="enum.h" />

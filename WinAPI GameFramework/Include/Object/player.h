@@ -11,6 +11,8 @@ public:
 	float barrel_size() const;
 	void set_barrel_size(float barrel_size);
 	void BeHit(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+	void ProtectBulletForLeftRightShield(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+	void ProtectBulletForTopBottomShield(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
 
 private:
 	Player() = default;

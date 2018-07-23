@@ -90,7 +90,7 @@ void XY::operator/=(XY value)
 	y /= value.y;
 }
 
-void LTRB::SetInfo(float _l, float _t, float _r, float _b)
+void RECT_INFO::SetInfo(float _l, float _t, float _r, float _b)
 {
 	l = _l;
 	t = _t;
@@ -98,7 +98,7 @@ void LTRB::SetInfo(float _l, float _t, float _r, float _b)
 	b = _b;
 }
 
-void LTRB::Move(float x, float y)
+void RECT_INFO::Move(float x, float y)
 {
 	l += x;
 	t += y;
@@ -106,24 +106,24 @@ void LTRB::Move(float x, float y)
 	b += y;
 }
 
-float LTRB::GetWidth() const
+float RECT_INFO::GetWidth() const
 {
 	return r - l;
 }
 
-float LTRB::GetHeight() const
+float RECT_INFO::GetHeight() const
 {
 	return t - b;
 }
 
-void SPHERE::SetInfo(float x, float y, float r)
+void CIRCLE_INFO::SetInfo(float x, float y, float r)
 {
 	center.x = x;
 	center.y = y;
 	radius = r;
 }
 
-void SPHERE::Move(float x, float y)
+void CIRCLE_INFO::Move(float x, float y)
 {
 	center.x += x;
 	center.y += y;

@@ -1,6 +1,6 @@
-#include "collider.h"
-#include "../Object/object.h"
 #include "../math.h"
+#include "../Object/object.h"
+#include "collider.h"
 
 using namespace std;
 
@@ -138,7 +138,7 @@ bool Collider::_CollisionBetweenPointAndPoint(XY const & src, XY const & dest)
 	return (src.x == dest.x) && (src.y == dest.y);
 }
 
-bool Collider::_CollisionBetweenPointAndRect(XY const & src, LTRB const & dest)
+bool Collider::_CollisionBetweenPointAndRect(XY const & src, RECT_INFO const & dest)
 {
 	if (src.x < dest.l)
 		return false;
@@ -155,12 +155,12 @@ bool Collider::_CollisionBetweenPointAndRect(XY const & src, LTRB const & dest)
 	return true;
 }
 
-bool Collider::_CollisionBetweenPointAndSphere(XY const & src, SPHERE const & dest)
+bool Collider::_CollisionBetweenPointAndCircle(XY const & src, CIRCLE_INFO const & dest)
 {
 	return Math::GetDistance(src, dest.center) <= dest.radius;
 }
 
-bool Collider::_CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest)
+bool Collider::_CollisionBetweenRectAndRect(RECT_INFO const& src, RECT_INFO const& dest)
 {
 	if (src.r < dest.l)
 		return false;
@@ -177,7 +177,7 @@ bool Collider::_CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest)
 	return true;
 }
 
-bool Collider::_CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& dest)
+bool Collider::_CollisionBetweenRectAndCircle(RECT_INFO const& src, CIRCLE_INFO const& dest)
 {
 	float closest_x = clamp(dest.center.x, src.l, src.r);
 	float closest_y = clamp(dest.center.y, src.t, src.b);
@@ -187,7 +187,7 @@ bool Collider::_CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& des
 	return distance <= dest.radius;
 }
 
-bool Collider::_CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest)
+bool Collider::_CollisionBetweenCircleAndCircle(CIRCLE_INFO const& src, CIRCLE_INFO const& dest)
 {
 	return Math::GetDistance(src.center, dest.center) <= src.radius + dest.radius;
 }

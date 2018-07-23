@@ -28,7 +28,7 @@ struct XY
 	void operator/=(XY value);
 };
 
-struct LTRB
+struct RECT_INFO
 {
 	float l{};
 	float t{};
@@ -42,11 +42,39 @@ struct LTRB
 	float GetHeight() const;
 };
 
-struct SPHERE
+struct CIRCLE_INFO
 {
 	XY center{};
 	float radius{};
 
 	void SetInfo(float x, float y, float r);
 	void Move(float x, float y);
+};
+
+struct PIXEL_INFO
+{
+	struct PIXEL8
+	{
+		unsigned char r;
+	};
+
+	struct PIXEL24
+	{
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+	};
+
+	struct PIXEL32
+	{
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+		unsigned char a;
+	};
+
+	int pixel_size{};
+	int pixel_count{};
+	int width{};
+	int height{};
 };

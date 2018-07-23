@@ -6,8 +6,8 @@ class ColliderRect final : public Collider
 {
 	friend class Object;
 public:
-	LTRB world() const;
-	void set_model(LTRB const& model);
+	RECT_INFO const& world() const;
+	void set_model(RECT_INFO const& model);
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
 
 private:
@@ -25,6 +25,6 @@ private:
 
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>> _Clone() override;
 
-	LTRB model_{};
-	LTRB world_{};
+	RECT_INFO model_{};
+	RECT_INFO world_{};
 };

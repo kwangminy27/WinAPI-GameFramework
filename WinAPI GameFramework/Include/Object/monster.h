@@ -14,7 +14,8 @@ public:
 	void set_move_dir(float move_dir);
 	void set_fire_time(float fire_time);
 	void set_attack_range(float attack_range);
-	void set_target(std::weak_ptr<Object> const& target);
+	void set_target(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+	void release_target(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
 
 	void BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time);
 

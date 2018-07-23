@@ -1,10 +1,12 @@
+#include "../Object/object.h"
 #include "collider_point.h"
 #include "collider_rect.h"
-#include "collider_sphere.h"
+#include "collider_circle.h"
+#include "collider_pixel.h"
 
 using namespace std;
 
-XY ColliderPoint::world() const
+XY const& ColliderPoint::world() const
 {
 	return world_;
 }
@@ -27,8 +29,8 @@ bool ColliderPoint::Collision(weak_ptr<Collider> const& dest)
 		return _CollisionBetweenPointAndPoint(world_, dynamic_pointer_cast<ColliderPoint>(caching_dest)->world_);
 	case COLLIDER::RECT:
 		return _CollisionBetweenPointAndRect(world_, dynamic_pointer_cast<ColliderRect>(caching_dest)->world());
-	case COLLIDER::SPHERE:
-		return _CollisionBetweenPointAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(caching_dest)->world());
+	case COLLIDER::CIRCLE:
+		return _CollisionBetweenPointAndCircle(world_, dynamic_pointer_cast<ColliderCircle>(caching_dest)->world());
 	case COLLIDER::PIXEL:
 		break;
 	}
@@ -61,6 +63,8 @@ bool ColliderPoint::_Initialize()
 
 void ColliderPoint::_Update(float time)
 {
+	auto object_position = object()->position();
+	world_ = object_position + model_;
 }
 
 void ColliderPoint::_Render(HDC device_context, float time)

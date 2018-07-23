@@ -9,7 +9,7 @@
 #include "guided_bullet.h"
 #include "parabola_bullet.h"
 #include "../Collision/collider_rect.h"
-#include "../Collision/collider_sphere.h"
+#include "../Collision/collider_circle.h"
 
 using namespace std;
 
@@ -32,6 +32,38 @@ void Player::BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest
 
 	if (caching_dest->tag() == "BulletBody")
 		caching_dest->object()->set_activation(false);
+}
+
+void Player::ProtectBulletForLeftRightShield(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
+{
+	if (src.expired() || dest.expired())
+		return;
+
+	auto caching_dest = dest.lock();
+
+	if (caching_dest->tag() == "MonsterBulletBody")
+	{
+		float dir_x = cos(Math::DegreeToRadian(caching_dest->object()->angle())) * -1.f;
+		float dir_y = sin(Math::DegreeToRadian(caching_dest->object()->angle()));
+		float new_angle = Math::GetAngle({ 0.f, 0.f }, { dir_x, dir_y });
+		caching_dest->object()->set_angle(new_angle);
+	}
+}
+
+void Player::ProtectBulletForTopBottomShield(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
+{
+	if (src.expired() || dest.expired())
+		return;
+
+	auto caching_dest = dest.lock();
+
+	if (caching_dest->tag() == "MonsterBulletBody")
+	{
+		float dir_x = cos(Math::DegreeToRadian(caching_dest->object()->angle()));
+		float dir_y = sin(Math::DegreeToRadian(caching_dest->object()->angle())) * -1.f;
+		float new_angle = Math::GetAngle({ 0.f, 0.f }, { dir_x, dir_y });
+		caching_dest->object()->set_angle(new_angle);
+	}
 }
 
 Player::Player(Player const& other) : Character(other)
@@ -65,10 +97,38 @@ bool Player::_Initialize()
 
 	set_texture("Teemo", L"Teemo.bmp", "TexturePath");
 
-	auto collider_sphere = dynamic_pointer_cast<ColliderSphere>(AddCollider<ColliderSphere>("PlayerBody"));
-	collider_sphere->set_model({ 0.f, 0.f, 25.f });
-	collider_sphere->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+	auto collider_circle = dynamic_pointer_cast<ColliderCircle>(AddCollider<ColliderCircle>("PlayerBody"));
+	collider_circle->set_model({ 0.f, 0.f, 25.f });
+	collider_circle->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		BeHit(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+
+	auto collider_shield_left = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_left->set_model({ 0.f, 0.f, 1.f, 100.f });
+	collider_shield_left->set_pivot({ 50.f, 0.5f });
+	collider_shield_left->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForLeftRightShield(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+
+	auto collider_shield_right = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_right->set_model({ 0.f, 0.f, 1.f, 100.f});
+	collider_shield_right->set_pivot({ -50.f, 0.5f });
+	collider_shield_right->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForLeftRightShield(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+
+	auto collider_shield_top = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_top->set_model({ 0.f, 0.f, 100.f, 1.f });
+	collider_shield_top->set_pivot({ 0.5f, 50.f });
+	collider_shield_top->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForTopBottomShield(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+
+	auto collider_shield_bottom = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_bottom->set_model({ 0.f, 0.f, 100.f, 1.f });
+	collider_shield_bottom->set_pivot({ 0.5f, -50.f });
+	collider_shield_bottom->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForTopBottomShield(src, dest, time);
 	}, COLLISION_CALLBACK::ENTER);
 
 	return true;
@@ -104,8 +164,9 @@ void Player::_Input(float time)
 
 		bullet->set_position(barrel_end);
 		bullet->set_angle(angle_);
-		auto collider = dynamic_pointer_cast<ColliderSphere>(bullet->AddCollider<ColliderSphere>("BulletBody"));
-		collider->set_model({ 0.f, 0.f, 5.f });
+
+		auto collider_circle = dynamic_pointer_cast<ColliderCircle>(bullet->AddCollider<ColliderCircle>("BulletBody"));
+		collider_circle->set_model({ 0.f, 0.f, 5.f });
 	}
 
 	if (KeyPush("Skill1"))
@@ -118,24 +179,27 @@ void Player::_Input(float time)
 
 		bullet1->set_position(barrel_end);
 		bullet1->set_angle(angle_ - 30.f);
-		auto collider1 = dynamic_pointer_cast<ColliderSphere>(bullet1->AddCollider<ColliderSphere>("BulletBody"));
+		auto collider1 = dynamic_pointer_cast<ColliderCircle>(bullet1->AddCollider<ColliderCircle>("BulletBody"));
 		collider1->set_model({ 0.f, 0.f, 5.f });
 
 		bullet2->set_position(barrel_end);
 		bullet2->set_angle(angle_);
-		auto collider2 = dynamic_pointer_cast<ColliderSphere>(bullet2->AddCollider<ColliderSphere>("BulletBody"));
+
+		auto collider2 = dynamic_pointer_cast<ColliderCircle>(bullet2->AddCollider<ColliderCircle>("BulletBody"));
 		collider2->set_model({ 0.f, 0.f, 5.f });
 
 		bullet3->set_position(barrel_end);
 		bullet3->set_angle(angle_ + 30.f);
-		auto collider3 = dynamic_pointer_cast<ColliderSphere>(bullet3->AddCollider<ColliderSphere>("BulletBody"));
+
+		auto collider3 = dynamic_pointer_cast<ColliderCircle>(bullet3->AddCollider<ColliderCircle>("BulletBody"));
 		collider3->set_model({ 0.f, 0.f, 5.f });
 	}
 
 	if (KeyPush("Skill2"))
 	{
 		bullet_ = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
-		auto collider = dynamic_pointer_cast<ColliderSphere>(bullet_->AddCollider<ColliderSphere>("BulletBody"));
+
+		auto collider = dynamic_pointer_cast<ColliderCircle>(bullet_->AddCollider<ColliderCircle>("BulletBody"));
 		collider->set_model({ 0.f, 0.f, 5.f });
 		bullet_->stop();
 	}
@@ -165,7 +229,8 @@ void Player::_Input(float time)
 		rotation_bullet->set_rotation_center(barrel_end);
 		rotation_bullet->set_angle(angle_);
 		rotation_bullet->set_rotation_angle(angle_);
-		auto collider = dynamic_pointer_cast<ColliderSphere>(rotation_bullet->AddCollider<ColliderSphere>("RotationBulletBody"));
+
+		auto collider = dynamic_pointer_cast<ColliderCircle>(rotation_bullet->AddCollider<ColliderCircle>("RotationBulletBody"));
 		collider->set_model({ 0.f, 0.f, 5.f });
 	}
 
@@ -177,7 +242,8 @@ void Player::_Input(float time)
 
 		guided_bullet->set_position(barrel_end);
 		guided_bullet->set_angle(angle_);
-		auto collider = dynamic_pointer_cast<ColliderSphere>(guided_bullet->AddCollider<ColliderSphere>("GuidedBulletBody"));
+
+		auto collider = dynamic_pointer_cast<ColliderCircle>(guided_bullet->AddCollider<ColliderCircle>("GuidedBulletBody"));
 		collider->set_model({ 0.f, 0.f, 5.f });
 	}
 
@@ -190,7 +256,8 @@ void Player::_Input(float time)
 		parabola_bullet->set_position(barrel_end);
 		parabola_bullet->set_angle(angle_ - 60.f);
 		parabola_bullet->set_start_angle(angle_ - 60.f);
-		auto collider = dynamic_pointer_cast<ColliderSphere>(parabola_bullet->AddCollider<ColliderSphere>("ParabolaBulletBody"));
+
+		auto collider = dynamic_pointer_cast<ColliderCircle>(parabola_bullet->AddCollider<ColliderCircle>("ParabolaBulletBody"));
 		collider->set_model({ 0.f, 0.f, 5.f });
 	}
 }

@@ -136,7 +136,7 @@ void Core::_CreateWindow(wchar_t const* class_name, wchar_t const* window_name)
 
 	RECT rc{ 0, 0, static_cast<long>(RESOLUTION::WIDTH), static_cast<long>(RESOLUTION::HEIGHT) };
 	AdjustWindowRect(&rc, WS_CAPTION | WS_SYSMENU, false);
-	SetWindowPos(main_window_, HWND_TOP, 100, 100, rc.right - rc.left, rc.bottom - rc.top, NULL);
+	SetWindowPos(main_window_, HWND_TOP, 100, 50, rc.right - rc.left, rc.bottom - rc.top, NULL);
 
 	ShowWindow(main_window_, SW_SHOW);
 }

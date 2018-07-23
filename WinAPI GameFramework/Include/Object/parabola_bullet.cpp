@@ -1,7 +1,7 @@
 #include "parabola_bullet.h"
 #include "../Resource/resource_manager.h"
 #include "../Collision/collider_rect.h"
-#include "../Collision/collider_sphere.h"
+#include "../Collision/collider_circle.h"
 
 using namespace std;
 

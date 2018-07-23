@@ -1,23 +1,24 @@
-#include "collider_sphere.h"
 #include "../math.h"
 #include "../Object/object.h"
 #include "collider_point.h"
 #include "collider_rect.h"
+#include "collider_circle.h"
+#include "collider_pixel.h"
 
 using namespace std;
 
-SPHERE ColliderSphere::world() const
+CIRCLE_INFO const& ColliderCircle::world() const
 {
 	return world_;
 }
 
-void ColliderSphere::set_model(SPHERE const& model)
+void ColliderCircle::set_model(CIRCLE_INFO const& model)
 {
 	model_.center = model.center;
 	model_.radius = model.radius;
 }
 
-bool ColliderSphere::Collision(weak_ptr<Collider> const& dest)
+bool ColliderCircle::Collision(weak_ptr<Collider> const& dest)
 {
 	if (dest.expired())
 		return false;
@@ -27,11 +28,11 @@ bool ColliderSphere::Collision(weak_ptr<Collider> const& dest)
 	switch (caching_dest->collider_type())
 	{
 	case COLLIDER::POINT:
-		return _CollisionBetweenPointAndSphere(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world_);
+		return _CollisionBetweenPointAndCircle(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world_);
 	case COLLIDER::RECT:
-		return _CollisionBetweenRectAndSphere(dynamic_pointer_cast<ColliderRect>(caching_dest)->world(), world_);
-	case COLLIDER::SPHERE:
-		return _CollisionBetweenSphereAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(caching_dest)->world_);
+		return _CollisionBetweenRectAndCircle(dynamic_pointer_cast<ColliderRect>(caching_dest)->world(), world_);
+	case COLLIDER::CIRCLE:
+		return _CollisionBetweenCircleAndCircle(world_, dynamic_pointer_cast<ColliderCircle>(caching_dest)->world_);
 	case COLLIDER::PIXEL:
 		break;
 	}
@@ -39,31 +40,31 @@ bool ColliderSphere::Collision(weak_ptr<Collider> const& dest)
 	return false;
 }
 
-ColliderSphere::ColliderSphere(ColliderSphere const& other) : Collider(other)
+ColliderCircle::ColliderCircle(ColliderCircle const& other) : Collider(other)
 {
 	model_ = other.model_;
 	world_ = other.world_;
 }
 
-ColliderSphere::ColliderSphere(ColliderSphere&& other) noexcept : Collider(move(other))
+ColliderCircle::ColliderCircle(ColliderCircle&& other) noexcept : Collider(move(other))
 {
 	model_ = move(other.model_);
 	world_ = move(other.world_);
 }
 
-void ColliderSphere::_Release()
+void ColliderCircle::_Release()
 {
 	Collider::_Release();
 }
 
-bool ColliderSphere::_Initialize()
+bool ColliderCircle::_Initialize()
 {
-	collider_type_ = COLLIDER::SPHERE;
+	collider_type_ = COLLIDER::CIRCLE;
 
 	return true;
 }
 
-void ColliderSphere::_Update(float time)
+void ColliderCircle::_Update(float time)
 {
 	if (!object_.expired())
 	{
@@ -75,7 +76,7 @@ void ColliderSphere::_Update(float time)
 	}
 }
 
-void ColliderSphere::_Render(HDC device_context, float time)
+void ColliderCircle::_Render(HDC device_context, float time)
 {
 #ifdef _DEBUG
 	if (collided_collider_list_.empty())
@@ -100,10 +101,10 @@ void ColliderSphere::_Render(HDC device_context, float time)
 #endif
 }
 
-unique_ptr<Collider, function<void(Collider*)>> ColliderSphere::_Clone()
+unique_ptr<Collider, function<void(Collider*)>> ColliderCircle::_Clone()
 {
-	return unique_ptr<Collider, function<void(Collider*)>>{new ColliderSphere(*this), [](Collider* p) {
-		dynamic_cast<ColliderSphere*>(p)->_Release();
-		delete dynamic_cast<ColliderSphere*>(p);
+	return unique_ptr<Collider, function<void(Collider*)>>{new ColliderCircle(*this), [](Collider* p) {
+		dynamic_cast<ColliderCircle*>(p)->_Release();
+		delete dynamic_cast<ColliderCircle*>(p);
 	}};
 }

@@ -14,6 +14,7 @@
 #include <chrono>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <functional>
 #include <iostream>
 #include <list>
@@ -23,6 +24,7 @@
 #include <random>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #define NOMINMAX
 #include <Windows.h>

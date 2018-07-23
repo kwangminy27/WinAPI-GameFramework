@@ -133,10 +133,13 @@
     <ClCompile Include="Collision\collider_rect.cpp">
       <Filter>05. Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\collider_sphere.cpp">
+    <ClCompile Include="Collision\collider_point.cpp">
       <Filter>05. Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\collider_point.cpp">
+    <ClCompile Include="Collision\collider_pixel.cpp">
+      <Filter>05. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\collider_circle.cpp">
       <Filter>05. Collision</Filter>
     </ClCompile>
   </ItemGroup>
@@ -231,10 +234,13 @@
     <ClInclude Include="enum.h">
       <Filter>WinAPI GameFramework</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\collider_sphere.h">
+    <ClInclude Include="Collision\collider_point.h">
       <Filter>05. Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\collider_point.h">
+    <ClInclude Include="Collision\collider_pixel.h">
+      <Filter>05. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\collider_circle.h">
       <Filter>05. Collision</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,8 +16,7 @@ bool Texture::LoadTexture(string tag, wstring file_name, string path_tag)
 	if (path_buffer.empty())
 		return false;
 
-	wstring full_path = path_buffer.wstring();
-	full_path += file_name;
+	wstring full_path = path_buffer.wstring() + file_name;
 
 	bitmap_ = static_cast<HBITMAP>(LoadImage(core->main_instance(), full_path.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
 	old_bitmap_ = static_cast<HBITMAP>(SelectObject(memory_device_context_, bitmap_));

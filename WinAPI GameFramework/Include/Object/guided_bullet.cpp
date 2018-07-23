@@ -3,7 +3,7 @@
 #include "../Resource/resource_manager.h"
 #include "../math.h"
 #include "../Collision/collider_rect.h"
-#include "../Collision/collider_sphere.h"
+#include "../Collision/collider_circle.h"
 
 using namespace std;
 
@@ -46,6 +46,7 @@ bool GuidedBullet::_Initialize()
 	set_size(10.f, 10.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);
+	set_rotation_speed(720.f);
 	set_range(500.f);
 
 	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
@@ -63,7 +64,7 @@ void GuidedBullet::_Update(float time)
 {
 	Object::_Update(time);
 
-	static float const kGuidedRange = 200.f;
+	static float const kGuidedRange = 400.f;
 
 	if (range_ <= kGuidedRange)
 	{
@@ -84,8 +85,13 @@ void GuidedBullet::_Update(float time)
 
 		if (target())
 		{		
-			angle_ = Math::GetAngle(position_, target()->position());
+			if (angle_ <= Math::GetAngle(position_, target()->position()))
+				angle_ += rotation_speed_ * time;
+			else
+				angle_ -= rotation_speed_ * time;
+
 			MoveByAngle(time * 3.f);
+
 			if (Math::GetDistance(position_, target()->position()) <= 1.f)
 				set_activation(false);
 
@@ -97,6 +103,7 @@ void GuidedBullet::_Update(float time)
 	MoveByAngle(time);
 
 	range_ -= move_speed_ * time;
+
 	if (range_ <= 0.f)
 		set_activation(false);
 }

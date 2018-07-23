@@ -55,11 +55,11 @@ protected:
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>>_Clone() = 0;
 
 	bool _CollisionBetweenPointAndPoint(XY const& src, XY const& dest);
-	bool _CollisionBetweenPointAndRect(XY const& src, LTRB const& dest);
-	bool _CollisionBetweenPointAndSphere(XY const& src, SPHERE const& dest);
-	bool _CollisionBetweenRectAndRect(LTRB const& src, LTRB const& dest);
-	bool _CollisionBetweenRectAndSphere(LTRB const& src, SPHERE const& dest);
-	bool _CollisionBetweenSphereAndSphere(SPHERE const& src, SPHERE const& dest);
+	bool _CollisionBetweenPointAndRect(XY const& src, RECT_INFO const& dest);
+	bool _CollisionBetweenPointAndCircle(XY const& src, CIRCLE_INFO const& dest);
+	bool _CollisionBetweenRectAndRect(RECT_INFO const& src, RECT_INFO const& dest);
+	bool _CollisionBetweenRectAndCircle(RECT_INFO const& src, CIRCLE_INFO const& dest);
+	bool _CollisionBetweenCircleAndCircle(CIRCLE_INFO const& src, CIRCLE_INFO const& dest);
 
 	COLLIDER collider_type_{};
 	XY pivot_{};

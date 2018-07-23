@@ -16,7 +16,7 @@ enum class COLLIDER
 {
 	POINT,
 	RECT,
-	SPHERE,
+	CIRCLE,
 	PIXEL
 };
 

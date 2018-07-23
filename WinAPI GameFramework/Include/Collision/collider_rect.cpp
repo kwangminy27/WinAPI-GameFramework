@@ -1,16 +1,17 @@
-#include "collider_rect.h"
 #include "../Object/object.h"
 #include "collider_point.h"
-#include "collider_sphere.h"
+#include "collider_rect.h"
+#include "collider_circle.h"
+#include "collider_pixel.h"
 
 using namespace std;
 
-LTRB ColliderRect::world() const
+RECT_INFO const& ColliderRect::world() const
 {
 	return world_;
 }
 
-void ColliderRect::set_model(LTRB const& model)
+void ColliderRect::set_model(RECT_INFO const& model)
 {
 	model_ = model;
 
@@ -31,8 +32,8 @@ bool ColliderRect::Collision(weak_ptr<Collider> const& dest)
 		return _CollisionBetweenPointAndRect(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world_);
 	case COLLIDER::RECT:
 		return _CollisionBetweenRectAndRect(world_, dynamic_pointer_cast<ColliderRect>(caching_dest)->world_);
-	case COLLIDER::SPHERE:
-		return _CollisionBetweenRectAndSphere(world_, dynamic_pointer_cast<ColliderSphere>(caching_dest)->world());
+	case COLLIDER::CIRCLE:
+		return _CollisionBetweenRectAndCircle(world_, dynamic_pointer_cast<ColliderCircle>(caching_dest)->world());
 	case COLLIDER::PIXEL:
 		break;
 	}

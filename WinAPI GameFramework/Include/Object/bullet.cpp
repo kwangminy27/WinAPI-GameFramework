@@ -2,7 +2,7 @@
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
 #include "../Collision/collider_rect.h"
-#include "../Collision/collider_sphere.h"
+#include "../Collision/collider_circle.h"
 
 using namespace std;
 
@@ -65,7 +65,7 @@ void Bullet::_Update(float time)
 	Object::_Update(time);
 
 	for (auto& collider : collider_collection_)
-		dynamic_pointer_cast<ColliderSphere>(collider)->set_model({ 0.f, 0.f, size_.x / 2.f });
+		dynamic_pointer_cast<ColliderCircle>(collider)->set_model({ 0.f, 0.f, size_.x / 2.f });
 
 	MoveByAngle(time);
 
