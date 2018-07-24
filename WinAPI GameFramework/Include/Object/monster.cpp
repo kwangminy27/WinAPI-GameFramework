@@ -168,7 +168,7 @@ void Monster::_Update(float time)
 		bullet->set_angle(Math::GetAngle(position_, target()->position()));
 
 		auto collider_circle = dynamic_pointer_cast<ColliderCircle>(bullet->AddCollider<ColliderCircle>("MonsterBulletBody"));
-		collider_circle->set_model({ 0.f, 0.f, 5.f });
+		collider_circle->set_model({ 0.f, 0.f, 10.f });
 
 		fire_time_ -= 1.f;
 	}

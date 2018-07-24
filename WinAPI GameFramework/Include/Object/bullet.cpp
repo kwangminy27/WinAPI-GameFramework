@@ -44,7 +44,7 @@ void Bullet::_Release()
 
 bool Bullet::_Initialize()
 {
-	set_size(10.f, 10.f);
+	set_size(20.f, 20.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);
 	set_range(1000.f);

@@ -39,14 +39,14 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 
 	if (!ResourceManager::instance()->Initialize())
 		return false;
+	else
+		back_buffer_ = ResourceManager::instance()->FindTexture("BackBuffer");
 
-	if (!SceneManager::instance()->Initialize())
-		return false;
-	
 	if (!CollisionManager::instance()->Initialize())
 		return false;
 
-	back_buffer_ = ResourceManager::instance()->FindTexture("BackBuffer");
+	if (!SceneManager::instance()->Initialize())
+		return false;
 
 	return true;
 }

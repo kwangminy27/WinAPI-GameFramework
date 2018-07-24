@@ -32,7 +32,7 @@ bool ColliderPoint::Collision(weak_ptr<Collider> const& dest)
 	case COLLIDER::CIRCLE:
 		return _CollisionBetweenPointAndCircle(world_, dynamic_pointer_cast<ColliderCircle>(caching_dest)->world());
 	case COLLIDER::PIXEL:
-		break;
+		return _CollisionBetweenPointAndPixel(world_, dynamic_pointer_cast<ColliderPixel>(caching_dest)->pixel_collider());
 	}
 
 	return false;

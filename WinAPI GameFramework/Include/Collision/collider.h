@@ -57,9 +57,13 @@ protected:
 	bool _CollisionBetweenPointAndPoint(XY const& src, XY const& dest);
 	bool _CollisionBetweenPointAndRect(XY const& src, RECT_INFO const& dest);
 	bool _CollisionBetweenPointAndCircle(XY const& src, CIRCLE_INFO const& dest);
+	bool _CollisionBetweenPointAndPixel(XY const& src, std::weak_ptr<PIXEL24_INFO> const& dest);
 	bool _CollisionBetweenRectAndRect(RECT_INFO const& src, RECT_INFO const& dest);
 	bool _CollisionBetweenRectAndCircle(RECT_INFO const& src, CIRCLE_INFO const& dest);
+	bool _CollisionBetweenRectAndPixel(RECT_INFO const& src, std::weak_ptr<PIXEL24_INFO> const& dest);
 	bool _CollisionBetweenCircleAndCircle(CIRCLE_INFO const& src, CIRCLE_INFO const& dest);
+	bool _CollisionBetweenCircleAndPixel(CIRCLE_INFO const& src, std::weak_ptr<PIXEL24_INFO> const& dest);
+	bool _CollisionBetweenPixelAndPixel(std::weak_ptr<PIXEL24_INFO> const& src, std::weak_ptr<PIXEL24_INFO> const& dest);
 
 	COLLIDER collider_type_{};
 	XY pivot_{};

@@ -43,10 +43,10 @@ void GuidedBullet::_Release()
 
 bool GuidedBullet::_Initialize()
 {
-	set_size(10.f, 10.f);
+	set_size(20.f, 20.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);
-	set_rotation_speed(720.f);
+	set_rotation_speed(1080.f);
 	set_range(500.f);
 
 	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
@@ -66,7 +66,12 @@ void GuidedBullet::_Update(float time)
 
 	static float const kGuidedRange = 400.f;
 
-	if (range_ <= kGuidedRange)
+	if (range_ > kGuidedRange)
+	{
+		MoveByAngle(time);
+		range_ -= move_speed_ * time;
+	}
+	else
 	{
 		if (!is_guided())
 		{
@@ -84,28 +89,25 @@ void GuidedBullet::_Update(float time)
 		}
 
 		if (target())
-		{		
-			if (angle_ <= Math::GetAngle(position_, target()->position()))
-				angle_ += rotation_speed_ * time;
-			else
-				angle_ -= rotation_speed_ * time;
+		{
+			angle_ = Math::GetAngle(position_, target()->position());
 
-			MoveByAngle(time * 3.f);
+			MoveByAngle(time);
 
 			if (Math::GetDistance(position_, target()->position()) <= 1.f)
 				set_activation(false);
 
-			range_ -= move_speed_ * time * 3.f;
-
 			return;
 		}
+		else
+		{
+			MoveByAngle(time);
+			range_ -= move_speed_ * time;
+
+			if (range_ <= 0.f)
+				set_activation(false);
+		}
 	}
-	MoveByAngle(time);
-
-	range_ -= move_speed_ * time;
-
-	if (range_ <= 0.f)
-		set_activation(false);
 }
 
 void GuidedBullet::_LateUpdate(float time)

@@ -6,11 +6,13 @@ class ColliderPixel final : public Collider
 {
 	friend class Object;
 public:
-	std::vector<std::vector<PIXEL24>> const& collision_pixel_collection() const;
+	XY const& world() const;
 	PIXEL24 const& comparision_pixel() const;
+	std::shared_ptr<PIXEL24_INFO> pixel_collider() const;
 
-	void set_collision_pixel_collection(std::wstring const& file_name, std::string const& path_tag);
+	void set_world(XY const& xy);
 	void set_comparision_pixel(PIXEL24 const& pixel);
+	void set_pixel_collider(std::string const& tag);
 
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
 
@@ -29,6 +31,5 @@ private:
 
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>> _Clone() override;
 
-	std::vector<std::vector<PIXEL24>> collision_pixel_collection_{};
-	PIXEL24 comparision_pixel_{};
+	std::weak_ptr<PIXEL24_INFO> pixel_collider_{};
 };

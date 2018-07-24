@@ -10,6 +10,11 @@ XY const& Stage::map_size() const
 	return map_size_;
 }
 
+void Stage::set_map_size(XY const& size)
+{
+	map_size_ = size;
+}
+
 Stage::Stage(Stage const& other) : Object(other)
 {
 }
@@ -28,7 +33,8 @@ bool Stage::_Initialize()
 	set_texture("Stage", L"Stage1.bmp", "TexturePath");
 
 	auto collider_pixel = dynamic_pointer_cast<ColliderPixel>(AddCollider<ColliderPixel>("StageCollider"));
-	collider_pixel->set_collision_pixel_collection(L"Stage1.bmp", "TexturePath");
+	collider_pixel->set_pixel_collider("MainStage");
+	collider_pixel->set_comparision_pixel({ 255, 0, 255 });
 
 	return true;
 }

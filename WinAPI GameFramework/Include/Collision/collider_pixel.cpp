@@ -4,57 +4,39 @@
 #include "collider_rect.h"
 #include "collider_circle.h"
 #include "collider_pixel.h"
+#include "collision_manager.h"
 
 using namespace std;
 using namespace filesystem;
 
-vector<vector<PIXEL24>> const& ColliderPixel::collision_pixel_collection() const
+XY const& ColliderPixel::world() const
 {
-	return collision_pixel_collection_;
+	return pixel_collider()->world;
 }
 
 PIXEL24 const& ColliderPixel::comparision_pixel() const
 {
-	return comparision_pixel_;
+	return pixel_collider()->comparision_pixel24;
 }
 
-void ColliderPixel::set_collision_pixel_collection(wstring const& file_name, string const& path_tag)
+shared_ptr<PIXEL24_INFO> ColliderPixel::pixel_collider() const
 {
-	path path_buffer = PathManager::instance()->FindPath(path_tag);
+	return pixel_collider_.lock();
+}
 
-	if (path_buffer.empty())
-		return;
+void ColliderPixel::set_world(XY const& xy)
+{
+	pixel_collider()->world = xy;
+}
 
-	wstring full_path = path_buffer.wstring() + file_name;
-
-	ifstream file{ full_path, ios::binary };
-
-	if (file.bad())
-		return;
-
-	BITMAPFILEHEADER bitmap_file_header{};
-	BITMAPINFOHEADER bitmap_info_header{};
-
-	file.read(reinterpret_cast<char*>(&bitmap_file_header), sizeof(BITMAPFILEHEADER));
-	file.read(reinterpret_cast<char*>(&bitmap_info_header), sizeof(BITMAPINFOHEADER));
-
-	// 1. 비트맵의 픽셀 크기를 구해서 픽셀 구조체를 특정한다. -> 일단 PIXEL24로 고정해서 사용하자.
-	// 2. 특정한 구조체를 담는 벡터로 픽셀 충돌체 프로토 타입을 만든다.
-	// 3. 픽셀 충돌체를 공유 포인터로 참조하는 식으로 관리한다.
-
-	collision_pixel_collection_.resize(bitmap_info_header.biHeight);
-	for (size_t i = 0; i < bitmap_info_header.biHeight; ++i)
-	{
-		collision_pixel_collection_.at(i).resize(bitmap_info_header.biWidth);
-		file.read(reinterpret_cast<char*>(&collision_pixel_collection_.at(i).at(0)), sizeof(PIXEL24) * bitmap_info_header.biWidth);
-	}
-
-	reverse(collision_pixel_collection_.begin(), collision_pixel_collection_.end());
+void ColliderPixel::set_pixel_collider(string const& tag)
+{
+	pixel_collider_ = CollisionManager::instance()->FindCollisionPixelCollectionPrototype(tag);
 }
 
 void ColliderPixel::set_comparision_pixel(PIXEL24 const& pixel)
 {
-	comparision_pixel_ = pixel;
+	pixel_collider()->comparision_pixel24 = pixel;
 }
 
 bool ColliderPixel::Collision(weak_ptr<Collider> const& dest)
@@ -67,13 +49,13 @@ bool ColliderPixel::Collision(weak_ptr<Collider> const& dest)
 	switch (caching_dest->collider_type())
 	{
 	case COLLIDER::POINT:
-		break;
+		return _CollisionBetweenPointAndPixel(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), pixel_collider_);
 	case COLLIDER::RECT:
-		break;
+		return _CollisionBetweenRectAndPixel(dynamic_pointer_cast<ColliderRect>(caching_dest)->world(), pixel_collider_);
 	case COLLIDER::CIRCLE:
-		break;
+		return _CollisionBetweenCircleAndPixel(dynamic_pointer_cast<ColliderCircle>(caching_dest)->world(), pixel_collider_);
 	case COLLIDER::PIXEL:
-		break;
+		return _CollisionBetweenPixelAndPixel(pixel_collider_, dynamic_pointer_cast<ColliderPixel>(caching_dest)->pixel_collider_);
 	}
 
 	return false;
@@ -81,16 +63,17 @@ bool ColliderPixel::Collision(weak_ptr<Collider> const& dest)
 
 ColliderPixel::ColliderPixel(ColliderPixel const& other) : Collider(other)
 {
-	comparision_pixel_ = other.comparision_pixel_;
+	pixel_collider_ = other.pixel_collider_;
 }
 
 ColliderPixel::ColliderPixel(ColliderPixel&& other) noexcept : Collider(move(other))
 {
-	comparision_pixel_ = move(other.comparision_pixel_);
+	pixel_collider_ = move(other.pixel_collider_);
 }
 
 void ColliderPixel::_Release()
 {
+	Collider::_Release();
 }
 
 bool ColliderPixel::_Initialize()
@@ -102,6 +85,9 @@ bool ColliderPixel::_Initialize()
 
 void ColliderPixel::_Update(float time)
 {
+	auto object_position = object()->position();
+	pixel_collider()->world.x = object_position.x - pixel_collider()->pixel24_collection.at(0).size() * pivot_.x;
+	pixel_collider()->world.y = object_position.y - pixel_collider()->pixel24_collection.size() * pivot_.y;
 }
 
 void ColliderPixel::_Render(HDC device_context, float time)

@@ -6,8 +6,8 @@ using namespace std;
 
 HBRUSH Collider::green_brush_ = CreateSolidBrush(RGB(0, 255, 0));
 HBRUSH Collider::red_brush_ = CreateSolidBrush(RGB(255, 0, 0));
-HPEN Collider::green_pen_ = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
-HPEN Collider::red_pen_ = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
+HPEN Collider::green_pen_ = CreatePen(PS_SOLID, 3, RGB(0, 255, 0));
+HPEN Collider::red_pen_ = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
 
 COLLIDER Collider::collider_type() const
 {
@@ -160,6 +160,14 @@ bool Collider::_CollisionBetweenPointAndCircle(XY const & src, CIRCLE_INFO const
 	return Math::GetDistance(src, dest.center) <= dest.radius;
 }
 
+bool Collider::_CollisionBetweenPointAndPixel(XY const& src, weak_ptr<PIXEL24_INFO> const& dest)
+{
+	if (dest.expired())
+		return false;
+
+	return false;
+}
+
 bool Collider::_CollisionBetweenRectAndRect(RECT_INFO const& src, RECT_INFO const& dest)
 {
 	if (src.r < dest.l)
@@ -187,7 +195,62 @@ bool Collider::_CollisionBetweenRectAndCircle(RECT_INFO const& src, CIRCLE_INFO 
 	return distance <= dest.radius;
 }
 
+bool Collider::_CollisionBetweenRectAndPixel(RECT_INFO const& src, weak_ptr<PIXEL24_INFO> const& dest)
+{
+	if (dest.expired())
+		return false;
+
+	auto caching_dest = dest.lock();
+
+	RECT_INFO src_on_the_pixel_coordinate_system = { src.l - caching_dest->world.x, src.t - caching_dest->world.y, src.r - caching_dest->world.x, src.b - caching_dest->world.y };
+
+	float pixel_collider_width = static_cast<float>(caching_dest->pixel24_collection.at(0).size());
+	float pixel_collider_height = static_cast<float>(caching_dest->pixel24_collection.size());
+
+	if (src_on_the_pixel_coordinate_system.r < 0.f ||
+		src_on_the_pixel_coordinate_system.l > pixel_collider_width ||
+		src_on_the_pixel_coordinate_system.b < 0.f ||
+		src_on_the_pixel_coordinate_system.t > pixel_collider_height)
+		return false;
+
+	src_on_the_pixel_coordinate_system.r = src_on_the_pixel_coordinate_system.r > pixel_collider_width ? pixel_collider_width : src_on_the_pixel_coordinate_system.r;
+	src_on_the_pixel_coordinate_system.l = src_on_the_pixel_coordinate_system.l < 0.f ? 0.f : src_on_the_pixel_coordinate_system.l;
+	src_on_the_pixel_coordinate_system.t = src_on_the_pixel_coordinate_system.t > pixel_collider_height ? pixel_collider_height : src_on_the_pixel_coordinate_system.t;
+	src_on_the_pixel_coordinate_system.b = src_on_the_pixel_coordinate_system.b < 0.f ? 0.f : src_on_the_pixel_coordinate_system.b;
+
+	auto const& pixel24_collection = caching_dest->pixel24_collection;
+	auto const& comparision_pixel24 = caching_dest->comparision_pixel24;
+	for (int i = static_cast<int>(src_on_the_pixel_coordinate_system.t); i < static_cast<int>(src_on_the_pixel_coordinate_system.b); ++i)
+	{
+		for (int j = static_cast<int>(src_on_the_pixel_coordinate_system.l); j < static_cast<int>(src_on_the_pixel_coordinate_system.r); ++j)
+		{
+			if (pixel24_collection.at(i).at(j).r == comparision_pixel24.r && 
+				pixel24_collection.at(i).at(j).g == comparision_pixel24.g && 
+				pixel24_collection.at(i).at(j).b == comparision_pixel24.b)
+				return true;
+		}
+	}
+
+	return false;
+}
+
 bool Collider::_CollisionBetweenCircleAndCircle(CIRCLE_INFO const& src, CIRCLE_INFO const& dest)
 {
 	return Math::GetDistance(src.center, dest.center) <= src.radius + dest.radius;
+}
+
+bool Collider::_CollisionBetweenCircleAndPixel(CIRCLE_INFO const& src, weak_ptr<PIXEL24_INFO> const& dest)
+{
+	if (dest.expired())
+		return false;
+
+	return false;
+}
+
+bool Collider::_CollisionBetweenPixelAndPixel(weak_ptr<PIXEL24_INFO> const& src, weak_ptr<PIXEL24_INFO> const& dest)
+{
+	if (dest.expired())
+		return false;
+
+	return false;
 }

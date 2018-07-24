@@ -7,7 +7,6 @@ class Stage : public Object
 	friend class ObjectManager;
 public:
 	XY const& map_size() const;
-
 	void set_map_size(XY const& size);
 
 private:

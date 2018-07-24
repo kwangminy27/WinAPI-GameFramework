@@ -31,7 +31,7 @@ void Player::BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest
 
 	auto caching_dest = dest.lock();
 
-	if (caching_dest->tag() == "BulletBody")
+	if (caching_dest->tag() == "MonsterBulletBody")
 		caching_dest->object()->set_activation(false);
 }
 
@@ -181,19 +181,19 @@ void Player::_Input(float time)
 		bullet1->set_position(barrel_end);
 		bullet1->set_angle(angle_ - 30.f);
 		auto collider1 = dynamic_pointer_cast<ColliderCircle>(bullet1->AddCollider<ColliderCircle>("BulletBody"));
-		collider1->set_model({ 0.f, 0.f, 5.f });
+		collider1->set_model({ 0.f, 0.f, 10.f });
 
 		bullet2->set_position(barrel_end);
 		bullet2->set_angle(angle_);
 
 		auto collider2 = dynamic_pointer_cast<ColliderCircle>(bullet2->AddCollider<ColliderCircle>("BulletBody"));
-		collider2->set_model({ 0.f, 0.f, 5.f });
+		collider2->set_model({ 0.f, 0.f, 10.f });
 
 		bullet3->set_position(barrel_end);
 		bullet3->set_angle(angle_ + 30.f);
 
 		auto collider3 = dynamic_pointer_cast<ColliderCircle>(bullet3->AddCollider<ColliderCircle>("BulletBody"));
-		collider3->set_model({ 0.f, 0.f, 5.f });
+		collider3->set_model({ 0.f, 0.f, 10.f });
 	}
 
 	if (KeyPush("Skill2"))
@@ -201,7 +201,7 @@ void Player::_Input(float time)
 		bullet_ = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
 
 		auto collider = dynamic_pointer_cast<ColliderCircle>(bullet_->AddCollider<ColliderCircle>("BulletBody"));
-		collider->set_model({ 0.f, 0.f, 5.f });
+		collider->set_model({ 0.f, 0.f, 10.f });
 		bullet_->stop();
 	}
 	else if (KeyPressed("Skill2"))
@@ -232,7 +232,7 @@ void Player::_Input(float time)
 		rotation_bullet->set_rotation_angle(angle_);
 
 		auto collider = dynamic_pointer_cast<ColliderCircle>(rotation_bullet->AddCollider<ColliderCircle>("RotationBulletBody"));
-		collider->set_model({ 0.f, 0.f, 5.f });
+		collider->set_model({ 0.f, 0.f, 10.f });
 	}
 
 	if (KeyPush("Skill4"))
@@ -245,7 +245,7 @@ void Player::_Input(float time)
 		guided_bullet->set_angle(angle_);
 
 		auto collider = dynamic_pointer_cast<ColliderCircle>(guided_bullet->AddCollider<ColliderCircle>("GuidedBulletBody"));
-		collider->set_model({ 0.f, 0.f, 5.f });
+		collider->set_model({ 0.f, 0.f, 10.f });
 	}
 
 	if (KeyPush("Skill5"))
@@ -259,7 +259,7 @@ void Player::_Input(float time)
 		parabola_bullet->set_start_angle(angle_ - 60.f);
 
 		auto collider = dynamic_pointer_cast<ColliderCircle>(parabola_bullet->AddCollider<ColliderCircle>("ParabolaBulletBody"));
-		collider->set_model({ 0.f, 0.f, 5.f });
+		collider->set_model({ 0.f, 0.f, 10.f });
 	}
 }
 
