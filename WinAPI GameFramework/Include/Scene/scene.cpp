@@ -8,7 +8,7 @@ using namespace std;
 
 bool Scene::_Initialize()
 {
-	_CreateLayer("BackGround", numeric_limits<int>::min());
+	_CreateLayer("Background", numeric_limits<int>::min());
 	_CreateLayer("Default", 0);
 	_CreateLayer("UI", numeric_limits<int>::max());
 

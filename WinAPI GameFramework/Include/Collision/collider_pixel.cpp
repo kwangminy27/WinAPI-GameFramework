@@ -8,12 +8,17 @@
 using namespace std;
 using namespace filesystem;
 
-PIXEL_INFO const& ColliderPixel::world() const
+vector<vector<PIXEL24>> const& ColliderPixel::collision_pixel_collection() const
 {
-	return world_;
+	return collision_pixel_collection_;
 }
 
-void ColliderPixel::set_model(wstring file_name, string path_tag)
+PIXEL24 const& ColliderPixel::comparision_pixel() const
+{
+	return comparision_pixel_;
+}
+
+void ColliderPixel::set_collision_pixel_collection(wstring const& file_name, string const& path_tag)
 {
 	path path_buffer = PathManager::instance()->FindPath(path_tag);
 
@@ -32,11 +37,24 @@ void ColliderPixel::set_model(wstring file_name, string path_tag)
 
 	file.read(reinterpret_cast<char*>(&bitmap_file_header), sizeof(BITMAPFILEHEADER));
 	file.read(reinterpret_cast<char*>(&bitmap_info_header), sizeof(BITMAPINFOHEADER));
-	
-	model_.pixel_size = bitmap_info_header.biBitCount / 8;
-	model_.pixel_count = bitmap_info_header.biWidth * bitmap_info_header.biHeight;
-	model_.width = bitmap_info_header.biWidth;
-	model_.height = bitmap_info_header.biHeight;
+
+	// 1. 비트맵의 픽셀 크기를 구해서 픽셀 구조체를 특정한다. -> 일단 PIXEL24로 고정해서 사용하자.
+	// 2. 특정한 구조체를 담는 벡터로 픽셀 충돌체 프로토 타입을 만든다.
+	// 3. 픽셀 충돌체를 공유 포인터로 참조하는 식으로 관리한다.
+
+	collision_pixel_collection_.resize(bitmap_info_header.biHeight);
+	for (size_t i = 0; i < bitmap_info_header.biHeight; ++i)
+	{
+		collision_pixel_collection_.at(i).resize(bitmap_info_header.biWidth);
+		file.read(reinterpret_cast<char*>(&collision_pixel_collection_.at(i).at(0)), sizeof(PIXEL24) * bitmap_info_header.biWidth);
+	}
+
+	reverse(collision_pixel_collection_.begin(), collision_pixel_collection_.end());
+}
+
+void ColliderPixel::set_comparision_pixel(PIXEL24 const& pixel)
+{
+	comparision_pixel_ = pixel;
 }
 
 bool ColliderPixel::Collision(weak_ptr<Collider> const& dest)
@@ -63,14 +81,12 @@ bool ColliderPixel::Collision(weak_ptr<Collider> const& dest)
 
 ColliderPixel::ColliderPixel(ColliderPixel const& other) : Collider(other)
 {
-	model_ = other.model_;
-	world_ = other.world_;
+	comparision_pixel_ = other.comparision_pixel_;
 }
 
 ColliderPixel::ColliderPixel(ColliderPixel&& other) noexcept : Collider(move(other))
 {
-	model_ = move(other.model_);
-	world_ = move(other.world_);
+	comparision_pixel_ = move(other.comparision_pixel_);
 }
 
 void ColliderPixel::_Release()
@@ -97,5 +113,5 @@ unique_ptr<Collider, function<void(Collider*)>> ColliderPixel::_Clone()
 	return unique_ptr<Collider, function<void(Collider*)>>{ new ColliderPixel(*this), [](Collider* p) {
 		dynamic_cast<ColliderPixel*>(p)->_Release();
 		delete dynamic_cast<ColliderPixel*>(p);
-	}};
+	} };
 }

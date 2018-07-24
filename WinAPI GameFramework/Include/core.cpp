@@ -2,6 +2,7 @@
 #include "timer.h"
 #include "Input.h"
 #include "path_manager.h"
+#include "camera.h"
 #include "Scene/scene_manager.h"
 #include "Object/object_manager.h"
 #include "Resource/resource_manager.h"
@@ -31,6 +32,9 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 		return false;
 
 	if (!PathManager::instance()->Initialize())
+		return false;
+
+	if (!Camera::instance()->Initialize())
 		return false;
 
 	if (!ResourceManager::instance()->Initialize())
@@ -175,6 +179,8 @@ void Core::_Update(float time)
 	auto const& scene_manager = SceneManager::instance();
 	scene_manager->Update(time);
 	scene_manager->LateUpdate(time);
+
+	Camera::instance()->Update(time);
 }
 
 void Core::_Collision(float time)
@@ -191,9 +197,6 @@ void Core::_Render(float time)
 		return;
 	
 	auto caching_back_buffer = back_buffer_.lock();
-
-	Rectangle(caching_back_buffer->memory_device_context(),
-		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT));
 
 	scene_manager->Render(caching_back_buffer->memory_device_context(), time);
 

@@ -1,4 +1,5 @@
 #include "../math.h"
+#include "../camera.h"
 #include "../Object/object.h"
 #include "collider_point.h"
 #include "collider_rect.h"
@@ -86,15 +87,17 @@ void ColliderCircle::_Render(HDC device_context, float time)
 
 	if (!object_.expired())
 	{
+		auto camera_world_position = Camera::instance()->world();
+
 		old_pen_ = static_cast<HPEN>(SelectObject(device_context, pen_));
-		XY position = world_.center;
-		MoveToEx(device_context, static_cast<int>(position.x + world_.radius), static_cast<int>(position.y), nullptr);
+		XY position_on_the_camera_coordinate_system = world_.center - camera_world_position;
+		MoveToEx(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x + world_.radius), static_cast<int>(position_on_the_camera_coordinate_system.y), nullptr);
 		for (size_t i = 30; i <= 360; i += 30)
 		{
-			position.x = world_.center.x + cosf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
-			position.y = world_.center.y + sinf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
+			position_on_the_camera_coordinate_system.x = world_.center.x - camera_world_position.x + cosf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
+			position_on_the_camera_coordinate_system.y = world_.center.y - camera_world_position.y + sinf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
 
-			LineTo(device_context, static_cast<int>(position.x), static_cast<int>(position.y));
+			LineTo(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x), static_cast<int>(position_on_the_camera_coordinate_system.y));
 		}
 		SelectObject(device_context, old_pen_);
 	}

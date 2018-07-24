@@ -1,5 +1,6 @@
 #include "object.h"
 #include "../math.h"
+#include "../camera.h"
 #include "../Scene/scene.h"
 #include "../Scene/layer.h"
 #include "../Resource/resource_manager.h"
@@ -238,13 +239,14 @@ void Object::_Render(HDC device_context, float time)
 
 	auto caching_texture = texture_.lock();
 
-	float left{ position_.x - (size_.x * pivot_.x) };
-	float top{ position_.y - (size_.y * pivot_.y) };
+	XY position_on_the_world_coordinate_system = position_;
+	XY position_on_the_camera_coordinate_system = position_on_the_world_coordinate_system - Camera::instance()->world();
+	XY left_top = position_on_the_camera_coordinate_system - size_ * pivot_;
 
 	if (is_color_key_)
-		TransparentBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), caching_texture->memory_device_context(), 0, 0, caching_texture->width(), caching_texture->height(), color_key_);
+		TransparentBlt(device_context, static_cast<int>(left_top.x), static_cast<int>(left_top.y), static_cast<int>(size_.x), static_cast<int>(size_.y), caching_texture->memory_device_context(), 0, 0, caching_texture->width(), caching_texture->height(), color_key_);
 	else
-		BitBlt(device_context, static_cast<int>(left), static_cast<int>(top), static_cast<int>(size_.x), static_cast<int>(size_.y), caching_texture->memory_device_context(), 0, 0, SRCCOPY);
+		BitBlt(device_context, static_cast<int>(left_top.x), static_cast<int>(left_top.y), static_cast<int>(size_.x), static_cast<int>(size_.y), caching_texture->memory_device_context(), 0, 0, SRCCOPY);
 
 	for (auto const& collider : collider_collection_)
 		collider->_Render(device_context, time);

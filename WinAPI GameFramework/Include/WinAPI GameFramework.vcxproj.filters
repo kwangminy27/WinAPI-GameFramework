@@ -50,6 +50,12 @@
     <Filter Include="05. Collision">
       <UniqueIdentifier>{83eed296-80f2-426d-95e8-fd88d75b5325}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Object\03. Stage">
+      <UniqueIdentifier>{facd6460-4f6a-4ab1-bbe9-9250e6026882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\05. Camera">
+      <UniqueIdentifier>{c82788a7-14e7-4769-abce-f9be46290c2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -141,6 +147,12 @@
     </ClCompile>
     <ClCompile Include="Collision\collider_circle.cpp">
       <Filter>05. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\stage.cpp">
+      <Filter>03. Object\03. Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>01. Core\05. Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +254,12 @@
     </ClInclude>
     <ClInclude Include="Collision\collider_circle.h">
       <Filter>05. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\stage.h">
+      <Filter>03. Object\03. Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>01. Core\05. Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

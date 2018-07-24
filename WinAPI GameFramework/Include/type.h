@@ -51,30 +51,22 @@ struct CIRCLE_INFO
 	void Move(float x, float y);
 };
 
-struct PIXEL_INFO
+struct PIXEL8
 {
-	struct PIXEL8
-	{
-		unsigned char r;
-	};
+	unsigned char r;
+};
 
-	struct PIXEL24
-	{
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-	};
+struct PIXEL24
+{
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+};
 
-	struct PIXEL32
-	{
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		unsigned char a;
-	};
-
-	int pixel_size{};
-	int pixel_count{};
-	int width{};
-	int height{};
+struct PIXEL32
+{
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+	unsigned char a;
 };

@@ -1,5 +1,6 @@
 #include "monster.h"
 #include "../math.h"
+#include "../camera.h"
 #include "object_manager.h"
 #include "bullet.h"
 #include "../Resource/resource_manager.h"
@@ -142,7 +143,7 @@ void Monster::_Update(float time)
 {
 	Character::_Update(time);
 
-	Move(0.f, move_speed_ * move_dir_, time);
+	/*Move(0.f, move_speed_ * move_dir_, time);
 	if (position_.y - pivot_.y * size_.y < 0.f)
 	{
 		move_dir_ = 1.f;
@@ -152,7 +153,7 @@ void Monster::_Update(float time)
 	{
 		move_dir_ = -1.f;
 		position_.y = static_cast<float>(RESOLUTION::HEIGHT) + (pivot_.y - 1.f) * size_.y;
-	}
+	}*/
 
 	if(target())
 		fire_time_ += time;
@@ -187,10 +188,14 @@ void Monster::_Render(HDC device_context, float time)
 {
 	Character::_Render(device_context, time);
 
-	MoveToEx(device_context, static_cast<int>(position_.x), static_cast<int>(position_.y), nullptr);
-	if(target())
+	if (target())
 		angle_ = Math::GetAngle(position_, target_.lock()->position());
-	XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * kBarrelSize, position_.y + sin(Math::DegreeToRadian(angle_)) * kBarrelSize };
+
+	auto camera_position = Camera::instance()->world();
+	auto position_on_the_camera_coordinate_system = position_ - camera_position;
+
+	MoveToEx(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x), static_cast<int>(position_on_the_camera_coordinate_system.y), nullptr);
+	XY barrel_end{ position_on_the_camera_coordinate_system.x + cos(Math::DegreeToRadian(angle_)) * kBarrelSize, position_on_the_camera_coordinate_system.y + sin(Math::DegreeToRadian(angle_)) * kBarrelSize };
 	LineTo(device_context, static_cast<int>(barrel_end.x), static_cast<int>(barrel_end.y));
 }
 

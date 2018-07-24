@@ -1,6 +1,7 @@
 #include "player.h"
 #include "../input.h"
 #include "../math.h"
+#include "../camera.h"
 #include "../Scene/scene.h"
 #include "../Scene/layer.h"
 #include "object_manager.h"
@@ -281,8 +282,11 @@ void Player::_Render(HDC device_context, float time)
 {
 	Character::_Render(device_context, time);
 
-	MoveToEx(device_context, static_cast<int>(position_.x), static_cast<int>(position_.y), nullptr);
-	XY barrel_end{ position_.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
+	auto camera_position = Camera::instance()->world();
+	auto position_on_the_camera_coordinate_system = position_ - camera_position;
+
+	MoveToEx(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x), static_cast<int>(position_on_the_camera_coordinate_system.y), nullptr);
+	XY barrel_end{ position_on_the_camera_coordinate_system.x + cos(Math::DegreeToRadian(angle_)) * barrel_size_, position_on_the_camera_coordinate_system.y + sin(Math::DegreeToRadian(angle_)) * barrel_size_ };
 	LineTo(device_context, static_cast<int>(barrel_end.x), static_cast<int>(barrel_end.y));
 }
 

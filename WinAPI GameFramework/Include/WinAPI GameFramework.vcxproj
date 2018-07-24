@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="Collision\collider.cpp" />
     <ClCompile Include="Collision\collider_pixel.cpp" />
     <ClCompile Include="Collision\collider_point.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="Object\parabola_bullet.cpp" />
     <ClCompile Include="Object\player.cpp" />
     <ClCompile Include="Object\rotation_bullet.cpp" />
+    <ClCompile Include="Object\stage.cpp" />
     <ClCompile Include="path_manager.cpp" />
     <ClCompile Include="Resource\resource_manager.cpp" />
     <ClCompile Include="Resource\texture.cpp" />
@@ -51,6 +53,7 @@
     <ClCompile Include="WinAPI GameFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="Collision\collider.h" />
     <ClInclude Include="Collision\collider_pixel.h" />
     <ClInclude Include="Collision\collider_point.h" />
@@ -70,6 +73,7 @@
     <ClInclude Include="Object\parabola_bullet.h" />
     <ClInclude Include="Object\player.h" />
     <ClInclude Include="Object\rotation_bullet.h" />
+    <ClInclude Include="Object\stage.h" />
     <ClInclude Include="path_manager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Resource\resource_manager.h" />

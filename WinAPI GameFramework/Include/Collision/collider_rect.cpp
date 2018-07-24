@@ -1,3 +1,4 @@
+#include "../camera.h"
 #include "../Object/object.h"
 #include "collider_point.h"
 #include "collider_rect.h"
@@ -88,7 +89,15 @@ void ColliderRect::_Render(HDC device_context, float time)
 	else
 		brush_ = Collider::red_brush_;
 
-	RECT rc{ static_cast<long>(world_.l), static_cast<long>(world_.t), static_cast<long>(world_.r), static_cast<long>(world_.b) };
+	auto camera_position = Camera::instance()->world();
+
+	auto position_on_the_camera_coordinate_system = world_;
+	position_on_the_camera_coordinate_system.l -= camera_position.x;
+	position_on_the_camera_coordinate_system.r -= camera_position.x;
+	position_on_the_camera_coordinate_system.t -= camera_position.y;
+	position_on_the_camera_coordinate_system.b -= camera_position.y;
+
+	RECT rc{ static_cast<long>(position_on_the_camera_coordinate_system.l), static_cast<long>(position_on_the_camera_coordinate_system.t), static_cast<long>(position_on_the_camera_coordinate_system.r), static_cast<long>(position_on_the_camera_coordinate_system.b) };
 	FrameRect(device_context, &rc, brush_);
 #endif
 }
