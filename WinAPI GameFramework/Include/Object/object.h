@@ -18,6 +18,9 @@ public:
 	float angle() const;
 	float move_speed() const;
 	float rotation_speed() const;
+	float weight() const;
+	float velocity() const;
+	float acceleration() const;
 	COLORREF color_key() const;
 	bool is_color_key() const;
 
@@ -30,6 +33,9 @@ public:
 	void set_angle(float angle);
 	void set_move_speed(float move_speed);
 	void set_rotation_speed(float rotation_speed);
+	void set_weight(float weight);
+	void set_velocity(float velocity);
+	void set_acceleration(float acceleration);
 	void set_color_key(COLORREF color_key);
 
 	std::list<std::shared_ptr<Collider>> const& collider_collection() const;
@@ -77,6 +83,9 @@ protected:
 	float angle_{};
 	float move_speed_{};
 	float rotation_speed_{};
+	float weight_{};
+	float velocity_{};
+	float acceleration_{};
 	COLORREF color_key_{};
 	bool is_color_key_{};
 

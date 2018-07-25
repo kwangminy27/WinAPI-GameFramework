@@ -85,6 +85,8 @@ bool Player::_Initialize()
 	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(300.f);
+	set_weight(10.f);
+	set_acceleration(9.8f);
 	set_rotation_speed(360.f);
 	set_barrel_size(50.f);
 
@@ -146,16 +148,16 @@ void Player::_Input(float time)
 	static auto KeyUp = [&input_manager](string tag) -> bool { return input_manager->KeyUp(tag); };
 
 	if (KeyPressed("MoveLeft"))
-		Rotate(-time);
+		Move(move_speed_ * -time, 0.f); //Rotate(-time);
 
 	if (KeyPressed("MoveRight"))
-		Rotate(time);
+		Move(move_speed_ * time, 0.f); //Rotate(time);
 
 	if (KeyPressed("MoveUp"))
-		MoveByAngle(time);
+		Move(0.f, move_speed_ * -time); //MoveByAngle(time);
 
 	if (KeyPressed("MoveDown"))
-		MoveByAngle(-time);
+		Move(0.f, move_speed_ * time); //MoveByAngle(-time);
 
 	if (KeyPush("Fire"))
 	{

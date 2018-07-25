@@ -9,6 +9,9 @@ public:
 	XY const& map_size() const;
 	void set_map_size(XY const& size);
 
+	void BeAttached(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+	void BeDetached(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+
 private:
 	Stage() = default;
 	Stage(Stage const& other);

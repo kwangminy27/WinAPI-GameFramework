@@ -39,6 +39,21 @@ float Object::rotation_speed() const
 	return rotation_speed_;
 }
 
+float Object::weight() const
+{
+	return weight_;
+}
+
+float Object::velocity() const
+{
+	return velocity_;
+}
+
+float Object::acceleration() const
+{
+	return acceleration_;
+}
+
 DWORD Object::color_key() const
 {
 	return color_key_;
@@ -95,6 +110,21 @@ void Object::set_move_speed(float move_speed)
 void Object::set_rotation_speed(float rotation_speed)
 {
 	rotation_speed_ = rotation_speed;
+}
+
+void Object::set_weight(float weight)
+{
+	weight_ = weight;
+}
+
+void Object::set_velocity(float velocity)
+{
+	velocity_ = velocity;
+}
+
+void Object::set_acceleration(float acceleration)
+{
+	acceleration_ = acceleration;
 }
 
 void Object::set_color_key(COLORREF color_key)
@@ -220,6 +250,8 @@ void Object::_Input(float time)
 
 void Object::_Update(float time)
 {
+	velocity_ += acceleration_ * weight_ * time;
+	position_.y += velocity_ * time;
 }
 
 void Object::_LateUpdate(float time)

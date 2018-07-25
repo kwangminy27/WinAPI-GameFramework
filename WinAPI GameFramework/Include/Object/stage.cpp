@@ -15,6 +15,31 @@ void Stage::set_map_size(XY const& size)
 	map_size_ = size;
 }
 
+void Stage::BeAttached(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
+{
+	if (src.expired() || dest.expired())
+		return;
+
+	auto caching_dest = dest.lock();
+
+	if (caching_dest->tag() == "PlayerShield")
+	{
+		caching_dest->object()->set_velocity(0.f);
+		caching_dest->object()->set_acceleration(0.f);
+	}
+}
+
+void Stage::BeDetached(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
+{
+	if (src.expired() || dest.expired())
+		return;
+
+	auto caching_dest = dest.lock();
+
+	if (caching_dest->tag() == "PlayerShield")
+		caching_dest->object()->set_acceleration(9.8f);
+}
+
 Stage::Stage(Stage const& other) : Object(other)
 {
 }
@@ -35,6 +60,12 @@ bool Stage::_Initialize()
 	auto collider_pixel = dynamic_pointer_cast<ColliderPixel>(AddCollider<ColliderPixel>("StageCollider"));
 	collider_pixel->set_pixel_collider("MainStage");
 	collider_pixel->set_comparision_pixel({ 255, 0, 255 });
+	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeAttached(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeDetached(src, dest, time);
+	}, COLLISION_CALLBACK::LEAVE);
 
 	return true;
 }

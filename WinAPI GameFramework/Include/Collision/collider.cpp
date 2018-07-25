@@ -215,8 +215,8 @@ bool Collider::_CollisionBetweenRectAndPixel(RECT_INFO const& src, weak_ptr<PIXE
 
 	src_on_the_pixel_coordinate_system.r = src_on_the_pixel_coordinate_system.r > pixel_collider_width ? pixel_collider_width : src_on_the_pixel_coordinate_system.r;
 	src_on_the_pixel_coordinate_system.l = src_on_the_pixel_coordinate_system.l < 0.f ? 0.f : src_on_the_pixel_coordinate_system.l;
-	src_on_the_pixel_coordinate_system.t = src_on_the_pixel_coordinate_system.t > pixel_collider_height ? pixel_collider_height : src_on_the_pixel_coordinate_system.t;
-	src_on_the_pixel_coordinate_system.b = src_on_the_pixel_coordinate_system.b < 0.f ? 0.f : src_on_the_pixel_coordinate_system.b;
+	src_on_the_pixel_coordinate_system.b = src_on_the_pixel_coordinate_system.b > pixel_collider_height ? pixel_collider_height : src_on_the_pixel_coordinate_system.b;
+	src_on_the_pixel_coordinate_system.t = src_on_the_pixel_coordinate_system.t < 0.f ? 0.f : src_on_the_pixel_coordinate_system.t;
 
 	auto const& pixel24_collection = caching_dest->pixel24_collection;
 	auto const& comparision_pixel24 = caching_dest->comparision_pixel24;
@@ -224,8 +224,8 @@ bool Collider::_CollisionBetweenRectAndPixel(RECT_INFO const& src, weak_ptr<PIXE
 	{
 		for (int j = static_cast<int>(src_on_the_pixel_coordinate_system.l); j < static_cast<int>(src_on_the_pixel_coordinate_system.r); ++j)
 		{
-			if (pixel24_collection.at(i).at(j).r == comparision_pixel24.r && 
-				pixel24_collection.at(i).at(j).g == comparision_pixel24.g && 
+			if (pixel24_collection.at(i).at(j).r == comparision_pixel24.r &&
+				pixel24_collection.at(i).at(j).g == comparision_pixel24.g &&
 				pixel24_collection.at(i).at(j).b == comparision_pixel24.b)
 				return true;
 		}
