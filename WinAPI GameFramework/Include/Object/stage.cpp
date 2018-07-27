@@ -22,10 +22,55 @@ void Stage::BeAttached(weak_ptr<Collider> const& src, weak_ptr<Collider> const& 
 
 	auto caching_dest = dest.lock();
 
-	if (caching_dest->tag() == "PlayerShield")
+	if (caching_dest->tag() == "PlayerBody")
 	{
-		caching_dest->object()->set_velocity(0.f);
-		caching_dest->object()->set_acceleration(0.f);
+		auto caching_src = dynamic_pointer_cast<ColliderPixel>(src.lock());
+		auto pixel_collider = caching_src->pixel_collider();
+
+		XY const& intersect_position = pixel_collider->intersect_position;
+		auto const& comparision_pixel24 = pixel_collider->comparision_pixel24;
+		auto const& pixel24_collection = pixel_collider->pixel24_collection;
+
+		auto object = caching_dest->object();
+
+		XY const& object_position_on_the_model_coordinate_system = object->position() - caching_src->world();
+		XY const& object_size = object->size();
+		XY const& object_pivot = object->pivot();
+
+		if (object_position_on_the_model_coordinate_system.y <= intersect_position.y)
+		{
+			for (int i = static_cast<int>(object_position_on_the_model_coordinate_system.y); i <= static_cast<int>(intersect_position.y); ++i)
+			{
+				if (pixel24_collection.at(i).at(static_cast<int>(intersect_position.x)).r == comparision_pixel24.r &&
+					pixel24_collection.at(i).at(static_cast<int>(intersect_position.x)).g == comparision_pixel24.g &&
+					pixel24_collection.at(i).at(static_cast<int>(intersect_position.x)).b == comparision_pixel24.b)
+				{
+					XY object_position = object->position();
+					object_position.y = i - object_size.y * object_pivot.y + 1.f;
+					object->set_position(object_position);
+
+					object->set_physics_flag(false);
+					object->set_velocity(0.f);
+					object->set_energy(0.f);
+					return;
+				}
+			}
+		}
+		else
+		{
+			for (int i = static_cast<int>(object_position_on_the_model_coordinate_system.y); i >= static_cast<int>(intersect_position.y); --i)
+			{
+				if (pixel24_collection.at(i).at(static_cast<int>(intersect_position.x)).r == comparision_pixel24.r &&
+					pixel24_collection.at(i).at(static_cast<int>(intersect_position.x)).g == comparision_pixel24.g &&
+					pixel24_collection.at(i).at(static_cast<int>(intersect_position.x)).b == comparision_pixel24.b)
+				{
+					XY object_position = object->position();
+					object_position.y = i + object_size.y * object_pivot.y;
+					object->set_position(object_position);
+					return;
+				}
+			}
+		}
 	}
 }
 
@@ -36,8 +81,12 @@ void Stage::BeDetached(weak_ptr<Collider> const& src, weak_ptr<Collider> const& 
 
 	auto caching_dest = dest.lock();
 
-	if (caching_dest->tag() == "PlayerShield")
-		caching_dest->object()->set_acceleration(9.8f);
+	if (caching_dest->tag() == "PlayerBody")
+	{
+		auto object = caching_dest->object();
+
+		object->set_physics_flag(true);
+	}
 }
 
 Stage::Stage(Stage const& other) : Object(other)
@@ -63,6 +112,9 @@ bool Stage::_Initialize()
 	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		BeAttached(src, dest, time);
 	}, COLLISION_CALLBACK::ENTER);
+	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeAttached(src, dest, time);
+	}, COLLISION_CALLBACK::STAY);
 	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		BeDetached(src, dest, time);
 	}, COLLISION_CALLBACK::LEAVE);

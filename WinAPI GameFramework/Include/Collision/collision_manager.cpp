@@ -48,6 +48,9 @@ void CollisionManager::AddCollider(shared_ptr<Object> const& object)
 
 	for (auto const& collider : collider_collection)
 	{
+		if (!collider->enablement())
+			continue;
+
 		auto& collision_group = FindCollisionGroup(collider->collision_group_tag());
 
 		if (&collision_group == &collision_group_nullptr_)

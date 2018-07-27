@@ -40,6 +40,7 @@
     <ClCompile Include="Object\rotation_bullet.cpp" />
     <ClCompile Include="Object\stage.cpp" />
     <ClCompile Include="path_manager.cpp" />
+    <ClCompile Include="physics.cpp" />
     <ClCompile Include="Resource\resource_manager.cpp" />
     <ClCompile Include="Resource\texture.cpp" />
     <ClCompile Include="Scene\layer.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="Object\rotation_bullet.h" />
     <ClInclude Include="Object\stage.h" />
     <ClInclude Include="path_manager.h" />
+    <ClInclude Include="physics.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Resource\resource_manager.h" />
     <ClInclude Include="Resource\texture.h" />

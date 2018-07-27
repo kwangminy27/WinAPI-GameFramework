@@ -227,7 +227,10 @@ bool Collider::_CollisionBetweenRectAndPixel(RECT_INFO const& src, weak_ptr<PIXE
 			if (pixel24_collection.at(i).at(j).r == comparision_pixel24.r &&
 				pixel24_collection.at(i).at(j).g == comparision_pixel24.g &&
 				pixel24_collection.at(i).at(j).b == comparision_pixel24.b)
+			{
+				caching_dest->intersect_position = XY{ static_cast<float>(j), static_cast<float>(i) };
 				return true;
+			}
 		}
 	}
 

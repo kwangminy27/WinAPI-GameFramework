@@ -1,5 +1,6 @@
 #include "object.h"
 #include "../math.h"
+#include "../physics.h"
 #include "../camera.h"
 #include "../Scene/scene.h"
 #include "../Scene/layer.h"
@@ -39,21 +40,6 @@ float Object::rotation_speed() const
 	return rotation_speed_;
 }
 
-float Object::weight() const
-{
-	return weight_;
-}
-
-float Object::velocity() const
-{
-	return velocity_;
-}
-
-float Object::acceleration() const
-{
-	return acceleration_;
-}
-
 DWORD Object::color_key() const
 {
 	return color_key_;
@@ -62,6 +48,21 @@ DWORD Object::color_key() const
 bool Object::is_color_key() const
 {
 	return is_color_key_;
+}
+
+bool Object::physics_flag() const
+{
+	return physics_flag_;
+}
+
+float Object::velocity() const
+{
+	return velocity_;
+}
+
+float Object::energy() const
+{
+	return energy_;
 }
 
 void Object::set_position(float x, float y)
@@ -112,9 +113,15 @@ void Object::set_rotation_speed(float rotation_speed)
 	rotation_speed_ = rotation_speed;
 }
 
-void Object::set_weight(float weight)
+void Object::set_color_key(COLORREF color_key)
 {
-	weight_ = weight;
+	color_key_ = color_key;
+	is_color_key_ = true;
+}
+
+void Object::set_physics_flag(bool flag)
+{
+	physics_flag_ = flag;
 }
 
 void Object::set_velocity(float velocity)
@@ -122,15 +129,9 @@ void Object::set_velocity(float velocity)
 	velocity_ = velocity;
 }
 
-void Object::set_acceleration(float acceleration)
+void Object::set_energy(float energy)
 {
-	acceleration_ = acceleration;
-}
-
-void Object::set_color_key(COLORREF color_key)
-{
-	color_key_ = color_key;
-	is_color_key_ = true;
+	energy_ = energy;
 }
 
 list<shared_ptr<Collider>> const& Object::collider_collection() const
@@ -250,14 +251,23 @@ void Object::_Input(float time)
 
 void Object::_Update(float time)
 {
-	velocity_ += acceleration_ * weight_ * time;
-	position_.y += velocity_ * time;
+	static float const kWeightingFactor = 200.f;
+
+	if (physics_flag_)
+	{
+		energy_ -= kWeightingFactor * Physics::GravitionalAcceleration() * time;
+		velocity_ -= energy_ * time;
+		position_.y += velocity_ * time;
+	}
 }
 
 void Object::_LateUpdate(float time)
 {
 	for (auto const& collider : collider_collection_)
-		collider->_Update(time);
+	{
+		if(collider->enablement())
+			collider->_Update(time);
+	}
 }
 
 void Object::_Collision(float time)
@@ -281,5 +291,8 @@ void Object::_Render(HDC device_context, float time)
 		BitBlt(device_context, static_cast<int>(left_top.x), static_cast<int>(left_top.y), static_cast<int>(size_.x), static_cast<int>(size_.y), caching_texture->memory_device_context(), 0, 0, SRCCOPY);
 
 	for (auto const& collider : collider_collection_)
-		collider->_Render(device_context, time);
+	{
+		if (collider->enablement())
+			collider->_Render(device_context, time);
+	}
 }

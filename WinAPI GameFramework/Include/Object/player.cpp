@@ -85,8 +85,6 @@ bool Player::_Initialize()
 	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(300.f);
-	set_weight(10.f);
-	set_acceleration(9.8f);
 	set_rotation_speed(360.f);
 	set_barrel_size(50.f);
 
@@ -100,9 +98,10 @@ bool Player::_Initialize()
 
 	set_texture("Teemo", L"Teemo.bmp", "TexturePath");
 
-	auto collider_circle = dynamic_pointer_cast<ColliderCircle>(AddCollider<ColliderCircle>("PlayerBody"));
-	collider_circle->set_model({ 0.f, 0.f, 25.f });
-	collider_circle->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+	auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"));
+	collider_rect->set_model({ 0.f, 0.f, 50.f, 50.f });
+	collider_rect->set_pivot({ 0.5f, 0.5f });
+	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		BeHit(src, dest, time);
 	}, COLLISION_CALLBACK::ENTER);
 
@@ -112,6 +111,7 @@ bool Player::_Initialize()
 	collider_shield_left->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		ProtectBulletForLeftRightShield(src, dest, time);
 	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_left->set_enablement(false);
 
 	auto collider_shield_right = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
 	collider_shield_right->set_model({ 0.f, 0.f, 1.f, 100.f});
@@ -119,6 +119,7 @@ bool Player::_Initialize()
 	collider_shield_right->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		ProtectBulletForLeftRightShield(src, dest, time);
 	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_right->set_enablement(false);
 
 	auto collider_shield_top = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
 	collider_shield_top->set_model({ 0.f, 0.f, 100.f, 1.f });
@@ -126,6 +127,7 @@ bool Player::_Initialize()
 	collider_shield_top->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		ProtectBulletForTopBottomShield(src, dest, time);
 	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_top->set_enablement(false);
 
 	auto collider_shield_bottom = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
 	collider_shield_bottom->set_model({ 0.f, 0.f, 100.f, 1.f });
@@ -133,6 +135,9 @@ bool Player::_Initialize()
 	collider_shield_bottom->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		ProtectBulletForTopBottomShield(src, dest, time);
 	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_bottom->set_enablement(false);
+
+	set_physics_flag(true);
 
 	return true;
 }
@@ -148,16 +153,22 @@ void Player::_Input(float time)
 	static auto KeyUp = [&input_manager](string tag) -> bool { return input_manager->KeyUp(tag); };
 
 	if (KeyPressed("MoveLeft"))
-		Move(move_speed_ * -time, 0.f); //Rotate(-time);
+		Move(-move_speed_ * time, 0.f);//Rotate(-time);
 
 	if (KeyPressed("MoveRight"))
-		Move(move_speed_ * time, 0.f); //Rotate(time);
+		Move(move_speed_ * time, 0.f);//Rotate(time);
 
-	if (KeyPressed("MoveUp"))
-		Move(0.f, move_speed_ * -time); //MoveByAngle(time);
+	if (KeyPush("MoveUp"))
+	{
+		if (!physics_flag_)
+		{
+			energy_ += 1000.f;//MoveByAngle(time); mgh
+			physics_flag_ = true;
+		}
+	}
 
 	if (KeyPressed("MoveDown"))
-		Move(0.f, move_speed_ * time); //MoveByAngle(-time);
+		//MoveByAngle(-time);
 
 	if (KeyPush("Fire"))
 	{

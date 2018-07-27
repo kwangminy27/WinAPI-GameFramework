@@ -56,6 +56,9 @@
     <Filter Include="01. Core\05. Camera">
       <UniqueIdentifier>{c82788a7-14e7-4769-abce-f9be46290c2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Core\06. Physics">
+      <UniqueIdentifier>{a0aee9c5-ddf5-4536-a9d1-0c868e0c6242}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -153,6 +156,9 @@
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>01. Core\05. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="physics.cpp">
+      <Filter>01. Core\06. Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +266,9 @@
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>01. Core\05. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="physics.h">
+      <Filter>01. Core\06. Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -207,8 +207,6 @@ void Core::_Render(float time)
 
 	wstring wstr = to_wstring(timer_->frame_per_second());
 	wstr += L" FPS";
-	float LTGRAY = 255 * 0.75f;
-	SetBkColor(device_context_, RGB(LTGRAY, LTGRAY, LTGRAY));
 	TextOut(device_context_, 0, 0, wstr.c_str(), static_cast<int>(wstr.size()));
 
 	//random_device rd;
