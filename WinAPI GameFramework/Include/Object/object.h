@@ -5,6 +5,7 @@
 class Scene;
 class Layer;
 class Texture;
+class Animation;
 class Collider;
 
 class Object : public Tag, public std::enable_shared_from_this<Object>
@@ -60,6 +61,9 @@ public:
 
 	template <typename T> std::shared_ptr<Collider> AddCollider(std::string tag);
 
+	bool AddAnimationClip(std::string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, std::string const& texture_tag, std::wstring const& file_name, std::string const& path_tag = "TexturePath");
+	bool LoadAnimation(std::wstring const& file_name, std::string path_tag = "DataPath");
+
 protected:
 	Object() = default;
 	Object(Object const& other);
@@ -98,6 +102,8 @@ protected:
 	std::weak_ptr<Scene> scene_{};
 	std::weak_ptr<Layer> layer_{};
 	std::weak_ptr<Texture> texture_{};
+
+	std::unique_ptr<Animation, std::function<void(Animation*)>> animation_{};
 };
 
 #include "object.inl"

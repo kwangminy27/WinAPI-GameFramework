@@ -59,6 +59,15 @@
     <Filter Include="01. Core\06. Physics">
       <UniqueIdentifier>{a0aee9c5-ddf5-4536-a9d1-0c868e0c6242}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Animation">
+      <UniqueIdentifier>{ed818436-dbb9-495b-ac1a-a67234490d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\07. Logger">
+      <UniqueIdentifier>{6b88cc8d-90e5-4a73-9d9b-4fcee0c2f3a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Object\04. Effect">
+      <UniqueIdentifier>{eda9ba11-40ca-4086-9aaa-ff40b5b8f80f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -159,6 +168,17 @@
     </ClCompile>
     <ClCompile Include="physics.cpp">
       <Filter>01. Core\06. Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>06. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="animation_clip.cpp">
+      <Filter>06. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="animation_manager.cpp" />
+    <ClCompile Include="animation_clip_atlas.cpp" />
+    <ClCompile Include="Object\effect.cpp">
+      <Filter>03. Object\04. Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +290,17 @@
     <ClInclude Include="physics.h">
       <Filter>01. Core\06. Physics</Filter>
     </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>06. Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="animation_clip.h">
+      <Filter>06. Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="animation_manager.h" />
+    <ClInclude Include="animation_clip_atlas.h" />
+    <ClInclude Include="Object\effect.h">
+      <Filter>03. Object\04. Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scene\scene.inl">
@@ -295,6 +326,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Bin\Texture\Left.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

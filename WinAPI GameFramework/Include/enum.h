@@ -27,3 +27,18 @@ enum class COLLISION_CALLBACK
 	LEAVE,
 	END
 };
+
+enum class ANIMATION_CLIP
+{
+	ATLAS, // 이 프레임워크에서는 sprite altas만 사용할 예정
+	FRAME,
+	END
+};
+
+enum class ANIMATION_OPTION
+{
+	 LOOP,
+	 RETURN,
+	 DESTROY,
+	 END
+};

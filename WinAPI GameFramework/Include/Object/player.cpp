@@ -87,6 +87,7 @@ bool Player::_Initialize()
 	set_move_speed(300.f);
 	set_rotation_speed(360.f);
 	set_barrel_size(50.f);
+	set_physics_flag(true);
 
 	auto const& input_manager = Input::instance();
 
@@ -137,7 +138,25 @@ bool Player::_Initialize()
 	}, COLLISION_CALLBACK::ENTER);
 	collider_shield_bottom->set_enablement(false);
 
-	set_physics_flag(true);
+	ANIMATION_FRAME_INFO animation_frame_info{};
+	animation_frame_info.size = { 45.f, 60.f };
+	animation_frame_info.start_x = 0;
+	animation_frame_info.start_y = 1;
+	animation_frame_info.end_x = 13;
+	animation_frame_info.count = 13;
+	animation_frame_info.count_x = 13;
+	animation_frame_info.count_y = 0;
+	animation_frame_info.count_max_x = 21;
+	animation_frame_info.count_max_y = 8;
+	AddAnimationClip("Idle", ANIMATION_CLIP::ATLAS, ANIMATION_OPTION::LOOP, 1.f, animation_frame_info, "Person", L"Left.bmp");
+
+	set_color_key(RGB(255, 0, 255));
+
+	//animation_frame_info.start_y = 4;
+	//animation_frame_info.end_x = 11;
+	//animation_frame_info.count = 12;
+	//animation_frame_info.count_x = 12;
+	//AddAnimationClip("Walk", ANIMATION_CLIP::ATLAS, ANIMATION_OPTION::LOOP, 2.f, animation_frame_info, "Person", L"Left.bmp");
 
 	return true;
 }
@@ -167,7 +186,7 @@ void Player::_Input(float time)
 		}
 	}
 
-	if (KeyPressed("MoveDown"))
+	if (KeyPressed("MoveDown")) {}
 		//MoveByAngle(-time);
 
 	if (KeyPush("Fire"))
@@ -180,7 +199,7 @@ void Player::_Input(float time)
 		bullet->set_angle(angle_);
 
 		auto collider_circle = dynamic_pointer_cast<ColliderCircle>(bullet->AddCollider<ColliderCircle>("BulletBody"));
-		collider_circle->set_model({ 0.f, 0.f, 5.f });
+		collider_circle->set_model({ 0.f, 0.f, 10.f });
 	}
 
 	if (KeyPush("Skill1"))

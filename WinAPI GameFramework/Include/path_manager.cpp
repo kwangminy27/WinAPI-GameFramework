@@ -10,6 +10,7 @@ bool PathManager::Initialize()
 
 	path_collection_.insert(make_pair("RootPath", move(path_buffer)));
 	AddPath("TexturePath", "Texture\\");
+	AddPath("DataPath", "Data\\");
 
 	return true;
 }

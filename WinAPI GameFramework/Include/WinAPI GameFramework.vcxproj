@@ -19,6 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="animation_clip.cpp" />
+    <ClCompile Include="animation_clip_atlas.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="animation_manager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="Collision\collider.cpp" />
     <ClCompile Include="Collision\collider_pixel.cpp" />
@@ -31,6 +39,7 @@
     <ClCompile Include="math.cpp" />
     <ClCompile Include="Object\bullet.cpp" />
     <ClCompile Include="Object\character.cpp" />
+    <ClCompile Include="Object\effect.cpp" />
     <ClCompile Include="Object\guided_bullet.cpp" />
     <ClCompile Include="Object\monster.cpp" />
     <ClCompile Include="Object\object.cpp" />
@@ -54,6 +63,14 @@
     <ClCompile Include="WinAPI GameFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation.h" />
+    <ClInclude Include="animation_clip.h" />
+    <ClInclude Include="animation_clip_atlas.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="animation_manager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="camera.h" />
     <ClInclude Include="Collision\collider.h" />
     <ClInclude Include="Collision\collider_pixel.h" />
@@ -67,6 +84,7 @@
     <ClInclude Include="math.h" />
     <ClInclude Include="Object\bullet.h" />
     <ClInclude Include="Object\character.h" />
+    <ClInclude Include="Object\effect.h" />
     <ClInclude Include="Object\guided_bullet.h" />
     <ClInclude Include="Object\monster.h" />
     <ClInclude Include="Object\object.h" />
@@ -102,6 +120,7 @@
     <ResourceCompile Include="WinAPI GameFramework.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Bin\Texture\Left.bmp" />
     <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
