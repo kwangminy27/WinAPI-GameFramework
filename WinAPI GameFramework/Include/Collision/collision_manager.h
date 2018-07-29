@@ -12,7 +12,7 @@ public:
 	bool Initialize();
 	bool CreateCollisionGroup(std::string const& tag);
 	std::vector<std::weak_ptr<Collider>>& FindCollisionGroup(std::string const& tag);
-	void AddCollider(std::shared_ptr<Object> const& object);
+	void AddCollider(std::weak_ptr<Object> const& object);
 	void Collision(float time);
 
 	void CreateCollisionPixelCollectionPrototype(std::string const& tag, std::wstring const& file_name, std::string const& path_tag);

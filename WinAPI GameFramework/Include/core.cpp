@@ -9,6 +9,7 @@
 #include "Resource/texture.h"
 #include "Collision/collision_manager.h"
 #include "Collision/collider.h"
+#include "animation_manager.h"
 
 using namespace std;
 
@@ -43,6 +44,9 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 		back_buffer_ = ResourceManager::instance()->FindTexture("BackBuffer");
 
 	if (!CollisionManager::instance()->Initialize())
+		return false;
+
+	if (!AnimationManager::instance()->Initialize())
 		return false;
 
 	if (!SceneManager::instance()->Initialize())

@@ -1,5 +1,6 @@
 #include "Object/object.h"
 #include "Resource/resource_manager.h"
+#include "animation_manager.h"
 #include "animation.h"
 #include "animation_clip.h"
 
@@ -60,26 +61,14 @@ void Animation::Update(float time)
 	}
 }
 
-bool Animation::CreateAnimationClip(string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, string const& texture_tag, wstring const& file_name, string const& path_tag)
+bool Animation::AddAnimationClip(string const& tag)
 {
-	if (_FindAnimationClip(tag))
+	auto const& animation_manager = AnimationManager::instance();
+
+	auto animation_clip = animation_manager->FindAnimationClipPrototype(tag);
+
+	if (!animation_clip)
 		return false;
-
-	auto animation_clip = shared_ptr<AnimationClip>{ new AnimationClip, [](AnimationClip* p) {
-		p->_Release();
-		delete p;
-	} };
-
-	animation_clip->tag_ = tag;
-	animation_clip->type_ = type;
-	animation_clip->option_ = option;
-	animation_clip->frame_info_ = frame_info;
-	animation_clip->completion_time_ = completion_time;
-
-	frame_x_ = animation_clip->frame_info_.start_x;
-	frame_y_ = animation_clip->frame_info_.start_y;
-
-	animation_clip->texture_ = ResourceManager::instance()->LoadTexture(texture_tag, file_name, path_tag);
 
 	animation_clip_collection_.insert(make_pair(tag, move(animation_clip)));
 
@@ -89,11 +78,6 @@ bool Animation::CreateAnimationClip(string const& tag, ANIMATION_CLIP type, ANIM
 		set_current_clip(tag);
 	}
 
-	return true;
-}
-
-bool Animation::LoadAnimation(wstring const& file_name, string path_tag)
-{
 	return true;
 }
 
@@ -116,16 +100,13 @@ void Animation::set_current_clip(string const& tag)
 	current_clip_tag_ = tag;
 	current_clip_ = _FindAnimationClip(tag);
 	
-	if (current_clip_.expired())
+	if (current_clip_.expired() || object_.expired())
 		return;
 
 	auto current_clip = current_clip_.lock();
 	frame_x_ = current_clip->frame_info_.start_x;
 	frame_y_ = current_clip->frame_info_.start_y;
 	elapsed_time_ = 0.f;
-
-	if (object_.expired())
-		return;
 
 	object_.lock()->set_texture(current_clip->texture_);
 }
@@ -148,17 +129,6 @@ float Animation::GetFrameHeight() const
 Animation::Animation(Animation const& other)
 {
 	*this = other;
-
-	animation_clip_collection_.clear();
-
-	for (auto iter = other.animation_clip_collection_.begin(); iter != other.animation_clip_collection_.end(); ++iter)
-	{
-		auto animation_clip = iter->second->_Clone();
-		animation_clip_collection_.insert(make_pair(iter->first, move(animation_clip)));
-	}
-
-	set_default_clip(default_clip_tag_);
-	set_current_clip(current_clip_tag_);
 }
 
 Animation::Animation(Animation&& other)
@@ -178,7 +148,7 @@ unique_ptr<Animation, function<void(Animation*)>> Animation::_Clone() const
 	} };
 }
 
-shared_ptr<AnimationClip> const& Animation::_FindAnimationClip(string const& tag)
+weak_ptr<AnimationClip> const& Animation::_FindAnimationClip(string const& tag)
 {
 	auto iter = animation_clip_collection_.find(tag);
 

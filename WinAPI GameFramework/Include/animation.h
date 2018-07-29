@@ -12,9 +12,8 @@ public:
 	bool Initialize();
 	void Update(float time);
 
-	bool CreateAnimationClip(std::string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, std::string const& texture_tag, std::wstring const& file_name, std::string const& path_tag = "TexturePath");
-	bool LoadAnimation(std::wstring const& file_name, std::string path_tag = "DataPath");
-	void ChangeClip(std::string const& tag); 
+	bool AddAnimationClip(std::string const& tag);
+	void ChangeClip(std::string const& tag);
 
 	void set_default_clip(std::string const& tag);
 	void set_current_clip(std::string const& tag);
@@ -34,14 +33,14 @@ private:
 	void _Release();
 	std::unique_ptr<Animation, std::function<void(Animation*)>> _Clone() const;
 
-	std::shared_ptr<AnimationClip> const& _FindAnimationClip(std::string const& tag);
+	std::weak_ptr<AnimationClip> const& _FindAnimationClip(std::string const& tag);
 
 	int frame_x_{};
 	int frame_y_{};
 	float elapsed_time_{};
 
-	std::shared_ptr<AnimationClip> animation_clip_nullptr_{};
-	std::unordered_map<std::string, std::shared_ptr<AnimationClip>> animation_clip_collection_{};
+	std::weak_ptr<AnimationClip> animation_clip_nullptr_{};
+	std::unordered_map<std::string, std::weak_ptr<AnimationClip>> animation_clip_collection_{};
 
 	std::string default_clip_tag_{};
 	std::string current_clip_tag_{};

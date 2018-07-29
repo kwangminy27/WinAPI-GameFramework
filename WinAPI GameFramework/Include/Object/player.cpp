@@ -138,25 +138,8 @@ bool Player::_Initialize()
 	}, COLLISION_CALLBACK::ENTER);
 	collider_shield_bottom->set_enablement(false);
 
-	ANIMATION_FRAME_INFO animation_frame_info{};
-	animation_frame_info.size = { 45.f, 60.f };
-	animation_frame_info.start_x = 0;
-	animation_frame_info.start_y = 1;
-	animation_frame_info.end_x = 13;
-	animation_frame_info.count = 13;
-	animation_frame_info.count_x = 13;
-	animation_frame_info.count_y = 0;
-	animation_frame_info.count_max_x = 21;
-	animation_frame_info.count_max_y = 8;
-	AddAnimationClip("Idle", ANIMATION_CLIP::ATLAS, ANIMATION_OPTION::LOOP, 1.f, animation_frame_info, "Person", L"Left.bmp");
-
+	AddAnimationClip("Idle");
 	set_color_key(RGB(255, 0, 255));
-
-	//animation_frame_info.start_y = 4;
-	//animation_frame_info.end_x = 11;
-	//animation_frame_info.count = 12;
-	//animation_frame_info.count_x = 12;
-	//AddAnimationClip("Walk", ANIMATION_CLIP::ATLAS, ANIMATION_OPTION::LOOP, 2.f, animation_frame_info, "Person", L"Left.bmp");
 
 	return true;
 }

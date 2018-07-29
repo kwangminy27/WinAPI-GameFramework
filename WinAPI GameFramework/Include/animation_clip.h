@@ -6,6 +6,7 @@ class Texture;
 
 class AnimationClip
 {
+	friend class AnimationManager;
 	friend class Animation;
 private:
 	AnimationClip() = default;

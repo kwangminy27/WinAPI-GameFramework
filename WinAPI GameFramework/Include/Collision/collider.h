@@ -18,7 +18,6 @@ public:
 	HPEN pen_{};
 	HPEN old_pen_{};
 
-
 	COLLIDER collider_type() const;
 	std::string const& collision_group_tag() const;
 	std::shared_ptr<Object> object() const;

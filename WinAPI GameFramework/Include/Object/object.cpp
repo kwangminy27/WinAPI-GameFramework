@@ -224,7 +224,7 @@ void Object::Rotate(float time)
 	angle_ += rotation_speed_ * time;
 }
 
-bool Object::AddAnimationClip(string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, string const& texture_tag, wstring const& file_name, string const& path_tag)
+bool Object::AddAnimationClip(string const& tag)
 {
 	if (!animation_)
 	{
@@ -236,22 +236,10 @@ bool Object::AddAnimationClip(string const& tag, ANIMATION_CLIP type, ANIMATION_
 		animation_->set_object(weak_from_this());
 	}
 
-	return animation_->CreateAnimationClip(tag, type, option, completion_time, frame_info, texture_tag, file_name, path_tag);;
-}
+	if (!animation_->AddAnimationClip(tag))
+		return false;
 
-bool Object::LoadAnimation(wstring const& file_name, string path_tag)
-{
-	if (!animation_)
-	{
-		animation_ = unique_ptr<Animation, function<void(Animation*)>>{ new Animation, [](Animation* p) {
-			p->_Release();
-			delete p;
-		} };
-
-		animation_->set_object(weak_from_this());
-	}
-
-	return animation_->LoadAnimation(file_name, path_tag);
+	return true;
 }
 
 Object::Object(Object const& other) : Tag(other)
@@ -273,7 +261,7 @@ Object::Object(Object const& other) : Tag(other)
 	for (auto const& collider : other.collider_collection_)
 	{
 		auto caching_collider = collider->_Clone();
-		caching_collider->set_object(shared_from_this());
+		caching_collider->set_object(weak_from_this());
 		collider_collection_.push_back(move(caching_collider));
 	}
 
@@ -352,8 +340,8 @@ void Object::_Render(HDC device_context, float time)
 			width = static_cast<int>(animation_->GetFrameWidth());
 			height = static_cast<int>(animation_->GetFrameHeight());
 
-			int frame_left = static_cast<int>(animation_->frame_x * width);
-			int frame_top = static_cast<int>(animation_->frame_y * height);
+			int frame_left = static_cast<int>(animation_->frame_x_ * width);
+			int frame_top = static_cast<int>(animation_->frame_y_ * height);
 
 			TransparentBlt(device_context, left, top, width, height, caching_texture->memory_device_context(), frame_left, frame_top, width, height, color_key_);
 		}

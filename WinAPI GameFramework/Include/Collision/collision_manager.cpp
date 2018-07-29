@@ -39,9 +39,13 @@ vector<weak_ptr<Collider>>& CollisionManager::FindCollisionGroup(string const& t
 	return iter->second;
 }
 
-void CollisionManager::AddCollider(shared_ptr<Object> const& object)
+void CollisionManager::AddCollider(weak_ptr<Object> const& object)
 {
-	auto const& collider_collection = object->collider_collection();
+	if (object.expired())
+		return;
+
+	auto caching_object = object.lock();
+	auto const& collider_collection = caching_object->collider_collection();
 
 	if (collider_collection.empty())
 		return;

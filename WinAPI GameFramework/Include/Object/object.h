@@ -61,8 +61,7 @@ public:
 
 	template <typename T> std::shared_ptr<Collider> AddCollider(std::string tag);
 
-	bool AddAnimationClip(std::string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, std::string const& texture_tag, std::wstring const& file_name, std::string const& path_tag = "TexturePath");
-	bool LoadAnimation(std::wstring const& file_name, std::string path_tag = "DataPath");
+	bool AddAnimationClip(std::string const& tag);
 
 protected:
 	Object() = default;

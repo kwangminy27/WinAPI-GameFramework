@@ -2,15 +2,14 @@
 
 #include "singleton.h"
 
-class AnimationClipAtlas;
+class AnimationClip;
 
 class AnimationManager : public Singleton<AnimationManager>
 {
 	friend class Singleton<AnimationManager>;
 public:
 	bool Initialize();
-	bool LoadAnimationClipAtlas(std::string const& tag, std::wstring const& file_name, std::string const& path_tag);
-	std::shared_ptr<AnimationClipAtlas> const& FindAnimationClipAtlas(std::string const& tag);
+	std::shared_ptr<AnimationClip> const& FindAnimationClipPrototype(std::string const& tag);
 
 private:
 	AnimationManager() = default;
@@ -19,6 +18,8 @@ private:
 
 	virtual void _Release() override;
 
-	std::shared_ptr<AnimationClipAtlas> animation_clip_atlas_nullptr_{};
-	std::unordered_map<std::string, std::shared_ptr<AnimationClipAtlas>> animation_clip_atlas_prototype_collection_{};
+	bool _CreateAnimationClip(std::string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, std::string const& texture_tag, std::wstring const& file_name, std::string const& path_tag = "TexturePath");
+
+	std::shared_ptr<AnimationClip> animation_clip_prototype_nullptr_{};
+	std::unordered_map<std::string, std::shared_ptr<AnimationClip>> animation_clip_prototype_collection_{};
 };
