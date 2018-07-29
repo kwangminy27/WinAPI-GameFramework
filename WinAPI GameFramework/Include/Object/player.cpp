@@ -181,7 +181,7 @@ void Player::_Input(float time)
 	{
 		if (!physics_flag_)
 		{
-			energy_ += 1000.f;//MoveByAngle(time); mgh
+			energy_ += 2500.f;//MoveByAngle(time); mgh
 			physics_flag_ = true;
 		}
 	}
@@ -189,7 +189,7 @@ void Player::_Input(float time)
 	if (KeyPressed("MoveDown")) {}
 		//MoveByAngle(-time);
 
-	if (KeyPush("Fire"))
+	if (KeyPressed("Fire"))
 	{
  		auto bullet = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
 
@@ -202,7 +202,7 @@ void Player::_Input(float time)
 		collider_circle->set_model({ 0.f, 0.f, 10.f });
 	}
 
-	if (KeyPush("Skill1"))
+	if (KeyPressed("Skill1"))
 	{
 		auto bullet1 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
 		auto bullet2 = dynamic_pointer_cast<Bullet>(ObjectManager::instance()->CreateCloneObject("Bullet", layer()));
@@ -252,7 +252,7 @@ void Player::_Input(float time)
 		bullet_->start();
 	}
 
-	if (KeyPush("Skill3"))
+	if (KeyPressed("Skill3"))
 	{
 		auto rotation_bullet = dynamic_pointer_cast<RotationBullet>(ObjectManager::instance()->CreateCloneObject("RotationBullet", layer()));
 
@@ -267,7 +267,7 @@ void Player::_Input(float time)
 		collider->set_model({ 0.f, 0.f, 10.f });
 	}
 
-	if (KeyPush("Skill4"))
+	if (KeyPressed("Skill4"))
 	{
 		auto guided_bullet = dynamic_pointer_cast<GuidedBullet>(ObjectManager::instance()->CreateCloneObject("GuidedBullet", layer()));
 
@@ -280,7 +280,7 @@ void Player::_Input(float time)
 		collider->set_model({ 0.f, 0.f, 10.f });
 	}
 
-	if (KeyPush("Skill5"))
+	if (KeyPressed("Skill5"))
 	{
 		auto parabola_bullet = dynamic_pointer_cast<ParabolaBullet>(ObjectManager::instance()->CreateCloneObject("ParabolaBullet", layer()));
 

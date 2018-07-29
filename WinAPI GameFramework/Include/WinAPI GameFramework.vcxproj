@@ -120,7 +120,6 @@
     <ResourceCompile Include="WinAPI GameFramework.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Bin\Texture\Left.bmp" />
     <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

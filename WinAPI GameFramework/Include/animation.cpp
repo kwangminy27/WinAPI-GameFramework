@@ -29,14 +29,14 @@ void Animation::Update(float time)
 	{
 		elapsed_time_ -= interval_time;
 
-		++frame_x;
+		++frame_x_;
 
-		if (frame_y == frame_info.start_y + frame_info.count_y)
+		if (frame_y_ == frame_info.start_y + frame_info.count_y)
 		{
-			if (frame_x == frame_info.end_x)
+			if (frame_x_ == frame_info.end_x)
 			{
-				frame_x = frame_info.start_x;
-				frame_y = frame_info.start_y;
+				frame_x_ = frame_info.start_x;
+				frame_y_ = frame_info.start_y;
 
 				switch (current_clip->option_)
 				{
@@ -51,11 +51,11 @@ void Animation::Update(float time)
 			}
 		}
 
-		if (frame_x >= frame_info.start_x + frame_info.count_x)
+		if (frame_x_ >= frame_info.start_x + frame_info.count_x)
 		{
-			++frame_y;
+			++frame_y_;
 
-			frame_x = frame_info.start_x;
+			frame_x_ = frame_info.start_x;
 		}
 	}
 }
@@ -76,8 +76,8 @@ bool Animation::CreateAnimationClip(string const& tag, ANIMATION_CLIP type, ANIM
 	animation_clip->frame_info_ = frame_info;
 	animation_clip->completion_time_ = completion_time;
 
-	frame_x = animation_clip->frame_info_.start_x;
-	frame_y = animation_clip->frame_info_.start_y;
+	frame_x_ = animation_clip->frame_info_.start_x;
+	frame_y_ = animation_clip->frame_info_.start_y;
 
 	animation_clip->texture_ = ResourceManager::instance()->LoadTexture(texture_tag, file_name, path_tag);
 
@@ -120,8 +120,8 @@ void Animation::set_current_clip(string const& tag)
 		return;
 
 	auto current_clip = current_clip_.lock();
-	frame_x = current_clip->frame_info_.start_x;
-	frame_y = current_clip->frame_info_.start_y;
+	frame_x_ = current_clip->frame_info_.start_x;
+	frame_y_ = current_clip->frame_info_.start_y;
 	elapsed_time_ = 0.f;
 
 	if (object_.expired())

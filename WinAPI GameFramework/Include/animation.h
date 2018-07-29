@@ -36,8 +36,8 @@ private:
 
 	std::shared_ptr<AnimationClip> const& _FindAnimationClip(std::string const& tag);
 
-	int frame_x{};
-	int frame_y{};
+	int frame_x_{};
+	int frame_y_{};
 	float elapsed_time_{};
 
 	std::shared_ptr<AnimationClip> animation_clip_nullptr_{};

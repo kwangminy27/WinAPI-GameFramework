@@ -304,7 +304,7 @@ void Object::_Input(float time)
 
 void Object::_Update(float time)
 {
-	static float const kWeightingFactor = 200.f;
+	static float const kWeightingFactor = 800.f;
 
 	if (physics_flag_)
 	{
