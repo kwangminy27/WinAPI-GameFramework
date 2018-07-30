@@ -14,6 +14,21 @@ COLLIDER Collider::collider_type() const
 	return collider_type_;
 }
 
+XY const& Collider::pivot() const
+{
+	return pivot_;
+}
+
+XY const& Collider::size() const
+{
+	return size_;
+}
+
+XY const& Collider::intersect_position() const
+{
+	return intersect_position_;
+}
+
 string const& Collider::collision_group_tag() const
 {
 	return collision_group_tag_;
@@ -27,6 +42,16 @@ shared_ptr<Object> Collider::object() const
 void Collider::set_pivot(XY const& xy)
 {
 	pivot_ = xy;
+}
+
+void Collider::set_size(XY const& xy)
+{
+	size_ = xy;
+}
+
+void Collider::set_intersect_position(XY const& xy)
+{
+	intersect_position_ = xy;
 }
 
 void Collider::set_collision_group_tag(string const& tag)
@@ -182,6 +207,31 @@ bool Collider::_CollisionBetweenRectAndRect(RECT_INFO const& src, RECT_INFO cons
 	if (src.t > dest.b)
 		return false;
 
+	RECT_INFO intersect_rect{};
+	
+	if (src.l > dest.l)
+		intersect_rect.l = src.l;
+	else
+		intersect_rect.l = dest.l;
+
+	if (src.r < dest.r)
+		intersect_rect.r = src.r;
+	else
+		intersect_rect.r = dest.r;
+
+	if (src.t > dest.t)
+		intersect_rect.t = src.t;
+	else
+		intersect_rect.t = dest.t;
+
+	if (src.b < dest.b)
+		intersect_rect.b = src.b;
+	else
+		intersect_rect.b = dest.b;
+
+	intersect_position_.x = (intersect_rect.l + intersect_rect.r) / 2.f;
+	intersect_position_.y = (intersect_rect.t + intersect_rect.b) / 2.f;
+
 	return true;
 }
 
@@ -192,7 +242,16 @@ bool Collider::_CollisionBetweenRectAndCircle(RECT_INFO const& src, CIRCLE_INFO 
 
 	float distance = Math::GetDistance({ closest_x, closest_y }, dest.center);
 
-	return distance <= dest.radius;
+	bool result = distance <= dest.radius;
+
+	if (result)
+	{
+		float t = (distance - dest.radius) / distance;
+		intersect_position_.x = closest_x + (dest.center.x - closest_x) * t;
+		intersect_position_.y = closest_y + (dest.center.y - closest_y) * t;
+	}
+
+	return result;
 }
 
 bool Collider::_CollisionBetweenRectAndPixel(RECT_INFO const& src, weak_ptr<PIXEL24_INFO> const& dest)
@@ -228,7 +287,7 @@ bool Collider::_CollisionBetweenRectAndPixel(RECT_INFO const& src, weak_ptr<PIXE
 				pixel24_collection.at(i).at(j).g == comparision_pixel24.g &&
 				pixel24_collection.at(i).at(j).b == comparision_pixel24.b)
 			{
-				caching_dest->intersect_position = XY{ static_cast<float>(j), static_cast<float>(i) };
+				intersect_position_ = XY{ static_cast<float>(j), static_cast<float>(i) };
 				return true;
 			}
 		}
@@ -239,7 +298,17 @@ bool Collider::_CollisionBetweenRectAndPixel(RECT_INFO const& src, weak_ptr<PIXE
 
 bool Collider::_CollisionBetweenCircleAndCircle(CIRCLE_INFO const& src, CIRCLE_INFO const& dest)
 {
-	return Math::GetDistance(src.center, dest.center) <= src.radius + dest.radius;
+	float distance = Math::GetDistance(src.center, dest.center);
+
+	bool result = distance <= src.radius + dest.radius;
+
+	if (result)
+	{
+		float t = (distance - dest.radius) / distance;
+		intersect_position_ = src.center + (dest.center - src.center) * t;
+	}
+
+	return result;
 }
 
 bool Collider::_CollisionBetweenCircleAndPixel(CIRCLE_INFO const& src, weak_ptr<PIXEL24_INFO> const& dest)

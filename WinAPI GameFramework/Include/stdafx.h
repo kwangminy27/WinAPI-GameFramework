@@ -66,7 +66,6 @@ struct PIXEL8_INFO
 struct PIXEL24_INFO
 {
 	XY world{};
-	XY intersect_position{};
 	PIXEL24 comparision_pixel24{};
 	PIXEL24_COLLECTION pixel24_collection{};
 };

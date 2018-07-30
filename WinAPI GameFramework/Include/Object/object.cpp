@@ -292,11 +292,11 @@ void Object::_Input(float time)
 
 void Object::_Update(float time)
 {
-	static float const kWeightingFactor = 800.f;
+	static float const kWeightingFactor = 500.f;
 
 	if (physics_flag_)
 	{
-		if(energy_ >= -2500.f)
+		if(energy_ >= -2000.f)
 			energy_ -= kWeightingFactor * Physics::GravitionalAcceleration() * time;
 		velocity_ -= energy_ * time;
 		position_.y += velocity_ * time;

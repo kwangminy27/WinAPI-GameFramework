@@ -23,12 +23,6 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 
 	device_context_ = GetDC(main_window_);
 
-	timer_ = unique_ptr<Timer, function<void(Timer*)>>(new Timer, [](Timer* p) {
-		delete p;
-	});
-	timer_->Initialize();
-	time_scale_ = 1.f;
-
 	if (!Input::instance()->Initialize())
 		return false;
 
@@ -51,6 +45,12 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 
 	if (!SceneManager::instance()->Initialize())
 		return false;
+
+	timer_ = unique_ptr<Timer, function<void(Timer*)>>(new Timer, [](Timer* p) {
+		delete p;
+	});
+	timer_->Initialize();
+	time_scale_ = 1.f;
 
 	return true;
 }

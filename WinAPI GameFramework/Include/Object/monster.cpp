@@ -3,6 +3,7 @@
 #include "../camera.h"
 #include "object_manager.h"
 #include "bullet.h"
+#include "effect.h"
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
 #include "../Collision/collider_rect.h"
@@ -80,7 +81,16 @@ void Monster::BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& des
 	auto caching_tag = caching_dest->tag();
 
 	if (caching_tag == "BulletBody" || caching_tag == "GuidedBulletBody" || caching_tag == "ParabolaBulletBody" || caching_tag == "RotationBulletBody")
+	{
 		caching_dest->object()->set_activation(false);
+
+		auto bomb_effect = dynamic_pointer_cast<Effect>(ObjectManager::instance()->CreateCloneObject("BombEffect", layer()));
+		bomb_effect->set_position(caching_dest->object()->position());
+		bomb_effect->set_size(100.f, 200.f);
+		bomb_effect->set_pivot(0.5f, 1.f);
+		bomb_effect->set_target(weak_from_this());
+		bomb_effect->AddAnimationClip("Bomb");
+	}
 }
 
 Monster::Monster(Monster const& other) : Character(other)

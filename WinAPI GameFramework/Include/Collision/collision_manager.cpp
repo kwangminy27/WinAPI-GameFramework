@@ -97,6 +97,8 @@ void CollisionManager::Collision(float time)
 				{
 					if (!src->IsCollidedCollider(dest))
 					{
+						dest->set_intersect_position(src->intersect_position());
+
 						src->AddCollidedCollider(dest);
 						dest->AddCollidedCollider(src);
 

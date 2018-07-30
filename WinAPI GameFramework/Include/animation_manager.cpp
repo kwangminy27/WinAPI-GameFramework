@@ -9,6 +9,7 @@ using namespace filesystem;
 bool AnimationManager::Initialize()
 {
 	_LoadTextureAltas("Halbae", L"halbae.csv");
+	_LoadTextureAltas("Effect", L"effect.csv");
 
 	return true;
 }
@@ -119,16 +120,16 @@ bool AnimationManager::_LoadTextureAltas(string const& tag, wstring const& file_
 		animation_clip->tag_ = tag;
 		animation_clip->type_ = static_cast<ANIMATION_CLIP>(stoi(type));
 		animation_clip->option_ = static_cast<ANIMATION_OPTION>(stoi(option));
-		animation_clip->frame_info_.size.x = static_cast<float>(stoi(size_x));
-		animation_clip->frame_info_.size.y = static_cast<float>(stoi(size_y));
-		animation_clip->frame_info_.start_x = static_cast<int>(stoi(start_x));
-		animation_clip->frame_info_.start_y = static_cast<int>(stoi(start_y));
-		animation_clip->frame_info_.end_x = static_cast<int>(stoi(end_x));
-		animation_clip->frame_info_.count = static_cast<int>(stoi(count));
-		animation_clip->frame_info_.count_x = static_cast<int>(stoi(count_x));
-		animation_clip->frame_info_.count_y = static_cast<int>(stoi(count_y));
+		animation_clip->frame_info_.size.x = stof(size_x);
+		animation_clip->frame_info_.size.y = stof(size_y);
+		animation_clip->frame_info_.start_x = stoi(start_x);
+		animation_clip->frame_info_.start_y = stoi(start_y);
+		animation_clip->frame_info_.end_x = stoi(end_x);
+		animation_clip->frame_info_.count = stoi(count);
+		animation_clip->frame_info_.count_x = stoi(count_x);
+		animation_clip->frame_info_.count_y = stoi(count_y);
 		animation_clip->texture_ = texture;
-		animation_clip->completion_time_ = static_cast<float>(stof(completion_time));
+		animation_clip->completion_time_ = stof(completion_time);
 		
 		animation_clip_prototype_collection_.insert(make_pair(tag, move(animation_clip)));
 	}

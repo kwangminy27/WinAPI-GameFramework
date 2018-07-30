@@ -27,7 +27,7 @@ void Stage::BeAttached(weak_ptr<Collider> const& src, weak_ptr<Collider> const& 
 		auto caching_src = dynamic_pointer_cast<ColliderPixel>(src.lock());
 		auto pixel_collider = caching_src->pixel_collider();
 
-		XY const& intersect_position = pixel_collider->intersect_position;
+		XY const& intersect_position = caching_src->intersect_position();
 		auto const& comparision_pixel24 = pixel_collider->comparision_pixel24;
 		auto const& pixel24_collection = pixel_collider->pixel24_collection;
 

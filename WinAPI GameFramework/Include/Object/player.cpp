@@ -9,6 +9,7 @@
 #include "rotation_bullet.h"
 #include "guided_bullet.h"
 #include "parabola_bullet.h"
+#include "effect.h"
 #include "../Collision/collider_rect.h"
 #include "../Collision/collider_circle.h"
 
@@ -30,9 +31,19 @@ void Player::BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest
 		return;
 
 	auto caching_dest = dest.lock();
+	auto caching_tag = caching_dest->tag();
 
-	if (caching_dest->tag() == "MonsterBulletBody")
+	if (caching_tag == "MonsterBulletBody")
+	{
 		caching_dest->object()->set_activation(false);
+
+		auto bomb_effect = dynamic_pointer_cast<Effect>(ObjectManager::instance()->CreateCloneObject("BombEffect", layer()));
+		bomb_effect->set_position(caching_dest->intersect_position());
+		bomb_effect->set_size(100.f, 200.f);
+		bomb_effect->set_pivot(0.5f, 1.f);
+		bomb_effect->set_target(weak_from_this());
+		bomb_effect->AddAnimationClip("Bomb");
+	}
 }
 
 void Player::ProtectBulletForLeftRightShield(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
@@ -138,7 +149,7 @@ bool Player::_Initialize()
 	}, COLLISION_CALLBACK::ENTER);
 	collider_shield_bottom->set_enablement(false);
 
-	AddAnimationClip("motion6");
+	AddAnimationClip("motion4");
 	set_color_key(RGB(255, 0, 255));
 
 	return true;
@@ -164,7 +175,7 @@ void Player::_Input(float time)
 	{
 		if (!physics_flag_)
 		{
-			energy_ += 2500.f;//MoveByAngle(time); mgh
+			energy_ += 2000.f;//MoveByAngle(time); mgh
 			physics_flag_ = true;
 		}
 	}

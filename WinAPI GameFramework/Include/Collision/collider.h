@@ -19,9 +19,15 @@ public:
 	HPEN old_pen_{};
 
 	COLLIDER collider_type() const;
+	XY const& pivot() const;
+	XY const& size() const;
+	XY const& intersect_position() const;
 	std::string const& collision_group_tag() const;
 	std::shared_ptr<Object> object() const;
+
 	void set_pivot(XY const& xy);
+	void set_size(XY const& xy);
+	void set_intersect_position(XY const& xy);
 	void set_collision_group_tag(std::string const& tag);
 	void set_object(std::weak_ptr<Object> const& object);
 
@@ -67,6 +73,7 @@ protected:
 	COLLIDER collider_type_{};
 	XY pivot_{};
 	XY size_{};
+	XY intersect_position_{};
 	std::string collision_group_tag_{ "Default" };
 	std::array<std::list<std::function<void(std::weak_ptr<Collider> const&, std::weak_ptr<Collider> const&, float)>>, static_cast<size_t>(COLLISION_CALLBACK::END)> collision_callback_collection_{};
 	std::list<std::weak_ptr<Collider>> collided_collider_list_{};
