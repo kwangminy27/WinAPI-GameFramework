@@ -175,10 +175,11 @@
     <ClCompile Include="animation_clip.cpp">
       <Filter>06. Animation</Filter>
     </ClCompile>
-    <ClCompile Include="animation_manager.cpp" />
-    <ClCompile Include="animation_clip_atlas.cpp" />
     <ClCompile Include="Object\effect.cpp">
       <Filter>03. Object\04. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="animation_manager.cpp">
+      <Filter>06. Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,10 +297,11 @@
     <ClInclude Include="animation_clip.h">
       <Filter>06. Animation</Filter>
     </ClInclude>
-    <ClInclude Include="animation_manager.h" />
-    <ClInclude Include="animation_clip_atlas.h" />
     <ClInclude Include="Object\effect.h">
       <Filter>03. Object\04. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="animation_manager.h">
+      <Filter>06. Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -77,10 +77,16 @@ void CollisionManager::Collision(float time)
 
 		for (size_t i = 0; i < current_collision_group.size() - 1; ++i)
 		{
+			if (current_collision_group.at(i).expired())
+				continue;
+
 			auto src = current_collision_group.at(i).lock();
 			auto src_object = src->object();
 			for (size_t j = i + 1; j < current_collision_group.size(); ++j)
 			{
+				if (current_collision_group.at(j).expired())
+					continue;
+
 				auto dest = current_collision_group.at(j).lock();
 				auto dest_object = dest->object();
 

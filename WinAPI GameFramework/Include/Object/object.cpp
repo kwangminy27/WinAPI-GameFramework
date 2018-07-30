@@ -296,7 +296,8 @@ void Object::_Update(float time)
 
 	if (physics_flag_)
 	{
-		energy_ -= kWeightingFactor * Physics::GravitionalAcceleration() * time;
+		if(energy_ >= -2500.f)
+			energy_ -= kWeightingFactor * Physics::GravitionalAcceleration() * time;
 		velocity_ -= energy_ * time;
 		position_.y += velocity_ * time;
 	}

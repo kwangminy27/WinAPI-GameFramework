@@ -9,7 +9,7 @@ class ResourceManager final : public Singleton<ResourceManager>
 	friend class Singleton<ResourceManager>;
 public:
 	bool Initialize();
-	std::shared_ptr<Texture> LoadTexture(std::string const& tag, std::wstring const& file_name, std::string const& path_tag);
+	std::shared_ptr<Texture> LoadTexture(std::string const& tag, std::wstring const& file_name, std::string path_tag = "TexturePath");
 	std::shared_ptr<Texture> const& FindTexture(std::string const& tag) const;
 
 private:

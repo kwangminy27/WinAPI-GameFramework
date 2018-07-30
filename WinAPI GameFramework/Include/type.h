@@ -61,6 +61,4 @@ struct ANIMATION_FRAME_INFO
 	int count{};
 	int count_x{}; // 애니메이션 클립의 가로 인덱스의 개수
 	int count_y{};
-	int count_max_x{}; // sprite atlas의 최대 가로 프레임 개수
-	int count_max_y{};
 };

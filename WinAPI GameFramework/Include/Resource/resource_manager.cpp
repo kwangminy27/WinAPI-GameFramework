@@ -11,7 +11,7 @@ bool ResourceManager::Initialize()
 	return true;
 }
 
-shared_ptr<Texture> ResourceManager::LoadTexture(string const& tag, wstring const& file_name, string const& path_tag)
+shared_ptr<Texture> ResourceManager::LoadTexture(string const& tag, wstring const& file_name, string path_tag)
 {
 	auto texture = FindTexture(tag);
 
