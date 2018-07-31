@@ -181,6 +181,7 @@ void Core::_Input(float time)
 void Core::_Update(float time)
 {
 	auto const& scene_manager = SceneManager::instance();
+
 	scene_manager->Update(time);
 	scene_manager->LateUpdate(time);
 
@@ -204,7 +205,7 @@ void Core::_Render(float time)
 
 	scene_manager->Render(caching_back_buffer->memory_device_context(), time);
 
-	Input::instance()->RenderMouse(caching_back_buffer->memory_device_context(), time);
+	Input::instance()->RenderMouseCursor(caching_back_buffer->memory_device_context(), time);
 
 	BitBlt(device_context_,
 		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT),

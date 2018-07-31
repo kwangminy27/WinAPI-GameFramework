@@ -1,7 +1,8 @@
 #include "../path_manager.h"
+#include "../input.h"
+#include "../Object/object.h"
 #include "collision_manager.h"
 #include "collider.h"
-#include "../Object/object.h"
 
 using namespace std;
 using namespace filesystem;
@@ -66,6 +67,122 @@ void CollisionManager::AddCollider(weak_ptr<Object> const& object)
 
 void CollisionManager::Collision(float time)
 {
+	// 1. 마우스와 UI 충돌
+	// 2. 마우스와 일반 오브젝트 충돌
+	// 3. 일반 오브젝트들의 충돌
+
+	// 1. 마우스와 UI 충돌
+	auto const& mouse = Input::instance()->mouse();
+	auto const& mouse_collider_collection = mouse->collider_collection();
+	auto mouse_body_collider = find_if(mouse_collider_collection.begin(), mouse_collider_collection.end(), [](shared_ptr<Collider> const& collider) {
+		return collider->tag() == "MouseBody";
+	});
+	auto const& ui_collision_group = FindCollisionGroup("UI");
+	auto const& default_collision_group = FindCollisionGroup("Default");
+	bool mouse_collision_flag{ false };
+	
+	if (!ui_collision_group.empty())
+	{
+		auto src = *mouse_body_collider;
+		auto src_object = src->object();
+
+		for (size_t i = 0; i < ui_collision_group.size(); ++i)
+		{
+			if (ui_collision_group.at(i).expired())
+				continue;
+
+			auto dest = ui_collision_group.at(i).lock();
+			auto dest_object = dest->object();
+
+			if (src_object == dest_object)
+				continue;
+
+			if (src->Collision(dest))
+			{
+				dest->set_intersect_position(src->intersect_position());
+
+				if (!src->IsCollidedCollider(dest))
+				{
+					mouse_collision_flag = true;
+
+					src->AddCollidedCollider(dest);
+					dest->AddCollidedCollider(src);
+
+					src->OnCollisionEnter(dest, time);
+					dest->OnCollisionEnter(src, time);
+				}
+				else
+				{
+					src->OnCollision(dest, time);
+					dest->OnCollision(src, time);
+				}
+			}
+			else
+			{
+				if (src->IsCollidedCollider(dest))
+				{
+					src->RemoveCollidedCollider(dest);
+					dest->RemoveCollidedCollider(src);
+
+					src->OnCollisionLeave(dest, time);
+					dest->OnCollisionLeave(src, time);
+				}
+			}
+		}
+	}
+
+	// 2. 마우스와 일반 오브젝트 충돌
+	if (!mouse_collision_flag)
+	{
+		auto src = *mouse_body_collider;
+		auto src_object = src->object();
+
+		for (size_t i = 0; i < default_collision_group.size(); ++i)
+		{
+			if (default_collision_group.at(i).expired())
+				continue;
+
+			auto dest = default_collision_group.at(i).lock();
+			auto dest_object = dest->object();
+
+			if (src_object == dest_object)
+				continue;
+
+			if (src->Collision(dest))
+			{
+				dest->set_intersect_position(src->intersect_position());
+
+				if (!src->IsCollidedCollider(dest))
+				{
+					mouse_collision_flag = true;
+
+					src->AddCollidedCollider(dest);
+					dest->AddCollidedCollider(src);
+
+					src->OnCollisionEnter(dest, time);
+					dest->OnCollisionEnter(src, time);
+				}
+				else
+				{
+					src->OnCollision(dest, time);
+					dest->OnCollision(src, time);
+				}
+			}
+			else
+			{
+				if (src->IsCollidedCollider(dest))
+				{
+					src->RemoveCollidedCollider(dest);
+					dest->RemoveCollidedCollider(src);
+
+					src->OnCollisionLeave(dest, time);
+					dest->OnCollisionLeave(src, time);
+				}
+			}
+		}
+	}
+
+	// 3. 일반 오브젝트들의 충돌
 	for (auto& collision_group : collision_group_collection_)
 	{
 		auto current_collision_group = collision_group.second;
@@ -95,10 +212,10 @@ void CollisionManager::Collision(float time)
 
 				if (src->Collision(dest))
 				{
+					dest->set_intersect_position(src->intersect_position());
+
 					if (!src->IsCollidedCollider(dest))
 					{
-						dest->set_intersect_position(src->intersect_position());
-
 						src->AddCollidedCollider(dest);
 						dest->AddCollidedCollider(src);
 

@@ -26,7 +26,7 @@ void UI::_Release()
 
 bool UI::_Initialize()
 {
-	if (Object::_Initialize())
+	if (!Object::_Initialize())
 		return false;
 
 	type_ = OBJECT_TYPE::UI;

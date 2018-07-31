@@ -23,5 +23,9 @@ protected:
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override;
 	
+	void _OnCollisionEnter(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+	void _OnCollision(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+	void _OnCollisionLeave(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
+
 	BUTTON_STATE state_{};
 };

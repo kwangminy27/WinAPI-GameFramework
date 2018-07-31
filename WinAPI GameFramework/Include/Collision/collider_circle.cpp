@@ -29,13 +29,13 @@ bool ColliderCircle::Collision(weak_ptr<Collider> const& dest)
 	switch (caching_dest->collider_type())
 	{
 	case COLLIDER::POINT:
-		return _CollisionBetweenPointAndCircle(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world_);
+		return _CollisionBetweenPointAndCircle(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world());
 	case COLLIDER::RECT:
-		return _CollisionBetweenRectAndCircle(dynamic_pointer_cast<ColliderRect>(caching_dest)->world(), world_);
+		return _CollisionBetweenRectAndCircle(dynamic_pointer_cast<ColliderRect>(caching_dest)->world(), world());
 	case COLLIDER::CIRCLE:
-		return _CollisionBetweenCircleAndCircle(world_, dynamic_pointer_cast<ColliderCircle>(caching_dest)->world_);
+		return _CollisionBetweenCircleAndCircle(world(), dynamic_pointer_cast<ColliderCircle>(caching_dest)->world());
 	case COLLIDER::PIXEL:
-		return _CollisionBetweenCircleAndPixel(world_, dynamic_pointer_cast<ColliderPixel>(caching_dest)->pixel_collider());
+		return _CollisionBetweenCircleAndPixel(world(), dynamic_pointer_cast<ColliderPixel>(caching_dest)->pixel_collider());
 	}
 
 	return false;
@@ -67,40 +67,45 @@ bool ColliderCircle::_Initialize()
 
 void ColliderCircle::_Update(float time)
 {
-	if (!object_.expired())
-	{
-		world_.radius = model_.radius;
+	if (object_.expired())
+		return;
 
-		auto object_position = object()->position();
-		world_.center.x = object_position.x + model_.center.x + (model_.radius * pivot_.x);
-		world_.center.y = object_position.y + model_.center.y + (model_.radius * pivot_.y);
-	}
+	auto caching_object = object();
+	auto object_position = caching_object->position();
+
+	if (caching_object->type() == OBJECT_TYPE::UI)
+		object_position += Camera::instance()->world();
+
+	world_.radius = model_.radius;
+
+	world_.center.x = object_position.x + model_.center.x + (model_.radius * pivot_.x);
+	world_.center.y = object_position.y + model_.center.y + (model_.radius * pivot_.y);
 }
 
 void ColliderCircle::_Render(HDC device_context, float time)
 {
 #ifdef _DEBUG
+	if (object_.expired())
+		return;
+
 	if (collided_collider_list_.empty())
 		pen_ = Collider::green_pen_;
 	else
 		pen_ = Collider::red_pen_;
 
-	if (!object_.expired())
+	auto camera_world_position = Camera::instance()->world();
+
+	old_pen_ = static_cast<HPEN>(SelectObject(device_context, pen_));
+	XY position_on_the_camera_coordinate_system = world_.center - camera_world_position;
+	MoveToEx(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x + world_.radius), static_cast<int>(position_on_the_camera_coordinate_system.y), nullptr);
+	for (size_t i = 30; i <= 360; i += 30)
 	{
-		auto camera_world_position = Camera::instance()->world();
+		position_on_the_camera_coordinate_system.x = world_.center.x - camera_world_position.x + cosf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
+		position_on_the_camera_coordinate_system.y = world_.center.y - camera_world_position.y + sinf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
 
-		old_pen_ = static_cast<HPEN>(SelectObject(device_context, pen_));
-		XY position_on_the_camera_coordinate_system = world_.center - camera_world_position;
-		MoveToEx(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x + world_.radius), static_cast<int>(position_on_the_camera_coordinate_system.y), nullptr);
-		for (size_t i = 30; i <= 360; i += 30)
-		{
-			position_on_the_camera_coordinate_system.x = world_.center.x - camera_world_position.x + cosf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
-			position_on_the_camera_coordinate_system.y = world_.center.y - camera_world_position.y + sinf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
-
-			LineTo(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x), static_cast<int>(position_on_the_camera_coordinate_system.y));
-		}
-		SelectObject(device_context, old_pen_);
+		LineTo(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x), static_cast<int>(position_on_the_camera_coordinate_system.y));
 	}
+	SelectObject(device_context, old_pen_);
 #endif
 }
 

@@ -30,13 +30,13 @@ bool ColliderRect::Collision(weak_ptr<Collider> const& dest)
 	switch (caching_dest->collider_type())
 	{
 	case COLLIDER::POINT:
-		return _CollisionBetweenPointAndRect(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world_);
+		return _CollisionBetweenPointAndRect(dynamic_pointer_cast<ColliderPoint>(caching_dest)->world(), world());
 	case COLLIDER::RECT:
-		return _CollisionBetweenRectAndRect(world_, dynamic_pointer_cast<ColliderRect>(caching_dest)->world_);
+		return _CollisionBetweenRectAndRect(world(), dynamic_pointer_cast<ColliderRect>(caching_dest)->world());
 	case COLLIDER::CIRCLE:
-		return _CollisionBetweenRectAndCircle(world_, dynamic_pointer_cast<ColliderCircle>(caching_dest)->world());
+		return _CollisionBetweenRectAndCircle(world(), dynamic_pointer_cast<ColliderCircle>(caching_dest)->world());
 	case COLLIDER::PIXEL:
-		return _CollisionBetweenRectAndPixel(world_, dynamic_pointer_cast<ColliderPixel>(caching_dest)->pixel_collider());
+		return _CollisionBetweenRectAndPixel(world(), dynamic_pointer_cast<ColliderPixel>(caching_dest)->pixel_collider());
 	}
 
 	return false;
@@ -68,17 +68,22 @@ bool ColliderRect::_Initialize()
 
 void ColliderRect::_Update(float time)
 {
+	if (object_.expired())
+		return;
+
+	auto caching_object = object();
+	auto object_position = caching_object->position();
+
+	if (caching_object->type() == OBJECT_TYPE::UI)
+		object_position += Camera::instance()->world();
+
 	size_.x = model_.r - model_.l;
 	size_.y = model_.b - model_.t;
 
-	if(!object_.expired())
-	{
-		XY object_position = object()->position();
-		world_.l = object_position.x + model_.l - pivot_.x * size_.x;
-		world_.t = object_position.y + model_.t - pivot_.y * size_.y;
-		world_.r = world_.l + size_.x;
-		world_.b = world_.t + size_.y;
-	}
+	world_.l = object_position.x + model_.l - pivot_.x * size_.x;
+	world_.t = object_position.y + model_.t - pivot_.y * size_.y;
+	world_.r = world_.l + size_.x;
+	world_.b = world_.t + size_.y;
 }
 
 void ColliderRect::_Render(HDC device_context, float time)

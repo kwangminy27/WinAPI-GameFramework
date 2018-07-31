@@ -45,7 +45,7 @@ public:
 	void RemoveCollidedCollider(std::weak_ptr<Collider> const& collider);
 
 protected:
-	Collider() = default ;
+	Collider() = default;
 	Collider(Collider const& other);
 	Collider(Collider&& other) noexcept;
 	Collider& operator=(Collider const&) = default;

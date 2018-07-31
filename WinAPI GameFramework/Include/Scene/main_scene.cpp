@@ -4,6 +4,7 @@
 #include "../Object/object_manager.h"
 #include "../Object/player.h"
 #include "../Object/monster.h"
+#include "../input.h"
 #include "../camera.h"
 #include "../Object/bullet.h"
 #include "../Object/rotation_bullet.h"
@@ -12,6 +13,7 @@
 #include "../Object/stage.h"
 #include "../Object/effect.h"
 #include "../Object/button_ui.h"
+#include "../Object/mouse_ui.h"
 #include "../Collision/collider_circle.h"
 
 void MainScene::_Release()
@@ -32,12 +34,10 @@ bool MainScene::_Initialize()
 	object_manager->CreatePrototype<GuidedBullet>("GuidedBullet", scene());
 	object_manager->CreatePrototype<ParabolaBullet>("ParabolaBullet", scene());
 
-	object_manager->CreateObject<Stage>("Stage", background_layer);
+	auto stage = dynamic_pointer_cast<Stage>(object_manager->CreateObject<Stage>("Stage", background_layer));
+	camera->set_map_size(stage->map_size());
 
 	auto player = dynamic_pointer_cast<Player>(object_manager->CreateObject<Player>("Player", default_layer));
-
-	// camera의 set_world_size는 맵 크기를 얻어와야 할텐데.. 일단 테스트용으로 대충 숫자 집어넣자.
-	camera->set_map_size({ 1500.f, 1200.f });
 	camera->set_target(player);
 	camera->set_pivot({ 0.5f, 0.5f });
 
@@ -53,6 +53,7 @@ bool MainScene::_Initialize()
 	object_manager->CreatePrototype<Effect>("BombEffect", scene());
 
 	auto button = object_manager->CreateObject<ButtonUI>("Button", ui_layer);
+	Input::instance()->set_mouse(object_manager->CreateObject<MouseUI>("Mouse", ui_layer));
 
 	return true;
 }
