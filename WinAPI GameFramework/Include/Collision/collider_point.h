@@ -8,6 +8,7 @@ class ColliderPoint final : public Collider
 public:
 	XY const& world() const;
 	void set_model(XY const& model);
+
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
 
 private:

@@ -297,11 +297,11 @@ void Object::_Input(float time)
 
 void Object::_Update(float time)
 {
-	static float const kWeightingFactor = 500.f;
+	static float const kWeightingFactor = 800.f;
 
 	if (physics_flag_)
 	{
-		if(energy_ >= -2000.f)
+		if(energy_ >= -2500.f)
 			energy_ -= kWeightingFactor * Physics::GravitionalAcceleration() * time;
 		velocity_ -= energy_ * time;
 		position_.y += velocity_ * time;
@@ -315,7 +315,7 @@ void Object::_LateUpdate(float time)
 {
 	for (auto const& collider : collider_collection_)
 	{
-		if(collider->enablement())
+		if (collider->enablement())
 			collider->_Update(time);
 	}
 }

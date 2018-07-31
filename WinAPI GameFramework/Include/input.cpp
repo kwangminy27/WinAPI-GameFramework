@@ -2,6 +2,7 @@
 #include "input.h"
 #include "camera.h"
 #include "Object/mouse_ui.h"
+#include "Object/object_manager.h"
 
 using namespace std;
 
@@ -14,20 +15,12 @@ bool Input::Initialize()
 	AddKey("Fire"s, VK_SPACE);
 	AddKey("Pause"s, VK_CONTROL, '1');
 
-	mouse_ = unique_ptr<Object, function<void(Object*)>>{ new MouseUI, [](Object* p) {
-		dynamic_cast<MouseUI*>(p)->_Release();
-		delete dynamic_cast<MouseUI*>(p);
-	} };
-
-	if (!dynamic_cast<MouseUI*>(mouse_.get())->_Initialize())
-		return false;
-
 	ShowCursor(false);
 
 	return true;
 }
 
-void Input::Update(float delta_time)
+void Input::Update(float time)
 {
 	for (auto const& key : key_collection_)
 	{
@@ -58,33 +51,8 @@ void Input::Update(float delta_time)
 			key.second->up = false;
 	}
 
-
-	POINT mouse_position{};
-	GetCursorPos(&mouse_position);
-	ScreenToClient(Core::instance()->main_window(), &mouse_position);
-
-	mouse_displacement_.x = static_cast<float>(mouse_position.x) - mouse_client_position_.x;
-	mouse_displacement_.y = static_cast<float>(mouse_position.y) - mouse_client_position_.y;
-
-	mouse_client_position_ = { static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y) };
-
-	// Ä¿¼­ ¼û±â±â
-	if (!mouse_show_flag_ && mouse_client_position_.x < 0.f && mouse_client_position_.x > static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y < 0.f && mouse_client_position_.y > static_cast<float>(RESOLUTION::HEIGHT))
-	{
-		mouse_show_flag_ = true;
-
-		while (ShowCursor(true) <= 0) {}
-	}
-	else if (mouse_show_flag_ && mouse_client_position_.x > 0.f && mouse_client_position_.x < static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y > 0.f && mouse_client_position_.y < static_cast<float>(RESOLUTION::HEIGHT))
-	{
-		mouse_show_flag_ = false;
-
-		while (ShowCursor(true) >= 0) {}
-	}
-
-	mouse_world_position_ = mouse_client_position_ + Camera::instance()->world();
-
-	mouse_->set_position(mouse_client_position_);
+	UpdateMouseCursor();
+	ManageMouseCursorState();
 }
 
 bool Input::KeyPush(string const& tag) const
@@ -143,7 +111,47 @@ XY const& Input::mouse_displacement() const
 	return mouse_displacement_;
 }
 
-void Input::RenderMouse(HDC device_context, float time)
+shared_ptr<Object> Input::mouse() const
+{
+	return mouse_;
+}
+
+void Input::set_mouse(shared_ptr<Object> const& mouse)
+{
+	mouse_ = mouse;
+}
+
+void Input::UpdateMouseCursor()
+{
+	POINT mouse_position{};
+	GetCursorPos(&mouse_position);
+	ScreenToClient(Core::instance()->main_window(), &mouse_position);
+
+	mouse_displacement_.x = static_cast<float>(mouse_position.x) - mouse_client_position_.x;
+	mouse_displacement_.y = static_cast<float>(mouse_position.y) - mouse_client_position_.y;
+
+	mouse_client_position_ = { static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y) };
+
+	mouse_world_position_ = mouse_client_position_ + Camera::instance()->world();
+
+	mouse_->set_position(mouse_client_position_);
+}
+
+void Input::ManageMouseCursorState()
+{
+	if (!mouse_show_flag_ && mouse_client_position_.x <= 0.f && mouse_client_position_.x >= static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y <= 0.f && mouse_client_position_.y >= static_cast<float>(RESOLUTION::HEIGHT))
+	{
+		mouse_show_flag_ = true;
+		ShowCursor(true);
+	}
+	else if (mouse_show_flag_ && mouse_client_position_.x > 0.f && mouse_client_position_.x < static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y > 0.f && mouse_client_position_.y < static_cast<float>(RESOLUTION::HEIGHT))
+	{
+		mouse_show_flag_ = false;
+		ShowCursor(false);
+	}
+}
+
+void Input::RenderMouseCursor(HDC device_context, float time)
 {
 	dynamic_cast<MouseUI*>(mouse_.get())->_Render(device_context, time);
 }

@@ -8,6 +8,7 @@ class ColliderRect final : public Collider
 public:
 	RECT_INFO const& world() const;
 	void set_model(RECT_INFO const& model);
+
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
 
 private:

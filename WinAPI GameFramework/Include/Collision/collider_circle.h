@@ -8,13 +8,14 @@ class ColliderCircle final : public Collider
 public:
 	CIRCLE_INFO const& world() const;
 	void set_model(CIRCLE_INFO const& model);
+
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
 
 private:
 	ColliderCircle() = default;
 	ColliderCircle(ColliderCircle const& other);
-	ColliderCircle& operator=(ColliderCircle const& other) = default;
 	ColliderCircle(ColliderCircle&& other) noexcept;
+	ColliderCircle& operator=(ColliderCircle const& other) = default;
 	ColliderCircle& operator=(ColliderCircle&& other) noexcept = default;
 
 	virtual void _Release() override;

@@ -151,7 +151,7 @@ bool Player::_Initialize()
 	}, COLLISION_CALLBACK::ENTER);
 	collider_shield_bottom->set_enablement(false);
 
-	AddAnimationClip("motion6");
+	AddAnimationClip("motion4");
 	set_color_key(RGB(255, 0, 255));
 
 	return true;
@@ -177,7 +177,7 @@ void Player::_Input(float time)
 	{
 		if (!physics_flag_)
 		{
-			energy_ += 2000.f;//MoveByAngle(time); mgh
+			energy_ += 2500.f;//MoveByAngle(time); mgh
 			physics_flag_ = true;
 		}
 	}

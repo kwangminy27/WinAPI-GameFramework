@@ -1,4 +1,5 @@
 #include "mouse_ui.h"
+#include "../Collision/collider_point.h"
 
 using namespace std;
 
@@ -16,12 +17,15 @@ void MouseUI::_Release()
 
 bool MouseUI::_Initialize()
 {
-	if (UI::_Initialize())
+	if (!UI::_Initialize())
 		return false;
 
 	set_size(32.f, 31.f);
 	set_texture("Mouse", L"Mouse/0.bmp");
 	set_color_key(RGB(255, 0, 255));
+
+	auto collider_point = dynamic_pointer_cast<ColliderPoint>(AddCollider<ColliderPoint>("MouseBody"));
+	collider_point->set_collision_group_tag("UI");
 
 	return true;
 }

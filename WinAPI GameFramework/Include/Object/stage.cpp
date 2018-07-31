@@ -108,6 +108,9 @@ bool Stage::_Initialize()
 	set_size({ static_cast<float>(RESOLUTION::WIDTH), static_cast<float>(RESOLUTION::HEIGHT) });
 	set_texture("Stage", L"Stage1.bmp", "TexturePath");
 
+	auto caching_texture = texture_.lock();
+	set_map_size({ static_cast<float>(caching_texture->width()), static_cast<float>(caching_texture->height()) });
+
 	auto collider_pixel = dynamic_pointer_cast<ColliderPixel>(AddCollider<ColliderPixel>("StageCollider"));
 	collider_pixel->set_pixel_collider("MainStage");
 	collider_pixel->set_comparision_pixel({ 255, 0, 255 });

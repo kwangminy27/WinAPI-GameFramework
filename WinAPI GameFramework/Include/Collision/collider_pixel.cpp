@@ -1,4 +1,5 @@
 #include "../path_manager.h"
+#include "../camera.h"
 #include "../Object/object.h"
 #include "collider_point.h"
 #include "collider_rect.h"
@@ -85,7 +86,15 @@ bool ColliderPixel::_Initialize()
 
 void ColliderPixel::_Update(float time)
 {
-	auto object_position = object()->position();
+	if (object_.expired())
+		return;
+
+	auto caching_object = object();
+	auto object_position = caching_object->position();
+
+	if (caching_object->type() == OBJECT_TYPE::UI)
+		object_position += Camera::instance()->world();
+
 	pixel_collider()->world.x = object_position.x - pixel_collider()->pixel24_collection.at(0).size() * pivot_.x;
 	pixel_collider()->world.y = object_position.y - pixel_collider()->pixel24_collection.size() * pivot_.y;
 }

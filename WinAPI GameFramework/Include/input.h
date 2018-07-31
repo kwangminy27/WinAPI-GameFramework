@@ -18,7 +18,7 @@ class Input final : public Singleton<Input>
 	friend class Singleton<Input>;
 public:
 	bool Initialize();
-	void Update(float delta_time);
+	void Update(float time);
 
 	bool KeyPush(std::string const& tag) const;
 	bool KeyPressed(std::string const& tag) const;
@@ -32,7 +32,13 @@ public:
 	XY const& mouse_world_position() const;
 	XY const& mouse_displacement() const;
 
-	void RenderMouse(HDC device_context, float time);
+	std::shared_ptr<Object> mouse() const;
+
+	void set_mouse(std::shared_ptr<Object> const& mouse);
+
+	void UpdateMouseCursor();
+	void ManageMouseCursorState();
+	void RenderMouseCursor(HDC device_context, float time);
 
 private:
 	Input() = default;
@@ -52,7 +58,7 @@ private:
 	XY mouse_displacement_{};
 	bool mouse_show_flag_{};
 
-	std::unique_ptr<Object, std::function<void(Object*)>> mouse_{};
+	std::shared_ptr<Object> mouse_{};
 };
 
 #include "input.inl"
