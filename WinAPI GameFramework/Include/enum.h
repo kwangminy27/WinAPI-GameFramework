@@ -52,3 +52,10 @@ enum class OBJECT_TYPE
 	EFFECT,
 	UI
 };
+
+enum class BUTTON_STATE
+{
+	NORMAL,
+	MOUSEON,
+	CLICK
+};

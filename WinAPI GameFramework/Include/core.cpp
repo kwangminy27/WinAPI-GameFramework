@@ -23,10 +23,10 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 
 	device_context_ = GetDC(main_window_);
 
-	if (!Input::instance()->Initialize())
+	if (!PathManager::instance()->Initialize())
 		return false;
 
-	if (!PathManager::instance()->Initialize())
+	if (!Input::instance()->Initialize())
 		return false;
 
 	if (!Camera::instance()->Initialize())
@@ -203,6 +203,8 @@ void Core::_Render(float time)
 	auto caching_back_buffer = back_buffer_.lock();
 
 	scene_manager->Render(caching_back_buffer->memory_device_context(), time);
+
+	Input::instance()->RenderMouse(caching_back_buffer->memory_device_context(), time);
 
 	BitBlt(device_context_,
 		0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT),

@@ -1,4 +1,7 @@
+#include "core.h"
 #include "input.h"
+#include "camera.h"
+#include "Object/mouse_ui.h"
 
 using namespace std;
 
@@ -10,7 +13,17 @@ bool Input::Initialize()
 	AddKey("MoveRight"s, VK_RIGHT);
 	AddKey("Fire"s, VK_SPACE);
 	AddKey("Pause"s, VK_CONTROL, '1');
-	
+
+	mouse_ = unique_ptr<Object, function<void(Object*)>>{ new MouseUI, [](Object* p) {
+		dynamic_cast<MouseUI*>(p)->_Release();
+		delete dynamic_cast<MouseUI*>(p);
+	} };
+
+	if (!dynamic_cast<MouseUI*>(mouse_.get())->_Initialize())
+		return false;
+
+	ShowCursor(false);
+
 	return true;
 }
 
@@ -44,6 +57,34 @@ void Input::Update(float delta_time)
 		else if (key.second->up)
 			key.second->up = false;
 	}
+
+
+	POINT mouse_position{};
+	GetCursorPos(&mouse_position);
+	ScreenToClient(Core::instance()->main_window(), &mouse_position);
+
+	mouse_displacement_.x = static_cast<float>(mouse_position.x) - mouse_client_position_.x;
+	mouse_displacement_.y = static_cast<float>(mouse_position.y) - mouse_client_position_.y;
+
+	mouse_client_position_ = { static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y) };
+
+	// Ä¿¼­ ¼û±â±â
+	if (!mouse_show_flag_ && mouse_client_position_.x < 0.f && mouse_client_position_.x > static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y < 0.f && mouse_client_position_.y > static_cast<float>(RESOLUTION::HEIGHT))
+	{
+		mouse_show_flag_ = true;
+
+		while (ShowCursor(true) <= 0) {}
+	}
+	else if (mouse_show_flag_ && mouse_client_position_.x > 0.f && mouse_client_position_.x < static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y > 0.f && mouse_client_position_.y < static_cast<float>(RESOLUTION::HEIGHT))
+	{
+		mouse_show_flag_ = false;
+
+		while (ShowCursor(true) >= 0) {}
+	}
+
+	mouse_world_position_ = mouse_client_position_ + Camera::instance()->world();
+
+	mouse_->set_position(mouse_client_position_);
 }
 
 bool Input::KeyPush(string const& tag) const
@@ -85,4 +126,24 @@ void Input::AddKey()
 {
 	string tag = key_buffer_->tag;
 	key_collection_.insert(make_pair(move(tag), move(key_buffer_)));
+}
+
+XY const& Input::mouse_client_position() const
+{
+	return mouse_client_position_;
+}
+
+XY const& Input::mouse_world_position() const
+{
+	return mouse_world_position_;
+}
+
+XY const& Input::mouse_displacement() const
+{
+	return mouse_displacement_;
+}
+
+void Input::RenderMouse(HDC device_context, float time)
+{
+	dynamic_cast<MouseUI*>(mouse_.get())->_Render(device_context, time);
 }

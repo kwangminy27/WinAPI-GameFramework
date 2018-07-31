@@ -2,6 +2,8 @@
 
 #include "singleton.h"
 
+class Object;
+
 struct KeyInfo
 {
 	std::string tag{};
@@ -26,6 +28,12 @@ public:
 	template <typename... Types> void AddKey(std::string const& tag, Types... Args);
 	void AddKey();
 
+	XY const& mouse_client_position() const;
+	XY const& mouse_world_position() const;
+	XY const& mouse_displacement() const;
+
+	void RenderMouse(HDC device_context, float time);
+
 private:
 	Input() = default;
 	Input(Input const&) = delete;
@@ -38,6 +46,13 @@ private:
 	std::unique_ptr<KeyInfo> key_nullptr_{};
 	std::unordered_map<std::string, std::unique_ptr<KeyInfo>> key_collection_{};
 	std::unique_ptr<KeyInfo> key_buffer_{};
+
+	XY mouse_client_position_{};
+	XY mouse_world_position_{};
+	XY mouse_displacement_{};
+	bool mouse_show_flag_{};
+
+	std::unique_ptr<Object, std::function<void(Object*)>> mouse_{};
 };
 
 #include "input.inl"

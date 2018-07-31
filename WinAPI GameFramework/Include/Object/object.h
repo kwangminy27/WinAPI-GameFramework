@@ -51,7 +51,7 @@ public:
 	void set_scene(std::weak_ptr<Scene> const& scene);
 	void set_layer(std::weak_ptr<Layer> const& layer);
 	void set_texture(std::weak_ptr<Texture> const& texture);
-	bool set_texture(std::string const& tag, std::wstring const& file_name, std::string const& path_tag);
+	bool set_texture(std::string const& tag, std::wstring const& file_name, std::string const& path_tag = "TexturePath");
 	bool set_texture(std::string const& tag);
 
 	void Move(float x, float y);

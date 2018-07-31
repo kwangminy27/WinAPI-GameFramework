@@ -2,15 +2,16 @@
 
 #include "ui.h"
 
-class ButtonUI : public UI
+class MouseUI : public UI
 {
+	friend class Input;
 	friend class ObjectManager;
-protected:
-	ButtonUI() = default;
-	ButtonUI(ButtonUI const& other);
-	ButtonUI(ButtonUI&& other) noexcept;
-	ButtonUI& operator=(ButtonUI const&) = default;
-	ButtonUI& operator=(ButtonUI&&) noexcept = default;
+private:
+	MouseUI() = default;
+	MouseUI(MouseUI const& other);
+	MouseUI(MouseUI&& other) noexcept;
+	MouseUI& operator=(MouseUI const&) = default;
+	MouseUI& operator=(MouseUI&&) noexcept = default;
 
 	virtual void _Release() override;
 
@@ -22,6 +23,4 @@ protected:
 	virtual void _Render(HDC device_context, float time) override;
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() override;
-	
-	BUTTON_STATE state_{};
 };

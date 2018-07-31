@@ -6,10 +6,12 @@ using namespace std;
 
 ButtonUI::ButtonUI(ButtonUI const& other) : UI(other)
 {
+	state_ = other.state_;
 }
 
 ButtonUI::ButtonUI(ButtonUI&& other) noexcept : UI(move(other))
 {
+	state_ = move(other.state_);
 }
 
 void ButtonUI::_Release()
@@ -21,7 +23,9 @@ bool ButtonUI::_Initialize()
 	if (UI::_Initialize())
 		return false;
 	
-	set_position(static_cast<float>(RESOLUTION::WIDTH) / 2.f, static_cast<float>(RESOLUTION::HEIGHT) / 2.f);
+	state_ = BUTTON_STATE::NORMAL;
+
+	set_position(200.f, 200.f);
 	set_size(200.f, 100.f);
 	set_pivot(0.5f, 0.5f);
 	set_offset({ 200.f, 0.f });

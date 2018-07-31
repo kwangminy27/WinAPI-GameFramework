@@ -151,7 +151,7 @@ bool Player::_Initialize()
 	}, COLLISION_CALLBACK::ENTER);
 	collider_shield_bottom->set_enablement(false);
 
-	AddAnimationClip("motion4");
+	AddAnimationClip("motion6");
 	set_color_key(RGB(255, 0, 255));
 
 	return true;

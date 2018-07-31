@@ -40,6 +40,7 @@
     <ClCompile Include="Object\effect.cpp" />
     <ClCompile Include="Object\guided_bullet.cpp" />
     <ClCompile Include="Object\monster.cpp" />
+    <ClCompile Include="Object\mouse_ui.cpp" />
     <ClCompile Include="Object\object.cpp" />
     <ClCompile Include="Object\object_manager.cpp" />
     <ClCompile Include="Object\parabola_bullet.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="Object\effect.h" />
     <ClInclude Include="Object\guided_bullet.h" />
     <ClInclude Include="Object\monster.h" />
+    <ClInclude Include="Object\mouse_ui.h" />
     <ClInclude Include="Object\object.h" />
     <ClInclude Include="Object\object_manager.h" />
     <ClInclude Include="Object\parabola_bullet.h" />
