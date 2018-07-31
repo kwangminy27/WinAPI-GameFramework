@@ -19,7 +19,7 @@ private:
 	std::unique_ptr<AnimationClip, std::function<void(AnimationClip*)>> _Clone();
 
 	std::string tag_{};
-	ANIMATION_CLIP type_{};
+	ANIMATION_CLIP_TYPE type_{};
 	ANIMATION_OPTION option_{};
 	ANIMATION_FRAME_INFO frame_info_{};
 	std::weak_ptr<Texture> texture_{};

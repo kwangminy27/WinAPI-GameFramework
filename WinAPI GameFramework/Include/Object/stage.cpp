@@ -103,6 +103,8 @@ void Stage::_Release()
 
 bool Stage::_Initialize()
 {
+	type_ = OBJECT_TYPE::STAGE;
+
 	set_size({ static_cast<float>(RESOLUTION::WIDTH), static_cast<float>(RESOLUTION::HEIGHT) });
 	set_texture("Stage", L"Stage1.bmp", "TexturePath");
 

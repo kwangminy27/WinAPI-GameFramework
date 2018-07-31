@@ -1,4 +1,5 @@
 #include "Object/object.h"
+#include "Object/effect.h"
 #include "Resource/resource_manager.h"
 #include "animation_manager.h"
 #include "animation.h"

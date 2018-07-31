@@ -68,6 +68,9 @@
     <Filter Include="03. Object\04. Effect">
       <UniqueIdentifier>{eda9ba11-40ca-4086-9aaa-ff40b5b8f80f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Object\05. UI">
+      <UniqueIdentifier>{3c4d1c78-5d5b-479e-a979-ce9bdde0a9a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -180,6 +183,12 @@
     </ClCompile>
     <ClCompile Include="animation_manager.cpp">
       <Filter>06. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\ui.cpp">
+      <Filter>03. Object\05. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\button_ui.cpp">
+      <Filter>03. Object\05. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +311,12 @@
     </ClInclude>
     <ClInclude Include="animation_manager.h">
       <Filter>06. Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\ui.h">
+      <Filter>03. Object\05. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\button_ui.h">
+      <Filter>03. Object\05. UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

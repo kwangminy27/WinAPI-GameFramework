@@ -18,7 +18,7 @@ private:
 
 	virtual void _Release() override;
 
-	bool _CreateAnimationClip(std::string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, std::string const& texture_tag, std::wstring const& file_name, std::string const& path_tag = "TexturePath");
+	bool _CreateAnimationClip(std::string const& tag, ANIMATION_CLIP_TYPE type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, std::string const& texture_tag, std::wstring const& file_name, std::string const& path_tag = "TexturePath");
 	bool _LoadTextureAltas(std::string const& tag, std::wstring const& file_name, std::string const& path_tag = "DataPath");
 
 	std::shared_ptr<AnimationClip> animation_clip_prototype_nullptr_{};

@@ -31,6 +31,8 @@ void ParabolaBullet::_Release()
 
 bool ParabolaBullet::_Initialize()
 {
+	type_ = OBJECT_TYPE::BULLET;
+
 	set_size(20.f, 20.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);

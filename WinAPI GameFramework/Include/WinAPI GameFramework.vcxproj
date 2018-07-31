@@ -35,6 +35,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="Object\bullet.cpp" />
+    <ClCompile Include="Object\button_ui.cpp" />
     <ClCompile Include="Object\character.cpp" />
     <ClCompile Include="Object\effect.cpp" />
     <ClCompile Include="Object\guided_bullet.cpp" />
@@ -45,6 +46,7 @@
     <ClCompile Include="Object\player.cpp" />
     <ClCompile Include="Object\rotation_bullet.cpp" />
     <ClCompile Include="Object\stage.cpp" />
+    <ClCompile Include="Object\ui.cpp" />
     <ClCompile Include="path_manager.cpp" />
     <ClCompile Include="physics.cpp" />
     <ClCompile Include="Resource\resource_manager.cpp" />
@@ -77,6 +79,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="Object\bullet.h" />
+    <ClInclude Include="Object\button_ui.h" />
     <ClInclude Include="Object\character.h" />
     <ClInclude Include="Object\effect.h" />
     <ClInclude Include="Object\guided_bullet.h" />
@@ -87,6 +90,7 @@
     <ClInclude Include="Object\player.h" />
     <ClInclude Include="Object\rotation_bullet.h" />
     <ClInclude Include="Object\stage.h" />
+    <ClInclude Include="Object\ui.h" />
     <ClInclude Include="path_manager.h" />
     <ClInclude Include="physics.h" />
     <ClInclude Include="resource.h" />

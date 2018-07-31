@@ -28,7 +28,7 @@ void AnimationManager::_Release()
 {
 }
 
-bool AnimationManager::_CreateAnimationClip(string const& tag, ANIMATION_CLIP type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, string const& texture_tag, wstring const& file_name, string const& path_tag)
+bool AnimationManager::_CreateAnimationClip(string const& tag, ANIMATION_CLIP_TYPE type, ANIMATION_OPTION option, float completion_time, ANIMATION_FRAME_INFO const& frame_info, string const& texture_tag, wstring const& file_name, string const& path_tag)
 {
 	if (FindAnimationClipPrototype(tag))
 		return false;
@@ -118,7 +118,7 @@ bool AnimationManager::_LoadTextureAltas(string const& tag, wstring const& file_
 		getline(line_stream, completion_time, ',');
 
 		animation_clip->tag_ = tag;
-		animation_clip->type_ = static_cast<ANIMATION_CLIP>(stoi(type));
+		animation_clip->type_ = static_cast<ANIMATION_CLIP_TYPE>(stoi(type));
 		animation_clip->option_ = static_cast<ANIMATION_OPTION>(stoi(option));
 		animation_clip->frame_info_.size.x = stof(size_x);
 		animation_clip->frame_info_.size.y = stof(size_y);

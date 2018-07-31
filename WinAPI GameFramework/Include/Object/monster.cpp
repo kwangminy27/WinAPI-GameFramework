@@ -85,7 +85,7 @@ void Monster::BeHit(weak_ptr<Collider> const& src, weak_ptr<Collider> const& des
 		caching_dest->object()->set_activation(false);
 
 		auto bomb_effect = dynamic_pointer_cast<Effect>(ObjectManager::instance()->CreateCloneObject("BombEffect", layer()));
-		bomb_effect->set_position(caching_dest->object()->position());
+		bomb_effect->set_position(caching_dest->intersect_position());
 		bomb_effect->set_size(100.f, 200.f);
 		bomb_effect->set_pivot(0.5f, 1.f);
 		bomb_effect->set_target(weak_from_this());
@@ -115,6 +115,8 @@ void Monster::_Release()
 
 bool Monster::_Initialize()
 {
+	type_ = OBJECT_TYPE::MONSTER;
+
 	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(200.f);

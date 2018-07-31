@@ -51,6 +51,8 @@ void Effect::_Release()
 
 bool Effect::_Initialize()
 {
+	type_ = OBJECT_TYPE::EFFECT;
+
 	set_color_key(RGB(255, 0, 255));
 
 	return true;

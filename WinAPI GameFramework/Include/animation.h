@@ -8,6 +8,7 @@ class Object;
 class Animation
 {
 	friend class Object;
+	friend class UI;
 public:
 	bool Initialize();
 	void Update(float time);

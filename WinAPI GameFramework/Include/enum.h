@@ -28,7 +28,7 @@ enum class COLLISION_CALLBACK
 	END
 };
 
-enum class ANIMATION_CLIP
+enum class ANIMATION_CLIP_TYPE
 {
 	ATLAS, // 이 프레임워크에서는 sprite altas만 사용할 예정
 	FRAME,
@@ -41,4 +41,14 @@ enum class ANIMATION_OPTION
 	 RETURN,
 	 DESTROY,
 	 END
+};
+
+enum class OBJECT_TYPE
+{
+	PLAYER,
+	MONSTER,
+	BULLET,
+	STAGE,
+	EFFECT,
+	UI
 };

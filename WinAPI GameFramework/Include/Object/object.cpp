@@ -12,6 +12,11 @@
 
 using namespace std;
 
+OBJECT_TYPE Object::type() const
+{
+	return type_;
+}
+
 XY Object::position() const
 {
 	return position_;

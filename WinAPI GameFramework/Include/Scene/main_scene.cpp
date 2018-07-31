@@ -11,6 +11,7 @@
 #include "../Object/parabola_bullet.h"
 #include "../Object/stage.h"
 #include "../Object/effect.h"
+#include "../Object/button_ui.h"
 #include "../Collision/collider_circle.h"
 
 void MainScene::_Release()
@@ -24,6 +25,7 @@ bool MainScene::_Initialize()
 
 	auto const& background_layer = scene()->FindLayer("Background");
 	auto const& default_layer = scene()->FindLayer("Default");
+	auto const& ui_layer = scene()->FindLayer("UI");
 
 	object_manager->CreatePrototype<Bullet>("Bullet", scene());
 	object_manager->CreatePrototype<RotationBullet>("RotationBullet", scene());
@@ -49,6 +51,8 @@ bool MainScene::_Initialize()
 	monster3->set_position(1080.f, 1000.f);
 
 	object_manager->CreatePrototype<Effect>("BombEffect", scene());
+
+	auto button = object_manager->CreateObject<ButtonUI>("Button", ui_layer);
 
 	return true;
 }

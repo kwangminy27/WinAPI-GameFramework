@@ -13,6 +13,8 @@ class Object : public Tag, public std::enable_shared_from_this<Object>
 	friend class Layer;
 	friend class ObjectManager;
 public:
+	OBJECT_TYPE type() const;
+
 	XY position() const;
 	XY size() const;
 	XY pivot() const;
@@ -81,6 +83,8 @@ protected:
 	virtual void _Render(HDC device_context, float time);
 
 	virtual std::unique_ptr<Object, std::function<void(Object*)>> _Clone() = 0;
+
+	OBJECT_TYPE type_{};
 
 	XY position_{};
 	XY size_{};
