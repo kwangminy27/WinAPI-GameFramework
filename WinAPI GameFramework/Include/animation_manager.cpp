@@ -10,6 +10,7 @@ bool AnimationManager::Initialize()
 {
 	_LoadTextureAltas("Halbae", L"halbae.csv");
 	_LoadTextureAltas("Effect", L"effect.csv");
+	_LoadTextureAltas("IceBolt", L"ice_bolt.csv");
 
 	return true;
 }

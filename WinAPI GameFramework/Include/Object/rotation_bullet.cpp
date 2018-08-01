@@ -66,8 +66,8 @@ bool RotationBullet::_Initialize()
 	set_range(1000.f);
 	set_rotation_range(50.f);
 
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
-	set_color_key(RGB(0, 248, 0));
+	//texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
+	set_color_key(RGB(255, 0, 255));
 
 	return true;
 }

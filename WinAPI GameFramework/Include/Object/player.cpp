@@ -110,7 +110,7 @@ bool Player::_Initialize()
 	input_manager->AddKey("Skill4"s, '4');
 	input_manager->AddKey("Skill5"s, '5');
 
-	set_texture("Teemo", L"Teemo.bmp", "TexturePath");
+	//set_texture("Teemo", L"Teemo.bmp", "TexturePath");
 
 	auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"));
 	collider_rect->set_model({ 0.f, 0.f, 50.f, 50.f });
@@ -271,9 +271,10 @@ void Player::_Input(float time)
 
 		guided_bullet->set_position(barrel_end);
 		guided_bullet->set_angle(angle_);
+		guided_bullet->AddAnimationClip("IceBolt");
 
-		auto collider = dynamic_pointer_cast<ColliderCircle>(guided_bullet->AddCollider<ColliderCircle>("GuidedBulletBody"));
-		collider->set_model({ 0.f, 0.f, 10.f });
+		auto collider = dynamic_pointer_cast<ColliderRect>(guided_bullet->AddCollider<ColliderRect>("GuidedBulletBody"));
+		collider->set_model({ 0.f, 0.f, 128.f, 128.f });
 	}
 
 	if (KeyPush("Skill5"))
