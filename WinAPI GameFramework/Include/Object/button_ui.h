@@ -5,6 +5,9 @@
 class ButtonUI : public UI
 {
 	friend class ObjectManager;
+public:
+	void set_state(BUTTON_STATE state);
+
 protected:
 	ButtonUI() = default;
 	ButtonUI(ButtonUI const& other);

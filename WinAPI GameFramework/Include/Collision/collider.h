@@ -25,6 +25,7 @@ public:
 	XY const& intersect_position() const;
 	std::string const& collision_group_tag() const;
 	std::shared_ptr<Object> object() const;
+	std::list<std::weak_ptr<Collider>>& collided_collider_list();
 
 	void set_pivot(XY const& xy);
 	void set_size(XY const& xy);

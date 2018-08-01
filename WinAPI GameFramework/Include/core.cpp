@@ -183,9 +183,10 @@ void Core::_Update(float time)
 	auto const& scene_manager = SceneManager::instance();
 
 	scene_manager->Update(time);
-	scene_manager->LateUpdate(time);
 
 	Camera::instance()->Update(time);
+
+	scene_manager->LateUpdate(time);
 }
 
 void Core::_Collision(float time)

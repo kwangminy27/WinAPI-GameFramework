@@ -110,7 +110,7 @@ bool Player::_Initialize()
 	input_manager->AddKey("Skill4"s, '4');
 	input_manager->AddKey("Skill5"s, '5');
 
-	//set_texture("Teemo", L"Teemo.bmp", "TexturePath");
+	set_texture("Teemo", L"Teemo.bmp", "TexturePath");
 
 	auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"));
 	collider_rect->set_model({ 0.f, 0.f, 50.f, 50.f });
@@ -163,9 +163,9 @@ void Player::_Input(float time)
 
 	auto const& input_manager = Input::instance();
 
-	static auto KeyPush = [&input_manager](string tag) -> bool { return input_manager->KeyPush(tag); };
-	static auto KeyPressed = [&input_manager](string tag) -> bool { return input_manager->KeyPressed(tag); };
-	static auto KeyUp = [&input_manager](string tag) -> bool { return input_manager->KeyUp(tag); };
+	static auto KeyPush = [&input_manager](string const& tag) -> bool { return input_manager->KeyPush(tag); };
+	static auto KeyPressed = [&input_manager](string const& tag) -> bool { return input_manager->KeyPressed(tag); };
+	static auto KeyUp = [&input_manager](string const& tag) -> bool { return input_manager->KeyUp(tag); };
 
 	if (KeyPressed("MoveLeft"))
 		Move(-move_speed_ * time, 0.f);//Rotate(-time);
@@ -208,6 +208,7 @@ void Player::_Input(float time)
 
 		bullet1->set_position(barrel_end);
 		bullet1->set_angle(angle_ - 30.f);
+
 		auto collider1 = dynamic_pointer_cast<ColliderCircle>(bullet1->AddCollider<ColliderCircle>("BulletBody"));
 		collider1->set_model({ 0.f, 0.f, 10.f });
 
@@ -271,10 +272,9 @@ void Player::_Input(float time)
 
 		guided_bullet->set_position(barrel_end);
 		guided_bullet->set_angle(angle_);
-		guided_bullet->AddAnimationClip("IceBolt");
 
-		auto collider = dynamic_pointer_cast<ColliderRect>(guided_bullet->AddCollider<ColliderRect>("GuidedBulletBody"));
-		collider->set_model({ 0.f, 0.f, 128.f, 128.f });
+		auto collider_circle = dynamic_pointer_cast<ColliderCircle>(guided_bullet->AddCollider<ColliderCircle>("GuidedBulletBody"));
+		collider_circle->set_model({ 0.f, 0.f, 10.f });
 	}
 
 	if (KeyPush("Skill5"))

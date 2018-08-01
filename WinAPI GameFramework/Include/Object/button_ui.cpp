@@ -1,9 +1,15 @@
+#include "../input.h"
 #include "button_ui.h"
 #include "../Resource/resource_manager.h"
 #include "../Resource/texture.h"
 #include "../Collision/collider_rect.h"
 
 using namespace std;
+
+void ButtonUI::set_state(BUTTON_STATE state)
+{
+	state_ = state;
+}
 
 ButtonUI::ButtonUI(ButtonUI const& other) : UI(other)
 {
@@ -43,7 +49,7 @@ bool ButtonUI::_Initialize()
 	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
 		_OnCollision(src, dest, time);
 	}, COLLISION_CALLBACK::STAY);
-	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) { 
 		_OnCollisionLeave(src, dest, time);
 	}, COLLISION_CALLBACK::LEAVE);
 
@@ -53,11 +59,29 @@ bool ButtonUI::_Initialize()
 void ButtonUI::_Input(float time)
 {
 	UI::_Input(time);
+
+	auto const& input_manager = Input::instance();
+	
+	static auto KeyPush = [&input_manager](string const& tag) -> bool { return input_manager->KeyPush(tag); };
+	static auto KeyUp = [&input_manager](string const& tag) -> bool { return input_manager->KeyUp(tag); };
+
+	if (state_ != BUTTON_STATE::NORMAL)
+	{
+		if (KeyPush("LeftButton"))
+			state_ = BUTTON_STATE::CLICK;
+		else if (KeyUp("LeftButton"))
+		{
+			// 콜백 처리
+			state_ = BUTTON_STATE::MOUSEON;
+		}
+	}
 }
 
 void ButtonUI::_Update(float time)
 {
 	UI::_Update(time);
+
+	offset_.x = static_cast<float>(state_) * size_.x;
 }
 
 void ButtonUI::_LateUpdate(float time)
@@ -85,6 +109,16 @@ unique_ptr<Object, function<void(Object*)>> ButtonUI::_Clone()
 
 void ButtonUI::_OnCollisionEnter(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
 {
+	if (src.expired() || dest.expired())
+		return;
+
+	auto caching_src = src.lock();
+	auto caching_dest = dest.lock();
+
+	if (caching_src->tag() == "MouseBody" && caching_dest->tag() == "ButtonBody")
+		dynamic_pointer_cast<ButtonUI>(caching_dest->object())->set_state(BUTTON_STATE::MOUSEON);
+	if (caching_src->tag() == "ButtonBody" && caching_dest->tag() == "MouseBody")
+		dynamic_pointer_cast<ButtonUI>(caching_src->object())->set_state(BUTTON_STATE::MOUSEON);
 }
 
 void ButtonUI::_OnCollision(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
@@ -93,4 +127,14 @@ void ButtonUI::_OnCollision(weak_ptr<Collider> const& src, weak_ptr<Collider> co
 
 void ButtonUI::_OnCollisionLeave(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
 {
+	if (src.expired() || dest.expired())
+		return;
+
+	auto caching_src = src.lock();
+	auto caching_dest = dest.lock();
+
+	if (caching_src->tag() == "MouseBody" && caching_dest->tag() == "ButtonBody")
+		dynamic_pointer_cast<ButtonUI>(caching_dest->object())->set_state(BUTTON_STATE::NORMAL);
+	if (caching_src->tag() == "ButtonBody" && caching_dest->tag() == "MouseBody")
+		dynamic_pointer_cast<ButtonUI>(caching_src->object())->set_state(BUTTON_STATE::NORMAL);
 }

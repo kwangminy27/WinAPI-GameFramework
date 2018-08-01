@@ -79,7 +79,7 @@ void CollisionManager::Collision(float time)
 	});
 	auto const& ui_collision_group = FindCollisionGroup("UI");
 	auto const& default_collision_group = FindCollisionGroup("Default");
-	bool mouse_collision_flag{ false };
+	static bool mouse_collision_flag{ false };
 	
 	if (!ui_collision_group.empty())
 	{
@@ -94,7 +94,7 @@ void CollisionManager::Collision(float time)
 			auto dest = ui_collision_group.at(i).lock();
 			auto dest_object = dest->object();
 
-			if (src_object == dest_object)
+			if (src == dest)
 				continue;
 
 			if (src->Collision(dest))
@@ -105,6 +105,57 @@ void CollisionManager::Collision(float time)
 				{
 					mouse_collision_flag = true;
 
+					src->AddCollidedCollider(dest);
+					dest->AddCollidedCollider(src);
+
+					src->OnCollisionEnter(dest, time);
+					dest->OnCollisionEnter(src, time);
+				}
+				else
+				{
+					src->OnCollision(dest, time);
+					dest->OnCollision(src, time);
+				}
+			}
+			else
+			{
+				if (src->IsCollidedCollider(dest))
+				{
+					mouse_collision_flag = false;
+
+					src->RemoveCollidedCollider(dest);
+					dest->RemoveCollidedCollider(src);
+
+					src->OnCollisionLeave(dest, time);
+					dest->OnCollisionLeave(src, time);
+				}
+			}
+		}
+	}
+
+	// 2. 마우스와 일반 오브젝트 충돌
+	if (!mouse_collision_flag)
+	{
+		auto src = *mouse_body_collider;
+		auto src_object = src->object();
+
+		for (size_t i = 0; i < default_collision_group.size(); ++i)
+		{
+			if (default_collision_group.at(i).expired())
+				continue;
+
+			auto dest = default_collision_group.at(i).lock();
+			auto dest_object = dest->object();
+
+			if (src == dest)
+				continue;
+
+			if (src->Collision(dest))
+			{
+				dest->set_intersect_position(src->intersect_position());
+
+				if (!src->IsCollidedCollider(dest))
+				{
 					src->AddCollidedCollider(dest);
 					dest->AddCollidedCollider(src);
 
@@ -130,55 +181,22 @@ void CollisionManager::Collision(float time)
 			}
 		}
 	}
-
-	// 2. 마우스와 일반 오브젝트 충돌
-	if (!mouse_collision_flag)
+	else
 	{
-		auto src = *mouse_body_collider;
-		auto src_object = src->object();
+		auto& collided_collider_list = (*mouse_body_collider)->collided_collider_list();
 
-		for (size_t i = 0; i < default_collision_group.size(); ++i)
+		for (auto iter = collided_collider_list.begin(); iter != collided_collider_list.end();)
 		{
-			if (default_collision_group.at(i).expired())
+			if (iter->expired())
 				continue;
 
-			auto dest = default_collision_group.at(i).lock();
-			auto dest_object = dest->object();
-
-			if (src_object == dest_object)
-				continue;
-
-			if (src->Collision(dest))
+			if (iter->lock()->collision_group_tag() == "Default")
 			{
-				dest->set_intersect_position(src->intersect_position());
-
-				if (!src->IsCollidedCollider(dest))
-				{
-					mouse_collision_flag = true;
-
-					src->AddCollidedCollider(dest);
-					dest->AddCollidedCollider(src);
-
-					src->OnCollisionEnter(dest, time);
-					dest->OnCollisionEnter(src, time);
-				}
-				else
-				{
-					src->OnCollision(dest, time);
-					dest->OnCollision(src, time);
-				}
+				iter->lock()->RemoveCollidedCollider(*mouse_body_collider);
+				iter = collided_collider_list.erase(iter);
 			}
 			else
-			{
-				if (src->IsCollidedCollider(dest))
-				{
-					src->RemoveCollidedCollider(dest);
-					dest->RemoveCollidedCollider(src);
-
-					src->OnCollisionLeave(dest, time);
-					dest->OnCollisionLeave(src, time);
-				}
-			}
+				++iter;
 		}
 	}
 

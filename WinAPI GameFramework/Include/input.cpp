@@ -14,6 +14,9 @@ bool Input::Initialize()
 	AddKey("MoveRight"s, VK_RIGHT);
 	AddKey("Fire"s, VK_SPACE);
 	AddKey("Pause"s, VK_CONTROL, '1');
+	AddKey("LeftButton"s, VK_LBUTTON);
+	AddKey("RightButton"s, VK_RBUTTON);
+	AddKey("MiddleButton"s, VK_MBUTTON);
 
 	ShowCursor(false);
 

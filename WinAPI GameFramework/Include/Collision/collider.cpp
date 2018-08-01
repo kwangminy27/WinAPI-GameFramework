@@ -39,6 +39,11 @@ shared_ptr<Object> Collider::object() const
 	return object_.lock();
 }
 
+list<weak_ptr<Collider>>& Collider::collided_collider_list()
+{
+	return collided_collider_list_;
+}
+
 void Collider::set_pivot(XY const& xy)
 {
 	pivot_ = xy;

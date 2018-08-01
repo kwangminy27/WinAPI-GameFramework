@@ -37,8 +37,8 @@ bool ParabolaBullet::_Initialize()
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);
 
-	//texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
-	set_color_key(RGB(255, 0, 255));
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
+	set_color_key(RGB(0, 248, 0));
 
 	return true;
 }

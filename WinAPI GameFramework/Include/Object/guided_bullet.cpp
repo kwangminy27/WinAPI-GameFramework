@@ -47,12 +47,12 @@ bool GuidedBullet::_Initialize()
 
 	set_size(20.f, 20.f);
 	set_pivot(0.5f, 0.5f);
-	set_move_speed(100.f);
+	set_move_speed(500.f);
 	set_rotation_speed(1080.f);
 	set_range(500.f);
 
-	//texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
-	set_color_key(RGB(255, 0, 255));
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
+	set_color_key(RGB(0, 248, 0));
 
 	return true;
 }

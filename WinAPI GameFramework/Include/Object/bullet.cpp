@@ -46,13 +46,13 @@ bool Bullet::_Initialize()
 {
 	type_ = OBJECT_TYPE::BULLET;
 
-	set_size(128.f, 128.f);
+	set_size(20.f, 20.f);
 	set_pivot(0.5f, 0.5f);
 	set_move_speed(500.f);
 	set_range(1000.f);
 
-	//texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
-	set_color_key(RGB(255, 0, 255));
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
+	set_color_key(RGB(0, 248, 0));
 
 	return true;
 }

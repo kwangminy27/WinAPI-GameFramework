@@ -178,7 +178,6 @@ void Monster::_Update(float time)
 
 		bullet->set_position(barrel_end);
 		bullet->set_angle(Math::GetAngle(position_, target()->position()));
-		bullet->AddAnimationClip("IceBolt");
 
 		auto collider_circle = dynamic_pointer_cast<ColliderCircle>(bullet->AddCollider<ColliderCircle>("MonsterBulletBody"));
 		collider_circle->set_model({ 0.f, 0.f, 10.f });
