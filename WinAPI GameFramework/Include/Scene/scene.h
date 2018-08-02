@@ -9,14 +9,16 @@ class Scene final : public Tag, public std::enable_shared_from_this<Scene>
 {
 	friend class SceneManager;
 public:
+	void CreateLayer(std::string const& tag, int z_order = 0);
 	std::shared_ptr<Layer> const& FindLayer(std::string const& tag) const;
+
+	std::list<std::shared_ptr<Layer>> const& layer_list() const;
 
 private:
 	Scene() = default;
 	
 	virtual void _Release() override;
 
-	void _CreateLayer(std::string const& tag, int z_order = 0);
 	template <typename T> std::unique_ptr<SceneComponent, std::function<void(SceneComponent*)>> _CreateSceneCompoenet(std::string const& tag);
 
 	bool _Initialize();

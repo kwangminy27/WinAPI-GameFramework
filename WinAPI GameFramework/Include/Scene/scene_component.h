@@ -11,13 +11,14 @@ public:
 	std::shared_ptr<Scene> scene() const;
 	void set_scene(std::weak_ptr<Scene> const& scene);
 
+	virtual bool Initialize() = 0;
+
 protected:
 	SceneComponent() = default;
 	virtual ~SceneComponent() = default;
 
 	virtual void _Release() = 0;
 
-	virtual bool _Initialize() = 0;
 	virtual void _Input(float time) = 0;
 	virtual void _Update(float time) = 0;
 	virtual void _LateUpdate(float time) = 0;

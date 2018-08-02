@@ -15,6 +15,9 @@ public:
 	void Collision(float time);
 	void Render(HDC device_context, float time);
 
+	template <typename T> void CreateNextScene(std::string const& tag);
+	void ChangeScene();
+
 private:
 	SceneManager() = default;
 	SceneManager(SceneManager const&) = delete;
@@ -25,4 +28,7 @@ private:
 	std::shared_ptr<Scene> _CreateScene(std::string const& tag);
 
 	std::shared_ptr<Scene> scene_{};
+	std::shared_ptr<Scene> next_scene_{};
 };
+
+#include "scene_manager.inl"

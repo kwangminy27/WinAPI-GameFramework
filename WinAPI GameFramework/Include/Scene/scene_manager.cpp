@@ -5,7 +5,7 @@ using namespace std;
 
 bool SceneManager::Initialize()
 {
-	scene_ = _CreateScene("MainScene");
+	scene_ = _CreateScene("StartScene");
 	scene_->_Initialize();
 
 	return true;
@@ -34,6 +34,12 @@ void SceneManager::Collision(float time)
 void SceneManager::Render(HDC device_context, float time)
 {
 	scene_->_Render(device_context, time);
+}
+
+void SceneManager::ChangeScene()
+{
+	if (next_scene_)
+		scene_ = move(next_scene_);
 }
 
 void SceneManager::_Release()

@@ -4,6 +4,11 @@
 
 using namespace std;
 
+bool Layer::Initialize()
+{
+	return true;
+}
+
 shared_ptr<Scene> Layer::scene() const
 {
 	return scene_.lock();
@@ -40,11 +45,6 @@ shared_ptr<Object> const& Layer::FindObject(string const& tag) const
 
 void Layer::_Release()
 {
-}
-
-bool Layer::_Initialize()
-{
-	return true;
 }
 
 void Layer::_Input(float time)

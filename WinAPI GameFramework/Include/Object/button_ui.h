@@ -7,6 +7,7 @@ class ButtonUI : public UI
 	friend class ObjectManager;
 public:
 	void set_state(BUTTON_STATE state);
+	void set_callback(std::function<void(float)> const& callback);
 
 protected:
 	ButtonUI() = default;
@@ -31,4 +32,5 @@ protected:
 	void _OnCollisionLeave(std::weak_ptr<Collider> const& src, std::weak_ptr<Collider> const& dest, float time);
 
 	BUTTON_STATE state_{};
+	std::list<std::function<void(float)>> callback_list_{};
 };

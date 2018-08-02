@@ -16,12 +16,16 @@
 #include "../Object/mouse_ui.h"
 #include "../Collision/collider_circle.h"
 
-void MainScene::_Release()
+bool MainScene::Initialize()
 {
-}
+	auto current_scene = scene();
+	current_scene->CreateLayer("Background", numeric_limits<int>::min());
+	current_scene->CreateLayer("Default");
+	current_scene->CreateLayer("UI", numeric_limits<int>::max());
 
-bool MainScene::_Initialize()
-{
+	for (auto const& layer : current_scene->layer_list())
+		layer->Initialize();
+
 	auto const& camera = Camera::instance();
 	auto const& object_manager = ObjectManager::instance();
 
@@ -56,6 +60,10 @@ bool MainScene::_Initialize()
 	Input::instance()->set_mouse(object_manager->CreateObject<MouseUI>("Mouse", ui_layer));
 
 	return true;
+}
+
+void MainScene::_Release()
+{
 }
 
 void MainScene::_Input(float time)

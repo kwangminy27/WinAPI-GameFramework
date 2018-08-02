@@ -156,6 +156,8 @@ void Core::_SetFlag(FLAG flag, bool value)
 
 void Core::_Logic()
 {
+	SceneManager::instance()->ChangeScene();
+
 	timer_->Update();
 
 	float delta_time = timer_->delta_time();

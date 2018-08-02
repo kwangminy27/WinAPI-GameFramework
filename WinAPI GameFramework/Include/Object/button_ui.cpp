@@ -11,6 +11,11 @@ void ButtonUI::set_state(BUTTON_STATE state)
 	state_ = state;
 }
 
+void ButtonUI::set_callback(function<void(float)> const& callback)
+{
+	callback_list_.push_back(callback);
+}
+
 ButtonUI::ButtonUI(ButtonUI const& other) : UI(other)
 {
 	state_ = other.state_;
@@ -72,6 +77,11 @@ void ButtonUI::_Input(float time)
 		else if (KeyUp("LeftButton"))
 		{
 			// 콜백 처리
+			if (!callback_list_.empty())
+			{
+				for (auto const& callback : callback_list_)
+					callback(time);
+			}
 			state_ = BUTTON_STATE::MOUSEON;
 		}
 	}

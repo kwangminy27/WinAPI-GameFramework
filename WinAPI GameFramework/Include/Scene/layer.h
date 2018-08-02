@@ -10,6 +10,8 @@ class Layer : public Tag
 	friend class Scene;
 	friend class ObjectManager;
 public:
+	bool Initialize();
+
 	std::shared_ptr<Scene> scene() const;
 	int z_order() const;
 
@@ -23,7 +25,6 @@ private:
 
 	virtual void _Release() override;
 
-	bool _Initialize();
 	void _Input(float time);
 	void _Update(float time);
 	void _LateUpdate(float time);

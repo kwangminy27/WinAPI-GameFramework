@@ -193,6 +193,9 @@
     <ClCompile Include="Object\mouse_ui.cpp">
       <Filter>03. Object\05. UI</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\start_scene.cpp">
+      <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -324,6 +327,9 @@
     <ClInclude Include="Object\mouse_ui.h">
       <Filter>03. Object\05. UI</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\start_scene.h">
+      <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scene\scene.inl">
@@ -340,6 +346,9 @@
     </None>
     <None Include="Object\object.inl">
       <Filter>03. Object</Filter>
+    </None>
+    <None Include="Scene\scene_manager.inl">
+      <Filter>02. Scene</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
