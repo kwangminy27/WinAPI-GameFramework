@@ -13,6 +13,8 @@ class Object : public Tag, public std::enable_shared_from_this<Object>
 	friend class Layer;
 	friend class ObjectManager;
 public:
+	virtual bool Initialize();
+
 	OBJECT_TYPE type() const;
 
 	XY position() const;
@@ -75,7 +77,6 @@ protected:
 
 	virtual void _Release() override = 0;
 
-	virtual bool _Initialize();
 	virtual void _Input(float time);
 	virtual void _Update(float time);
 	virtual void _LateUpdate(float time);

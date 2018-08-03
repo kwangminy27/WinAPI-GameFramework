@@ -62,6 +62,10 @@ bool ColliderPixel::Collision(weak_ptr<Collider> const& dest)
 	return false;
 }
 
+void ColliderPixel::Render(HDC device_context, float time)
+{
+}
+
 ColliderPixel::ColliderPixel(ColliderPixel const& other) : Collider(other)
 {
 	pixel_collider_ = other.pixel_collider_;
@@ -97,10 +101,6 @@ void ColliderPixel::_Update(float time)
 
 	pixel_collider()->world.x = object_position.x - pixel_collider()->pixel24_collection.at(0).size() * pivot_.x;
 	pixel_collider()->world.y = object_position.y - pixel_collider()->pixel24_collection.size() * pivot_.y;
-}
-
-void ColliderPixel::_Render(HDC device_context, float time)
-{
 }
 
 unique_ptr<Collider, function<void(Collider*)>> ColliderPixel::_Clone()

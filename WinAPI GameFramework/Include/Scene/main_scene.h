@@ -2,6 +2,8 @@
 
 #include "scene_component.h"
 
+class Number;
+
 class MainScene final : public SceneComponent
 {
 	friend class Scene;
@@ -18,4 +20,6 @@ private:
 	virtual void _LateUpdate(float time) override;
 	virtual void _Collision(float time) override;
 	virtual void _Render(HDC device_context, float time) override;
+
+	std::shared_ptr<Number> number_{};
 };

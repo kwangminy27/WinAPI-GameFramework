@@ -5,6 +5,20 @@
 
 using namespace std;
 
+bool ParabolaBullet::Initialize()
+{
+	type_ = OBJECT_TYPE::BULLET;
+
+	set_size(20.f, 20.f);
+	set_pivot(0.5f, 0.5f);
+	set_move_speed(500.f);
+
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
+	set_color_key(RGB(0, 248, 0));
+
+	return true;
+}
+
 float ParabolaBullet::start_angle() const
 {
 	return start_angle_;
@@ -27,20 +41,6 @@ ParabolaBullet::ParabolaBullet(ParabolaBullet&& other) noexcept : Bullet(move(ot
 
 void ParabolaBullet::_Release()
 {
-}
-
-bool ParabolaBullet::_Initialize()
-{
-	type_ = OBJECT_TYPE::BULLET;
-
-	set_size(20.f, 20.f);
-	set_pivot(0.5f, 0.5f);
-	set_move_speed(500.f);
-
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
-	set_color_key(RGB(0, 248, 0));
-
-	return true;
 }
 
 void ParabolaBullet::_Input(float time)

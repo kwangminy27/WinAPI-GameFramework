@@ -20,4 +20,5 @@ private:
 	virtual void _Render(HDC device_context, float time) override;
 
 	void _Start(float time);
+	void _Exit();
 };

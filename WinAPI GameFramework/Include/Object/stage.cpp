@@ -5,6 +5,32 @@
 
 using namespace std;
 
+bool Stage::Initialize()
+{
+	type_ = OBJECT_TYPE::STAGE;
+
+	set_size({ static_cast<float>(RESOLUTION::WIDTH), static_cast<float>(RESOLUTION::HEIGHT) });
+	set_texture("Stage", L"Stage1.bmp", "TexturePath");
+
+	auto caching_texture = texture_.lock();
+	set_map_size({ static_cast<float>(caching_texture->width()), static_cast<float>(caching_texture->height()) });
+
+	auto collider_pixel = dynamic_pointer_cast<ColliderPixel>(AddCollider<ColliderPixel>("StageCollider"));
+	collider_pixel->set_pixel_collider("MainStage");
+	collider_pixel->set_comparision_pixel({ 255, 0, 255 });
+	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeAttached(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeAttached(src, dest, time);
+	}, COLLISION_CALLBACK::STAY);
+	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeDetached(src, dest, time);
+	}, COLLISION_CALLBACK::LEAVE);
+
+	return true;
+}
+
 XY const& Stage::map_size() const
 {
 	return map_size_;
@@ -99,32 +125,6 @@ Stage::Stage(Stage&& other) noexcept : Object(move(other))
 
 void Stage::_Release()
 {
-}
-
-bool Stage::_Initialize()
-{
-	type_ = OBJECT_TYPE::STAGE;
-
-	set_size({ static_cast<float>(RESOLUTION::WIDTH), static_cast<float>(RESOLUTION::HEIGHT) });
-	set_texture("Stage", L"Stage1.bmp", "TexturePath");
-
-	auto caching_texture = texture_.lock();
-	set_map_size({ static_cast<float>(caching_texture->width()), static_cast<float>(caching_texture->height()) });
-
-	auto collider_pixel = dynamic_pointer_cast<ColliderPixel>(AddCollider<ColliderPixel>("StageCollider"));
-	collider_pixel->set_pixel_collider("MainStage");
-	collider_pixel->set_comparision_pixel({ 255, 0, 255 });
-	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		BeAttached(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		BeAttached(src, dest, time);
-	}, COLLISION_CALLBACK::STAY);
-	collider_pixel->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		BeDetached(src, dest, time);
-	}, COLLISION_CALLBACK::LEAVE);
-
-	return true;
 }
 
 void Stage::_Input(float time)

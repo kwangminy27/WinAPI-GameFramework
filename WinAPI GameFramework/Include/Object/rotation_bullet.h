@@ -6,6 +6,8 @@ class RotationBullet final : public Bullet
 {
 	friend class ObjectManager;
 public:
+	virtual bool Initialize() override;
+
 	XY rotation_center() const;
 	float rotation_range() const;
 	float rotation_angle() const;
@@ -23,7 +25,6 @@ private:
 
 	virtual void _Release() override;
 
-	virtual bool _Initialize() override;
 	virtual void _Input(float time) override;
 	virtual void _Update(float time) override;
 	virtual void _LateUpdate(float time) override;

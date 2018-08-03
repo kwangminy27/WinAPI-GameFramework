@@ -14,6 +14,7 @@
 #include "../Object/effect.h"
 #include "../Object/button_ui.h"
 #include "../Object/mouse_ui.h"
+#include "../Object/number.h"
 #include "../Collision/collider_circle.h"
 
 bool MainScene::Initialize()
@@ -58,6 +59,12 @@ bool MainScene::Initialize()
 
 	auto button = object_manager->CreateObject<ButtonUI>("Button", ui_layer);
 	Input::instance()->set_mouse(object_manager->CreateObject<MouseUI>("Mouse", ui_layer));
+
+	number_ = dynamic_pointer_cast<Number>(object_manager->CreateObject<Number>("Number", default_layer));
+	number_->set_size({ 62.6f, 88.f });
+	number_->set_position({ static_cast<float>(RESOLUTION::WIDTH) - 343.f, 500.f });
+	number_->set_texture("Number", L"Number.bmp");
+	number_->set_number(1000);
 
 	return true;
 }

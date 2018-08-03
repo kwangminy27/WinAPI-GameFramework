@@ -34,6 +34,7 @@ public:
 	void set_object(std::weak_ptr<Object> const& object);
 
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) = 0;
+	virtual void Render(HDC device_context, float time);
 
 	void SetCallBack(std::function<void(std::weak_ptr<Collider> const&, std::weak_ptr<Collider> const&, float)> const& function, COLLISION_CALLBACK type);
 
@@ -57,7 +58,6 @@ protected:
 
 	virtual bool _Initialize();
 	virtual void _Update(float time);
-	virtual void _Render(HDC device_context, float time);
 
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>>_Clone() = 0;
 

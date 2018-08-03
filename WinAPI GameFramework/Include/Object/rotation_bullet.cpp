@@ -6,6 +6,23 @@
 
 using namespace std;
 
+bool RotationBullet::Initialize()
+{
+	type_ = OBJECT_TYPE::BULLET;
+
+	set_size(20.f, 20.f);
+	set_pivot(0.5f, 0.5f);
+	set_move_speed(500.f);
+	set_rotation_speed(1080.f);
+	set_range(1000.f);
+	set_rotation_range(50.f);
+
+	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
+	set_color_key(RGB(0, 248, 0));
+
+	return true;
+}
+
 XY RotationBullet::rotation_center() const
 {
 	return rotation_center_;
@@ -53,23 +70,6 @@ RotationBullet::RotationBullet(RotationBullet&& other) noexcept : Bullet(move(ot
 
 void RotationBullet::_Release()
 {
-}
-
-bool RotationBullet::_Initialize()
-{
-	type_ = OBJECT_TYPE::BULLET;
-
-	set_size(20.f, 20.f);
-	set_pivot(0.5f, 0.5f);
-	set_move_speed(500.f);
-	set_rotation_speed(1080.f);
-	set_range(1000.f);
-	set_rotation_range(50.f);
-
-	texture_ = ResourceManager::instance()->LoadTexture("Bullet", L"Bullet.bmp", "TexturePath");
-	set_color_key(RGB(0, 248, 0));
-
-	return true;
 }
 
 void RotationBullet::_Input(float time)

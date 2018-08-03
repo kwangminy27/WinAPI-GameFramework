@@ -1,5 +1,6 @@
 #include "scene_manager.h"
 #include "scene.h"
+#include "../Object/object_manager.h"
 
 using namespace std;
 
@@ -36,10 +37,13 @@ void SceneManager::Render(HDC device_context, float time)
 	scene_->_Render(device_context, time);
 }
 
-void SceneManager::ChangeScene()
+void SceneManager::AttemptSceneChanging()
 {
 	if (next_scene_)
+	{
+		ObjectManager::instance()->ErasePrototype(scene_);
 		scene_ = move(next_scene_);
+	}
 }
 
 void SceneManager::_Release()

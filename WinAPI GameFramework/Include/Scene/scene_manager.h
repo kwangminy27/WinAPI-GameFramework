@@ -16,7 +16,7 @@ public:
 	void Render(HDC device_context, float time);
 
 	template <typename T> void CreateNextScene(std::string const& tag);
-	void ChangeScene();
+	void AttemptSceneChanging();
 
 private:
 	SceneManager() = default;

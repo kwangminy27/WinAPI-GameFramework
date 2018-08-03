@@ -6,6 +6,8 @@ class GuidedBullet final : public Bullet
 {
 	friend class ObjectManager;
 public:
+	virtual bool Initialize() override;
+
 	bool is_guided() const;
 	std::shared_ptr<Object> target() const;
 
@@ -20,7 +22,6 @@ private:
 
 	virtual void _Release() override;
 
-	virtual bool _Initialize() override;
 	virtual void _Input(float time) override;
 	virtual void _Update(float time) override;
 	virtual void _LateUpdate(float time) override;

@@ -1,5 +1,14 @@
 #include "effect.h"
 
+bool Effect::Initialize()
+{
+	type_ = OBJECT_TYPE::EFFECT;
+
+	set_color_key(RGB(255, 0, 255));
+
+	return true;
+}
+
 float Effect::life_time() const
 {
 	return life_time_;
@@ -47,15 +56,6 @@ Effect::Effect(Effect&& other) noexcept : Object(move(other))
 
 void Effect::_Release()
 {
-}
-
-bool Effect::_Initialize()
-{
-	type_ = OBJECT_TYPE::EFFECT;
-
-	set_color_key(RGB(255, 0, 255));
-
-	return true;
 }
 
 void Effect::_Input(float time)

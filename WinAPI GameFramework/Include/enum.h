@@ -50,7 +50,8 @@ enum class OBJECT_TYPE
 	BULLET,
 	STAGE,
 	EFFECT,
-	UI
+	UI,
+	NUMBER
 };
 
 enum class BUTTON_STATE

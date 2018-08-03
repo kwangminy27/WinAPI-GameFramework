@@ -4,6 +4,9 @@
 
 class Character : public Object
 {
+public:
+	virtual bool Initialize() override;
+
 protected:
 	Character() = default;
 	Character(Character const& other);
@@ -13,7 +16,6 @@ protected:
 
 	virtual void _Release() override = 0;
 
-	virtual bool _Initialize() override;
 	virtual void _Input(float time) override;
 	virtual void _Update(float time) override;
 	virtual void _LateUpdate(float time) override;

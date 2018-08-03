@@ -6,6 +6,36 @@
 
 using namespace std;
 
+bool ButtonUI::Initialize()
+{
+	if (!UI::Initialize())
+		return false;
+
+	state_ = BUTTON_STATE::NORMAL;
+
+	set_size(200.f, 100.f);
+	set_pivot(0.5f, 0.5f);
+	set_offset({ 0.f, 0.f });
+
+	texture_ = ResourceManager::instance()->LoadTexture("Button", L"StartButton.bmp");
+
+	auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("ButtonBody"));
+	collider_rect->set_collision_group_tag("UI");
+	collider_rect->set_model({ 0.f, 0.f, 200.f, 100.f });
+	collider_rect->set_pivot({ 0.5f, 0.5 });
+	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		_OnCollisionEnter(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		_OnCollision(src, dest, time);
+	}, COLLISION_CALLBACK::STAY);
+	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		_OnCollisionLeave(src, dest, time);
+	}, COLLISION_CALLBACK::LEAVE);
+
+	return true;
+}
+
 void ButtonUI::set_state(BUTTON_STATE state)
 {
 	state_ = state;
@@ -28,37 +58,6 @@ ButtonUI::ButtonUI(ButtonUI&& other) noexcept : UI(move(other))
 
 void ButtonUI::_Release()
 {
-}
-
-bool ButtonUI::_Initialize()
-{
-	if (!UI::_Initialize())
-		return false;
-	
-	state_ = BUTTON_STATE::NORMAL;
-
-	set_position(200.f, 200.f);
-	set_size(200.f, 100.f);
-	set_pivot(0.5f, 0.5f);
-	set_offset({ 0.f, 0.f });
-
-	texture_ = ResourceManager::instance()->LoadTexture("Button", L"StartButton.bmp");
-
-	auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("ButtonBody"));
-	collider_rect->set_collision_group_tag("UI");
-	collider_rect->set_model({ 0.f, 0.f, 200.f, 100.f });
-	collider_rect->set_pivot({ 0.5f, 0.5 });
-	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		_OnCollisionEnter(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		_OnCollision(src, dest, time);
-	}, COLLISION_CALLBACK::STAY);
-	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) { 
-		_OnCollisionLeave(src, dest, time);
-	}, COLLISION_CALLBACK::LEAVE);
-
-	return true;
 }
 
 void ButtonUI::_Input(float time)

@@ -6,6 +6,8 @@ class ButtonUI : public UI
 {
 	friend class ObjectManager;
 public:
+	virtual bool Initialize() override;
+
 	void set_state(BUTTON_STATE state);
 	void set_callback(std::function<void(float)> const& callback);
 
@@ -18,7 +20,6 @@ protected:
 
 	virtual void _Release() override;
 
-	virtual bool _Initialize() override;
 	virtual void _Input(float time) override;
 	virtual void _Update(float time) override;
 	virtual void _LateUpdate(float time) override;

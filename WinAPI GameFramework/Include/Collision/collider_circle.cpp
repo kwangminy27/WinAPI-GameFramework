@@ -41,6 +41,33 @@ bool ColliderCircle::Collision(weak_ptr<Collider> const& dest)
 	return false;
 }
 
+void ColliderCircle::Render(HDC device_context, float time)
+{
+#ifdef _DEBUG
+	if (object_.expired())
+		return;
+
+	if (collided_collider_list_.empty())
+		pen_ = Collider::green_pen_;
+	else
+		pen_ = Collider::red_pen_;
+
+	auto camera_world_position = Camera::instance()->world();
+
+	old_pen_ = static_cast<HPEN>(SelectObject(device_context, pen_));
+	XY position_on_the_camera_coordinate_system = world_.center - camera_world_position;
+	MoveToEx(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x + world_.radius), static_cast<int>(position_on_the_camera_coordinate_system.y), nullptr);
+	for (size_t i = 30; i <= 360; i += 30)
+	{
+		position_on_the_camera_coordinate_system.x = world_.center.x - camera_world_position.x + cosf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
+		position_on_the_camera_coordinate_system.y = world_.center.y - camera_world_position.y + sinf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
+
+		LineTo(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x), static_cast<int>(position_on_the_camera_coordinate_system.y));
+	}
+	SelectObject(device_context, old_pen_);
+#endif
+}
+
 ColliderCircle::ColliderCircle(ColliderCircle const& other) : Collider(other)
 {
 	model_ = other.model_;
@@ -80,33 +107,6 @@ void ColliderCircle::_Update(float time)
 
 	world_.center.x = object_position.x + model_.center.x + (model_.radius * pivot_.x);
 	world_.center.y = object_position.y + model_.center.y + (model_.radius * pivot_.y);
-}
-
-void ColliderCircle::_Render(HDC device_context, float time)
-{
-#ifdef _DEBUG
-	if (object_.expired())
-		return;
-
-	if (collided_collider_list_.empty())
-		pen_ = Collider::green_pen_;
-	else
-		pen_ = Collider::red_pen_;
-
-	auto camera_world_position = Camera::instance()->world();
-
-	old_pen_ = static_cast<HPEN>(SelectObject(device_context, pen_));
-	XY position_on_the_camera_coordinate_system = world_.center - camera_world_position;
-	MoveToEx(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x + world_.radius), static_cast<int>(position_on_the_camera_coordinate_system.y), nullptr);
-	for (size_t i = 30; i <= 360; i += 30)
-	{
-		position_on_the_camera_coordinate_system.x = world_.center.x - camera_world_position.x + cosf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
-		position_on_the_camera_coordinate_system.y = world_.center.y - camera_world_position.y + sinf(Math::DegreeToRadian(static_cast<float>(i))) * world_.radius;
-
-		LineTo(device_context, static_cast<int>(position_on_the_camera_coordinate_system.x), static_cast<int>(position_on_the_camera_coordinate_system.y));
-	}
-	SelectObject(device_context, old_pen_);
-#endif
 }
 
 unique_ptr<Collider, function<void(Collider*)>> ColliderCircle::_Clone()

@@ -15,6 +15,7 @@ public:
 	void set_pixel_collider(std::string const& tag);
 
 	virtual bool Collision(std::weak_ptr<Collider> const& dest) override;
+	virtual void Render(HDC device_context, float time) override;
 
 private:
 	ColliderPixel() = default;
@@ -27,7 +28,6 @@ private:
 
 	virtual bool _Initialize() override;
 	virtual void _Update(float time) override;
-	virtual void _Render(HDC device_context, float time) override;
 
 	virtual std::unique_ptr<Collider, std::function<void(Collider*)>> _Clone() override;
 

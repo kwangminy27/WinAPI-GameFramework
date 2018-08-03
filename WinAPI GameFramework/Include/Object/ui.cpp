@@ -5,6 +5,16 @@
 
 using namespace std;
 
+bool UI::Initialize()
+{
+	if (!Object::Initialize())
+		return false;
+
+	type_ = OBJECT_TYPE::UI;
+
+	return true;
+}
+
 void UI::set_offset(XY const& offset)
 {
 	offset_ = offset;
@@ -22,16 +32,6 @@ UI::UI(UI&& other) noexcept : Object(move(other))
 
 void UI::_Release()
 {
-}
-
-bool UI::_Initialize()
-{
-	if (!Object::_Initialize())
-		return false;
-
-	type_ = OBJECT_TYPE::UI;
-
-	return true;
 }
 
 void UI::_Input(float time)
@@ -87,6 +87,6 @@ void UI::_Render(HDC device_context, float time)
 	for (auto const& collider : collider_collection_)
 	{
 		if (collider->enablement())
-			collider->_Render(device_context, time);
+			collider->Render(device_context, time);
 	}
 }

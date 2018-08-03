@@ -19,7 +19,7 @@ void ObjectManager::CreatePrototype(string const& tag, weak_ptr<Scene> const& sc
 	prototype->set_scene(scene);
 	prototype->set_tag(tag);
 
-	if (!prototype->_Initialize())
+	if (!prototype->Initialize())
 		return;
 
 	prototype_collection_.insert(make_pair(move(tag), move(prototype)));
@@ -42,7 +42,7 @@ shared_ptr<Object> ObjectManager::CreateObject(string const& tag, weak_ptr<Layer
 	object->layer_ = caching_layer;
 	object->set_tag(tag);
 
-	if (!object->_Initialize())
+	if (!object->Initialize())
 		return object_nullptr_;
 
 	caching_layer->_AddObject(object);

@@ -71,6 +71,9 @@
     <Filter Include="03. Object\05. UI">
       <UniqueIdentifier>{3c4d1c78-5d5b-479e-a979-ce9bdde0a9a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Object\06. Number">
+      <UniqueIdentifier>{50e012fa-95db-45e5-be64-8402f55abfed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -195,6 +198,9 @@
     </ClCompile>
     <ClCompile Include="Scene\start_scene.cpp">
       <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\number.cpp">
+      <Filter>03. Object\06. Number</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="Scene\start_scene.h">
       <Filter>02. Scene\02. SceneComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\number.h">
+      <Filter>03. Object\06. Number</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -72,6 +72,10 @@ void Collider::set_object(weak_ptr<Object> const& object)
 	object_ = object;
 }
 
+void Collider::Render(HDC device_context, float time)
+{
+}
+
 void Collider::SetCallBack(function<void(weak_ptr<Collider> const&, weak_ptr<Collider> const&, float)> const& function, COLLISION_CALLBACK type)
 {
 	collision_callback_collection_.at(static_cast<size_t>(type)).push_back(move(function));
@@ -156,10 +160,6 @@ bool Collider::_Initialize()
 }
 
 void Collider::_Update(float time)
-{
-}
-
-void Collider::_Render(HDC device_context, float time)
 {
 }
 

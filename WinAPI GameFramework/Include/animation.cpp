@@ -117,6 +117,16 @@ void Animation::set_object(weak_ptr<Object> const& object)
 	object_ = object;
 }
 
+int Animation::frame_x() const
+{
+	return frame_x_;
+}
+
+int Animation::frame_y() const
+{
+	return frame_y_;
+}
+
 float Animation::GetFrameWidth() const
 {
 	return current_clip_.lock()->frame_info_.size.x;

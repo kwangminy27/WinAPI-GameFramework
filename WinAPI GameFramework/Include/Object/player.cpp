@@ -15,6 +15,73 @@
 
 using namespace std;
 
+bool Player::Initialize()
+{
+	type_ = OBJECT_TYPE::PLAYER;
+
+	set_position(100.f, 100.f);
+	set_size(50.f, 50.f);
+	set_pivot(0.5f, 0.5f);
+	set_move_speed(300.f);
+	set_rotation_speed(360.f);
+	set_barrel_size(50.f);
+	set_physics_flag(true);
+
+	auto const& input_manager = Input::instance();
+
+	input_manager->AddKey("Skill1"s, '1');
+	input_manager->AddKey("Skill2"s, '2');
+	input_manager->AddKey("Skill3"s, '3');
+	input_manager->AddKey("Skill4"s, '4');
+	input_manager->AddKey("Skill5"s, '5');
+
+	set_texture("Teemo", L"Teemo.bmp", "TexturePath");
+
+	auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"));
+	collider_rect->set_model({ 0.f, 0.f, 50.f, 50.f });
+	collider_rect->set_pivot({ 0.5f, 0.5f });
+	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeHit(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+
+	auto collider_shield_left = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_left->set_model({ 0.f, 0.f, 1.f, 100.f });
+	collider_shield_left->set_pivot({ 50.f, 0.5f });
+	collider_shield_left->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForLeftRightShield(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_left->set_enablement(false);
+
+	auto collider_shield_right = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_right->set_model({ 0.f, 0.f, 1.f, 100.f });
+	collider_shield_right->set_pivot({ -50.f, 0.5f });
+	collider_shield_right->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForLeftRightShield(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_right->set_enablement(false);
+
+	auto collider_shield_top = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_top->set_model({ 0.f, 0.f, 100.f, 1.f });
+	collider_shield_top->set_pivot({ 0.5f, 50.f });
+	collider_shield_top->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForTopBottomShield(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_top->set_enablement(false);
+
+	auto collider_shield_bottom = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
+	collider_shield_bottom->set_model({ 0.f, 0.f, 100.f, 1.f });
+	collider_shield_bottom->set_pivot({ 0.5f, -50.f });
+	collider_shield_bottom->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		ProtectBulletForTopBottomShield(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+	collider_shield_bottom->set_enablement(false);
+
+	AddAnimationClip("motion4");
+	set_color_key(RGB(255, 0, 255));
+
+	return true;
+}
+
 float Player::barrel_size() const
 {
 	return barrel_size_;
@@ -88,73 +155,6 @@ Player::Player(Player&& other) noexcept : Character(move(other))
 
 void Player::_Release()
 {
-}
-
-bool Player::_Initialize()
-{
-	type_ = OBJECT_TYPE::PLAYER;
-
-	set_position(100.f, 100.f);
-	set_size(50.f, 50.f);
-	set_pivot(0.5f, 0.5f);
-	set_move_speed(300.f);
-	set_rotation_speed(360.f);
-	set_barrel_size(50.f);
-	set_physics_flag(true);
-
-	auto const& input_manager = Input::instance();
-
-	input_manager->AddKey("Skill1"s, '1');
-	input_manager->AddKey("Skill2"s, '2');
-	input_manager->AddKey("Skill3"s, '3');
-	input_manager->AddKey("Skill4"s, '4');
-	input_manager->AddKey("Skill5"s, '5');
-
-	set_texture("Teemo", L"Teemo.bmp", "TexturePath");
-
-	auto collider_rect = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerBody"));
-	collider_rect->set_model({ 0.f, 0.f, 50.f, 50.f });
-	collider_rect->set_pivot({ 0.5f, 0.5f });
-	collider_rect->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		BeHit(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-
-	auto collider_shield_left = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
-	collider_shield_left->set_model({ 0.f, 0.f, 1.f, 100.f });
-	collider_shield_left->set_pivot({ 50.f, 0.5f });
-	collider_shield_left->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		ProtectBulletForLeftRightShield(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-	collider_shield_left->set_enablement(false);
-
-	auto collider_shield_right = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
-	collider_shield_right->set_model({ 0.f, 0.f, 1.f, 100.f});
-	collider_shield_right->set_pivot({ -50.f, 0.5f });
-	collider_shield_right->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		ProtectBulletForLeftRightShield(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-	collider_shield_right->set_enablement(false);
-
-	auto collider_shield_top = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
-	collider_shield_top->set_model({ 0.f, 0.f, 100.f, 1.f });
-	collider_shield_top->set_pivot({ 0.5f, 50.f });
-	collider_shield_top->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		ProtectBulletForTopBottomShield(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-	collider_shield_top->set_enablement(false);
-
-	auto collider_shield_bottom = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("PlayerShield"));
-	collider_shield_bottom->set_model({ 0.f, 0.f, 100.f, 1.f });
-	collider_shield_bottom->set_pivot({ 0.5f, -50.f });
-	collider_shield_bottom->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		ProtectBulletForTopBottomShield(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-	collider_shield_bottom->set_enablement(false);
-
-	AddAnimationClip("motion4");
-	set_color_key(RGB(255, 0, 255));
-
-	return true;
 }
 
 void Player::_Input(float time)

@@ -2,17 +2,17 @@
 
 using namespace std;
 
+bool Character::Initialize()
+{
+	return true;
+}
+
 Character::Character(Character const& other) : Object(other)
 {
 }
 
 Character::Character(Character&& other) noexcept : Object(move(other))
 {
-}
-
-bool Character::_Initialize()
-{
-	return true;
 }
 
 void Character::_Input(float time)

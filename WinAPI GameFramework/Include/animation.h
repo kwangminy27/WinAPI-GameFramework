@@ -21,6 +21,9 @@ public:
 	
 	void set_object(std::weak_ptr<Object> const& object);
 
+	int frame_x() const;
+	int frame_y() const;
+
 	float GetFrameWidth() const;
 	float GetFrameHeight() const;
 

@@ -13,6 +13,39 @@ using namespace std;
 
 float const kBarrelSize = 50.f;
 
+bool Monster::Initialize()
+{
+	type_ = OBJECT_TYPE::MONSTER;
+
+	set_size(50.f, 50.f);
+	set_pivot(0.5f, 0.5f);
+	set_move_speed(200.f);
+	move_dir_ = 1.f;
+	attack_range_ = 250.f;
+
+	texture_ = ResourceManager::instance()->LoadTexture("Yasuo", L"Yasuo.bmp", "TexturePath");
+
+	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("MonsterBody"));
+	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
+	collider->set_pivot({ 0.5f, 0.5f });
+	collider->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		BeHit(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+
+	auto collider2 = dynamic_pointer_cast<ColliderCircle>(AddCollider<ColliderCircle>("MonsterAttackRange"));
+	collider2->set_model({ 0.f, 0.f, 250.f });
+
+	collider2->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		set_target(src, dest, time);
+	}, COLLISION_CALLBACK::ENTER);
+
+	collider2->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
+		release_target(src, dest, time);
+	}, COLLISION_CALLBACK::LEAVE);
+
+	return true;
+}
+
 float Monster::move_dir() const
 {
 	return move_dir_;
@@ -111,39 +144,6 @@ Monster::Monster(Monster&& other) noexcept : Character(move(other))
 
 void Monster::_Release()
 {
-}
-
-bool Monster::_Initialize()
-{
-	type_ = OBJECT_TYPE::MONSTER;
-
-	set_size(50.f, 50.f);
-	set_pivot(0.5f, 0.5f);
-	set_move_speed(200.f);
-	move_dir_ = 1.f;
-	attack_range_ = 250.f;
-
-	texture_ = ResourceManager::instance()->LoadTexture("Yasuo", L"Yasuo.bmp", "TexturePath");
-
-	auto collider = dynamic_pointer_cast<ColliderRect>(AddCollider<ColliderRect>("MonsterBody"));
-	collider->set_model({ 0.f, 0.f, 50.f, 50.f });
-	collider->set_pivot({ 0.5f, 0.5f });
-	collider->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		BeHit(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-
-	auto collider2 = dynamic_pointer_cast<ColliderCircle>(AddCollider<ColliderCircle>("MonsterAttackRange"));
-	collider2->set_model({ 0.f, 0.f, 250.f });
-
-	collider2->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		set_target(src, dest, time);
-	}, COLLISION_CALLBACK::ENTER);
-
-	collider2->SetCallBack([this](weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time) {
-		release_target(src, dest, time);
-	}, COLLISION_CALLBACK::LEAVE);
-
-	return true;
 }
 
 void Monster::_Input(float time)

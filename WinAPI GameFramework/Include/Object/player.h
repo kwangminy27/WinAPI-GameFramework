@@ -8,6 +8,8 @@ class Player final : public Character
 {
 	friend class ObjectManager;
 public:
+	virtual bool Initialize() override;
+
 	float barrel_size() const;
 	void set_barrel_size(float barrel_size);
 
@@ -24,7 +26,6 @@ private:
 
 	virtual void _Release() override;
 
-	virtual bool _Initialize() override;
 	virtual void _Input(float time) override;
 	virtual void _Update(float time) override;
 	virtual void _LateUpdate(float time) override;

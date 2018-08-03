@@ -156,7 +156,7 @@ void Core::_SetFlag(FLAG flag, bool value)
 
 void Core::_Logic()
 {
-	SceneManager::instance()->ChangeScene();
+	SceneManager::instance()->AttemptSceneChanging();
 
 	timer_->Update();
 

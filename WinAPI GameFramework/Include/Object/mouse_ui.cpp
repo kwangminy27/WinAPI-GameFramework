@@ -3,21 +3,9 @@
 
 using namespace std;
 
-MouseUI::MouseUI(MouseUI const& other) : UI(other)
+bool MouseUI::Initialize()
 {
-}
-
-MouseUI::MouseUI(MouseUI&& other) noexcept : UI(move(other))
-{
-}
-
-void MouseUI::_Release()
-{
-}
-
-bool MouseUI::_Initialize()
-{
-	if (!UI::_Initialize())
+	if (!UI::Initialize())
 		return false;
 
 	set_size(32.f, 31.f);
@@ -28,6 +16,18 @@ bool MouseUI::_Initialize()
 	collider_point->set_collision_group_tag("UI");
 
 	return true;
+}
+
+MouseUI::MouseUI(MouseUI const& other) : UI(other)
+{
+}
+
+MouseUI::MouseUI(MouseUI&& other) noexcept : UI(move(other))
+{
+}
+
+void MouseUI::_Release()
+{
 }
 
 void MouseUI::_Input(float time)

@@ -42,6 +42,27 @@ bool ColliderRect::Collision(weak_ptr<Collider> const& dest)
 	return false;
 }
 
+void ColliderRect::Render(HDC device_context, float time)
+{
+#ifdef _DEBUG
+	if (collided_collider_list_.empty())
+		brush_ = Collider::green_brush_;
+	else
+		brush_ = Collider::red_brush_;
+
+	auto camera_position = Camera::instance()->world();
+
+	auto position_on_the_camera_coordinate_system = world_;
+	position_on_the_camera_coordinate_system.l -= camera_position.x;
+	position_on_the_camera_coordinate_system.r -= camera_position.x;
+	position_on_the_camera_coordinate_system.t -= camera_position.y;
+	position_on_the_camera_coordinate_system.b -= camera_position.y;
+
+	RECT rc{ static_cast<long>(position_on_the_camera_coordinate_system.l), static_cast<long>(position_on_the_camera_coordinate_system.t), static_cast<long>(position_on_the_camera_coordinate_system.r), static_cast<long>(position_on_the_camera_coordinate_system.b) };
+	FrameRect(device_context, &rc, brush_);
+#endif
+}
+
 ColliderRect::ColliderRect(ColliderRect const& other) : Collider(other)
 {
 	model_ = other.model_;
@@ -84,27 +105,6 @@ void ColliderRect::_Update(float time)
 	world_.t = object_position.y + model_.t - pivot_.y * size_.y;
 	world_.r = world_.l + size_.x;
 	world_.b = world_.t + size_.y;
-}
-
-void ColliderRect::_Render(HDC device_context, float time)
-{
-#ifdef _DEBUG
-	if (collided_collider_list_.empty())
-		brush_ = Collider::green_brush_;
-	else
-		brush_ = Collider::red_brush_;
-
-	auto camera_position = Camera::instance()->world();
-
-	auto position_on_the_camera_coordinate_system = world_;
-	position_on_the_camera_coordinate_system.l -= camera_position.x;
-	position_on_the_camera_coordinate_system.r -= camera_position.x;
-	position_on_the_camera_coordinate_system.t -= camera_position.y;
-	position_on_the_camera_coordinate_system.b -= camera_position.y;
-
-	RECT rc{ static_cast<long>(position_on_the_camera_coordinate_system.l), static_cast<long>(position_on_the_camera_coordinate_system.t), static_cast<long>(position_on_the_camera_coordinate_system.r), static_cast<long>(position_on_the_camera_coordinate_system.b) };
-	FrameRect(device_context, &rc, brush_);
-#endif
 }
 
 unique_ptr<Collider, function<void(Collider*)>> ColliderRect::_Clone()

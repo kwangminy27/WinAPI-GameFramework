@@ -12,6 +12,11 @@
 
 using namespace std;
 
+bool Object::Initialize()
+{
+	return true;
+}
+
 OBJECT_TYPE Object::type() const
 {
 	return type_;
@@ -286,11 +291,6 @@ Object::Object(Object&& other) noexcept : Tag(other)
 	*this = move(other);
 }
 
-bool Object::_Initialize()
-{
-	return true;
-}
-
 void Object::_Input(float time)
 {
 }
@@ -360,6 +360,6 @@ void Object::_Render(HDC device_context, float time)
 	for (auto const& collider : collider_collection_)
 	{
 		if (collider->enablement())
-			collider->_Render(device_context, time);
+			collider->Render(device_context, time);
 	}
 }

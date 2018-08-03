@@ -6,6 +6,8 @@ class Bullet : public Object
 {
 	friend class ObjectManager;
 public:
+	virtual bool Initialize() override;
+
 	void set_range(float range);
 	void stop();
 	void start();
@@ -21,7 +23,6 @@ protected:
 
 	virtual void _Release() override;
 
-	virtual bool _Initialize() override;
 	virtual void _Input(float time) override;
 	virtual void _Update(float time) override;
 	virtual void _LateUpdate(float time) override;
