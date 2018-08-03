@@ -10,6 +10,7 @@
 #include "guided_bullet.h"
 #include "parabola_bullet.h"
 #include "effect.h"
+#include "number.h"
 #include "../Collision/collider_rect.h"
 #include "../Collision/collider_circle.h"
 

@@ -61,10 +61,15 @@ bool MainScene::Initialize()
 	Input::instance()->set_mouse(object_manager->CreateObject<MouseUI>("Mouse", ui_layer));
 
 	number_ = dynamic_pointer_cast<Number>(object_manager->CreateObject<Number>("Number", default_layer));
-	number_->set_size({ 62.6f, 88.f });
-	number_->set_position({ static_cast<float>(RESOLUTION::WIDTH) - 343.f, 500.f });
-	number_->set_texture("Number", L"Number.bmp");
 	number_->set_number(1000);
+	number_->set_position({ static_cast<float>(RESOLUTION::WIDTH) - 343.f, 500.f });
+	number_->set_size({ 313.f, 88.f });
+	number_->set_number_piece_size({ 62.6f, 88.f });
+	number_->set_texture("Number", L"Number.bmp");
+	number_->set_color_key(RGB(255, 255, 255));
+
+	Input::instance()->AddKey("IncrementNumber"s, 'Z');
+	Input::instance()->AddKey("DecrementNumber"s, 'X');
 
 	return true;
 }
@@ -75,6 +80,12 @@ void MainScene::_Release()
 
 void MainScene::_Input(float time)
 {
+	auto const& input_manager = Input::instance();
+
+	if (input_manager->KeyPressed("IncrementNumber"))
+		number_->AddNumber(1);
+	if (input_manager->KeyPressed("DecrementNumber"))
+		number_->AddNumber(-1);
 }
 
 void MainScene::_Update(float time)

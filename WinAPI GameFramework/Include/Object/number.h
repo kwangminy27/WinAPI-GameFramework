@@ -10,6 +10,7 @@ public:
 
 	void set_number(int number);
 	void AddNumber(int value);
+	void set_number_piece_size(XY const& size);
 
 	void set_offset(XY const& offset);
 
@@ -32,6 +33,7 @@ protected:
 
 	int number_{};
 	std::vector<int> number_slot_{};
+	XY number_piece_size_{};
 
 	XY offset_{};
 };

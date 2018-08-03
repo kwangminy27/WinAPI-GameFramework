@@ -21,6 +21,11 @@ void Number::AddNumber(int value)
 	number_ += value;
 }
 
+void Number::set_number_piece_size(XY const& size)
+{
+	number_piece_size_ = size;
+}
+
 void Number::set_offset(XY const& offset)
 {
 	offset_ = offset;
@@ -68,11 +73,13 @@ void Number::_Render(HDC device_context, float time)
 	auto caching_texture = texture_.lock();
 
 	int number = number_;
+
+	number_slot_.clear();
 	while (number > 0)
 	{
 		int result = number % 10;
 		number /= 10;
-		number_slot_.push_back(move(result));
+		number_slot_.push_back(result);
 	}
 
 	XY position_on_the_world_coordinate_system = position_;
@@ -80,26 +87,36 @@ void Number::_Render(HDC device_context, float time)
 
 	int left = static_cast<int>(position_on_the_camera_coordinate_system.x - size_.x * pivot_.x);
 	int top = static_cast<int>(position_on_the_camera_coordinate_system.y - size_.y * pivot_.y);
-	int width = static_cast<int>(size_.x);
-	int height = static_cast<int>(size_.y);
+	int width = static_cast<int>(number_piece_size_.x);
+	int height = static_cast<int>(number_piece_size_.y);
 
-	if (is_color_key_)
+	int rendering_position_x = left + static_cast<int>(size_.x);
+	int frame_left{};
+	int frame_top{};
+	for (size_t i = 0; i < number_slot_.size(); ++i)
 	{
-		if (animation_)
+		rendering_position_x -= static_cast<int>(number_piece_size_.x);
+
+		frame_left = number_slot_.at(i) * static_cast<int>(number_piece_size_.x);
+
+		if (is_color_key_)
 		{
-			width = static_cast<int>(animation_->GetFrameWidth());
-			height = static_cast<int>(animation_->GetFrameHeight());
+			if (animation_)
+			{
+				width = static_cast<int>(animation_->GetFrameWidth());
+				height = static_cast<int>(animation_->GetFrameHeight());
 
-			int frame_left = static_cast<int>(animation_->frame_x() * width);
-			int frame_top = static_cast<int>(animation_->frame_y() * height);
+				frame_left = static_cast<int>(animation_->frame_x() * width);
+				frame_top = static_cast<int>(animation_->frame_y() * height);
 
-			TransparentBlt(device_context, left, top, width, height, caching_texture->memory_device_context(), frame_left, frame_top, width, height, color_key_);
+				TransparentBlt(device_context, rendering_position_x, top, width, height, caching_texture->memory_device_context(), frame_left, frame_top, width, height, color_key_);
+			}
+			else
+				TransparentBlt(device_context, rendering_position_x, top, width, height, caching_texture->memory_device_context(), frame_left, frame_top, width, height, color_key_);
 		}
 		else
-			TransparentBlt(device_context, left, top, width, height, caching_texture->memory_device_context(), 0, 0, caching_texture->width(), caching_texture->height(), color_key_);
+			BitBlt(device_context, rendering_position_x, top, width, height, caching_texture->memory_device_context(), frame_left, frame_top, SRCCOPY);
 	}
-	else
-		BitBlt(device_context, left, top, width, height, caching_texture->memory_device_context(), 0, 0, SRCCOPY);
 
 	for (auto const& collider : collider_collection_)
 	{
