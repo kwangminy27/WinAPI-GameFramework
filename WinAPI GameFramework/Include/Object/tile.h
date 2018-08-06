@@ -8,6 +8,7 @@ class Tile : public Object
 	friend class Stage;
 public:
 	virtual bool Initialize();
+	void RenderOptionTile(HDC device_context, float time);
 
 	TILE_TYPE type() const;
 	TILE_OPTION option() const;

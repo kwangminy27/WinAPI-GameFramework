@@ -13,6 +13,18 @@ bool Tile::Initialize()
 	return true;
 }
 
+void Tile::RenderOptionTile(HDC device_context, float time)
+{
+	XY const& camera_position = Camera::instance()->world();
+
+	int left = static_cast<int>(position_.x - size_.x * pivot_.x - camera_position.x);
+	int top = static_cast<int>(position_.y - size_.y * pivot_.y - camera_position.y);
+	int width = static_cast<int>(size_.x);
+	int height = static_cast<int>(size_.y);
+
+	TransparentBlt(device_context, left, top, width, height, option_tile_->memory_device_context(), 0, 0, width, height, color_key_);
+}
+
 TILE_TYPE Tile::type() const
 {
 	return type_;
@@ -96,15 +108,6 @@ void Tile::_Collision(float time)
 void Tile::_Render(HDC device_context, float time)
 {
 	Object::_Render(device_context, time);
-	
-	XY const& camera_position = Camera::instance()->world();
-
-	int left = static_cast<int>(position_.x - size_.x * pivot_.x - camera_position.x);
-	int top = static_cast<int>(position_.y - size_.y * pivot_.y - camera_position.y);
-	int width = static_cast<int>(size_.x);
-	int height = static_cast<int>(size_.y);
-
-	TransparentBlt(device_context, left, top, width, height, option_tile_->memory_device_context(), 0, 0, width, height, color_key_);
 }
 
 unique_ptr<Object, function<void(Object*)>> Tile::_Clone()

@@ -10,6 +10,7 @@ class Camera final : public Singleton<Camera>
 public:
 	bool Initialize();
 	void Update(float time);
+	void Move(float x, float y, float time);
 
 	XY const& world() const;
 	XY const& view_size() const;

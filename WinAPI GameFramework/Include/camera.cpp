@@ -18,8 +18,17 @@ void Camera::Update(float time)
 	XY target_position = target_.lock()->position();
 	world_ = target_position - view_size_ * pivot_;
 
-	world_.x = clamp(world_.x, 0.f, map_size_.x - view_size_.x);
-	world_.y = clamp(world_.y, 0.f, map_size_.y - view_size_.y);
+	world_.x = clamp(world_.x, 0.f, map_size_.x - view_size_.x - 1.f);
+	world_.y = clamp(world_.y, 0.f, map_size_.y - view_size_.y - 1.f);
+}
+
+void Camera::Move(float x, float y, float time)
+{
+	world_.x += x * time;
+	world_.y += y * time;
+
+	world_.x = clamp(world_.x, 0.f, map_size_.x - view_size_.x - 1.f);
+	world_.y = clamp(world_.y, 0.f, map_size_.y - view_size_.y - 1.f);
 }
 
 XY const& Camera::world() const

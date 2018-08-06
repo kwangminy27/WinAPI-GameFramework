@@ -53,6 +53,11 @@ XY const& Stage::tile_size() const
 	return tile_size_;
 }
 
+bool Stage::tile_option_flag() const
+{
+	return tile_option_flag_;
+}
+
 void Stage::set_map_size(XY const& size)
 {
 	map_size_ = size;
@@ -71,6 +76,11 @@ void Stage::set_idx_height(int height)
 void Stage::set_tile_size(XY const& size)
 {
 	tile_size_ = size;
+}
+
+void Stage::set_tile_option_flag(bool flag)
+{
+	tile_option_flag_ = flag;
 }
 
 void Stage::CreateGrid(TILE_TYPE type, int idx_width, int idx_height, XY const& map_size, string const& tag, wstring const& file_name, string path_tag)
@@ -109,6 +119,25 @@ void Stage::CreateGrid(TILE_TYPE type, int idx_width, int idx_height, XY const& 
 	case TILE_TYPE::ISOMETRIC:
 		break;
 	}
+}
+
+shared_ptr<Object>& Stage::GetTile(float x, float y)
+{
+	if (tile_collection_.empty())
+		assert(!"Stage::GetTile");
+
+	if (dynamic_pointer_cast<Tile>(tile_collection_.at(0).at(0))->type() == TILE_TYPE::ISOMETRIC)
+	{
+		// 아이소메트릭 방식으로 처리
+	}
+
+	int	idx_x = static_cast<int>(x / tile_size_.x);
+	int	idx_y = static_cast<int>(y / tile_size_.y);
+
+	idx_x = clamp(idx_x, 0, idx_width_ - 1);
+	idx_y = clamp(idx_y, 0, idx_height_ - 1);
+
+	return tile_collection_.at(idx_y).at(idx_x);
 }
 
 void Stage::BeAttached(weak_ptr<Collider> const& src, weak_ptr<Collider> const& dest, float time)
@@ -192,6 +221,7 @@ Stage::Stage(Stage const& other) : Object(other)
 	tile_size_ = other.tile_size_;
 	idx_view_x_range_ = other.idx_view_x_range_;
 	idx_view_y_range_ = other.idx_view_y_range_;
+	tile_option_flag_ = other.tile_option_flag_;
 
 	if (!other.tile_collection_.empty())
 	{
@@ -213,6 +243,7 @@ Stage::Stage(Stage&& other) noexcept : Object(move(other))
 	tile_size_ = move(other.tile_size_);
 	idx_view_x_range_ = move(other.idx_view_x_range_);
 	idx_view_y_range_ = move(other.idx_view_y_range_);
+	tile_option_flag_ = move(other.tile_option_flag_);
 
 	tile_collection_ = move(other.tile_collection_);
 }
@@ -292,6 +323,13 @@ void Stage::_Render(HDC device_context, float time)
 	for (auto i = idx_view_y_range_.first; i <= idx_view_y_range_.second; ++i)
 		for (auto j = idx_view_x_range_.first; j <= idx_view_x_range_.second; ++j)
 			dynamic_pointer_cast<Tile>(tile_collection_.at(i).at(j))->_Render(device_context, time);
+
+	if (tile_option_flag_)
+	{
+		for (auto i = idx_view_y_range_.first; i <= idx_view_y_range_.second; ++i)
+			for (auto j = idx_view_x_range_.first; j <= idx_view_x_range_.second; ++j)
+				dynamic_pointer_cast<Tile>(tile_collection_.at(i).at(j))->RenderOptionTile(device_context, time);
+	}
 }
 
 unique_ptr<Object, function<void(Object*)>> Stage::_Clone()

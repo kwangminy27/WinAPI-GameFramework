@@ -2,8 +2,8 @@
 
 enum class RESOLUTION
 {
-	WIDTH = 800,
-	HEIGHT = 600
+	WIDTH = 1280,
+	HEIGHT = 720
 };
 
 enum class FLAG

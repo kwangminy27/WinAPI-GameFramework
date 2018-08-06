@@ -7,6 +7,8 @@ class EditScene final : public SceneComponent
 	friend class Scene;
 public:
 	virtual bool Initialize() override;
+	void SaveStageFile(std::wstring const& file_name);
+	void LoadStageFile(std::wstring const& file_name);
 
 private:
 	EditScene() = default;

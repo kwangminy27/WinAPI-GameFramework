@@ -164,9 +164,9 @@ void Player::_Input(float time)
 
 	auto const& input_manager = Input::instance();
 
-	static auto KeyPush = [&input_manager](string const& tag) -> bool { return input_manager->KeyPush(tag); };
-	static auto KeyPressed = [&input_manager](string const& tag) -> bool { return input_manager->KeyPressed(tag); };
-	static auto KeyUp = [&input_manager](string const& tag) -> bool { return input_manager->KeyUp(tag); };
+	static auto const& KeyPush = [&input_manager](string const& tag) -> bool { return input_manager->KeyPush(tag); };
+	static auto const& KeyPressed = [&input_manager](string const& tag) -> bool { return input_manager->KeyPressed(tag); };
+	static auto const& KeyUp = [&input_manager](string const& tag) -> bool { return input_manager->KeyUp(tag); };
 
 	if (KeyPressed("MoveLeft"))
 		Move(-move_speed_ * time, 0.f);
