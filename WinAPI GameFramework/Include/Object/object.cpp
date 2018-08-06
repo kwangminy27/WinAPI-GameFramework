@@ -299,13 +299,13 @@ void Object::_Update(float time)
 {
 	static float const kWeightingFactor = 800.f;
 
-	if (physics_flag_)
-	{
-		if(energy_ >= -2500.f)
-			energy_ -= kWeightingFactor * Physics::GravitionalAcceleration() * time;
-		velocity_ -= energy_ * time;
-		position_.y += velocity_ * time;
-	}
+	//if (physics_flag_)
+	//{
+	//	if(energy_ >= -2500.f)
+	//		energy_ -= kWeightingFactor * Physics::GravitionalAcceleration() * time;
+	//	velocity_ -= energy_ * time;
+	//	position_.y += velocity_ * time;
+	//}
 
 	if (animation_)
 		animation_->Update(time);

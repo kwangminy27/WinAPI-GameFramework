@@ -74,6 +74,24 @@
     <Filter Include="03. Object\06. Number">
       <UniqueIdentifier>{50e012fa-95db-45e5-be64-8402f55abfed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Object\07. Bar">
+      <UniqueIdentifier>{a87d2e1d-9b79-456b-bf50-7903c8863237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\02. SceneComponent\02. EditScene">
+      <UniqueIdentifier>{25b9764e-02e0-47a1-a645-edf015deddae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\02. SceneComponent\01. StartScene">
+      <UniqueIdentifier>{c1bffdb1-403a-4dbe-b5c3-0b01a2686834}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\02. SceneComponent\03. MainScene">
+      <UniqueIdentifier>{5f9c26c7-e398-4018-b837-fa6e4c474e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\08. Editor">
+      <UniqueIdentifier>{8ea6c594-bafc-4f41-9584-04891a46fce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Object\08. Tile">
+      <UniqueIdentifier>{8c0ff82e-d6b1-4e8e-9967-4ddec30c0ba5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -95,9 +113,6 @@
       <Filter>02. Scene\01. Layer</Filter>
     </ClCompile>
     <ClCompile Include="Scene\scene_component.cpp">
-      <Filter>02. Scene\02. SceneComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\main_scene.cpp">
       <Filter>02. Scene\02. SceneComponent</Filter>
     </ClCompile>
     <ClCompile Include="Object\object.cpp">
@@ -196,11 +211,29 @@
     <ClCompile Include="Object\mouse_ui.cpp">
       <Filter>03. Object\05. UI</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\start_scene.cpp">
-      <Filter>02. Scene\02. SceneComponent</Filter>
-    </ClCompile>
     <ClCompile Include="Object\number.cpp">
       <Filter>03. Object\06. Number</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\bar.cpp">
+      <Filter>03. Object\07. Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\edit_scene.cpp">
+      <Filter>02. Scene\02. SceneComponent\02. EditScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\main_scene.cpp">
+      <Filter>02. Scene\02. SceneComponent\03. MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\start_scene.cpp">
+      <Filter>02. Scene\02. SceneComponent\01. StartScene</Filter>
+    </ClCompile>
+    <ClCompile Include="isometric_tile_map_editor.cpp">
+      <Filter>01. Core\08. Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\tile.cpp">
+      <Filter>03. Object\08. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\isometric_tile.cpp">
+      <Filter>03. Object\08. Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,9 +256,6 @@
       <Filter>02. Scene\01. Layer</Filter>
     </ClInclude>
     <ClInclude Include="Scene\scene_component.h">
-      <Filter>02. Scene\02. SceneComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\main_scene.h">
       <Filter>02. Scene\02. SceneComponent</Filter>
     </ClInclude>
     <ClInclude Include="Object\object.h">
@@ -333,11 +363,29 @@
     <ClInclude Include="Object\mouse_ui.h">
       <Filter>03. Object\05. UI</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\start_scene.h">
-      <Filter>02. Scene\02. SceneComponent</Filter>
-    </ClInclude>
     <ClInclude Include="Object\number.h">
       <Filter>03. Object\06. Number</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\bar.h">
+      <Filter>03. Object\07. Bar</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\edit_scene.h">
+      <Filter>02. Scene\02. SceneComponent\02. EditScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\main_scene.h">
+      <Filter>02. Scene\02. SceneComponent\03. MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\start_scene.h">
+      <Filter>02. Scene\02. SceneComponent\01. StartScene</Filter>
+    </ClInclude>
+    <ClInclude Include="isometric_tile_map_editor.h">
+      <Filter>01. Core\08. Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\tile.h">
+      <Filter>03. Object\08. Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\isometric_tile.h">
+      <Filter>03. Object\08. Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

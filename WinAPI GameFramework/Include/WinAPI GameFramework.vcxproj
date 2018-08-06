@@ -33,12 +33,17 @@
     <ClCompile Include="Collision\collision_manager.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="isometric_tile_map_editor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="math.cpp" />
+    <ClCompile Include="Object\bar.cpp" />
     <ClCompile Include="Object\bullet.cpp" />
     <ClCompile Include="Object\button_ui.cpp" />
     <ClCompile Include="Object\character.cpp" />
     <ClCompile Include="Object\effect.cpp" />
     <ClCompile Include="Object\guided_bullet.cpp" />
+    <ClCompile Include="Object\isometric_tile.cpp" />
     <ClCompile Include="Object\monster.cpp" />
     <ClCompile Include="Object\mouse_ui.cpp" />
     <ClCompile Include="Object\number.cpp" />
@@ -48,11 +53,13 @@
     <ClCompile Include="Object\player.cpp" />
     <ClCompile Include="Object\rotation_bullet.cpp" />
     <ClCompile Include="Object\stage.cpp" />
+    <ClCompile Include="Object\tile.cpp" />
     <ClCompile Include="Object\ui.cpp" />
     <ClCompile Include="path_manager.cpp" />
     <ClCompile Include="physics.cpp" />
     <ClCompile Include="Resource\resource_manager.cpp" />
     <ClCompile Include="Resource\texture.cpp" />
+    <ClCompile Include="Scene\edit_scene.cpp" />
     <ClCompile Include="Scene\layer.cpp" />
     <ClCompile Include="Scene\main_scene.cpp" />
     <ClCompile Include="Scene\scene.cpp" />
@@ -80,12 +87,17 @@
     <ClInclude Include="core.h" />
     <ClInclude Include="enum.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="isometric_tile_map_editor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="math.h" />
+    <ClInclude Include="Object\bar.h" />
     <ClInclude Include="Object\bullet.h" />
     <ClInclude Include="Object\button_ui.h" />
     <ClInclude Include="Object\character.h" />
     <ClInclude Include="Object\effect.h" />
     <ClInclude Include="Object\guided_bullet.h" />
+    <ClInclude Include="Object\isometric_tile.h" />
     <ClInclude Include="Object\monster.h" />
     <ClInclude Include="Object\mouse_ui.h" />
     <ClInclude Include="Object\number.h" />
@@ -95,12 +107,14 @@
     <ClInclude Include="Object\player.h" />
     <ClInclude Include="Object\rotation_bullet.h" />
     <ClInclude Include="Object\stage.h" />
+    <ClInclude Include="Object\tile.h" />
     <ClInclude Include="Object\ui.h" />
     <ClInclude Include="path_manager.h" />
     <ClInclude Include="physics.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Resource\resource_manager.h" />
     <ClInclude Include="Resource\texture.h" />
+    <ClInclude Include="Scene\edit_scene.h" />
     <ClInclude Include="Scene\layer.h" />
     <ClInclude Include="Scene\main_scene.h" />
     <ClInclude Include="Scene\scene.h" />

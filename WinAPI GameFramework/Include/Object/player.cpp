@@ -20,10 +20,10 @@ bool Player::Initialize()
 {
 	type_ = OBJECT_TYPE::PLAYER;
 
-	set_position(100.f, 100.f);
+	set_position(3920.f, 1960.f);
 	set_size(50.f, 50.f);
 	set_pivot(0.5f, 0.5f);
-	set_move_speed(300.f);
+	set_move_speed(600.f);
 	set_rotation_speed(360.f);
 	set_barrel_size(50.f);
 	set_physics_flag(true);
@@ -169,22 +169,24 @@ void Player::_Input(float time)
 	static auto KeyUp = [&input_manager](string const& tag) -> bool { return input_manager->KeyUp(tag); };
 
 	if (KeyPressed("MoveLeft"))
-		Move(-move_speed_ * time, 0.f);//Rotate(-time);
+		Move(-move_speed_ * time, 0.f);
 
 	if (KeyPressed("MoveRight"))
-		Move(move_speed_ * time, 0.f);//Rotate(time);
+		Move(move_speed_ * time, 0.f);
 
-	if (KeyPush("MoveUp"))
+	if (KeyPressed("MoveUp"))
 	{
+		Move(0.f, -move_speed_ * time);
+
 		if (!physics_flag_)
 		{
-			energy_ += 2500.f;//MoveByAngle(time); mgh
+			energy_ += 2500.f;
 			physics_flag_ = true;
 		}
 	}
 
-	if (KeyPressed("MoveDown")) {}
-		//MoveByAngle(-time);
+	if (KeyPressed("MoveDown"))
+		Move(0.f, move_speed_ * time);
 
 	if (KeyPush("Fire"))
 	{

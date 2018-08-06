@@ -15,6 +15,7 @@
 #include "../Object/button_ui.h"
 #include "../Object/mouse_ui.h"
 #include "../Object/number.h"
+#include "../Object/bar.h"
 #include "../Collision/collider_circle.h"
 
 bool MainScene::Initialize()
@@ -70,6 +71,17 @@ bool MainScene::Initialize()
 
 	Input::instance()->AddKey("IncrementNumber"s, 'Z');
 	Input::instance()->AddKey("DecrementNumber"s, 'X');
+	Input::instance()->AddKey("IncrementBar"s, 'A');
+	Input::instance()->AddKey("DecrementBar"s, 'S');
+
+	bar_ = dynamic_pointer_cast<Bar>(object_manager->CreateObject<Bar>("Bar", default_layer));
+	bar_->set_position({ 300.f, 500.f });
+	bar_->set_size({ 100.f, 40.f });
+	bar_->set_range({ 0.f, 5000.f });
+	bar_->set_value(5000.f);
+	bar_->set_cutting_direction(BAR_CUTTING_DIRECTION::DOWN);
+	bar_->set_texture("HPBar", L"HPBar.bmp");
+	bar_->set_color_key(RGB(255, 0, 255));
 
 	return true;
 }
@@ -86,6 +98,10 @@ void MainScene::_Input(float time)
 		number_->AddNumber(1);
 	if (input_manager->KeyPressed("DecrementNumber"))
 		number_->AddNumber(-1);
+	if (input_manager->KeyPressed("IncrementBar"))
+		bar_->AddValue(50.f);
+	if (input_manager->KeyPressed("DecrementBar"))
+		bar_->AddValue(-50.f);
 }
 
 void MainScene::_Update(float time)

@@ -2,8 +2,8 @@
 
 enum class RESOLUTION
 {
-	WIDTH = 1280,
-	HEIGHT = 720
+	WIDTH = 800,
+	HEIGHT = 600
 };
 
 enum class FLAG
@@ -30,7 +30,7 @@ enum class COLLISION_CALLBACK
 
 enum class ANIMATION_CLIP_TYPE
 {
-	ATLAS, // 이 프레임워크에서는 sprite altas만 사용할 예정
+	ATLAS, // 이 프레임워크에서는 sprite altas만 지원할 예정
 	FRAME,
 	END
 };
@@ -51,7 +51,8 @@ enum class OBJECT_TYPE
 	STAGE,
 	EFFECT,
 	UI,
-	NUMBER
+	NUMBER,
+	BAR
 };
 
 enum class BUTTON_STATE
@@ -59,4 +60,24 @@ enum class BUTTON_STATE
 	NORMAL,
 	MOUSEON,
 	CLICK
+};
+
+enum class BAR_CUTTING_DIRECTION
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN
+};
+
+enum class TILE_TYPE
+{
+	NORMAL,
+	ISOMETRIC
+};
+
+enum class TILE_OPTION
+{
+	NONE,
+	BLOCKED
 };

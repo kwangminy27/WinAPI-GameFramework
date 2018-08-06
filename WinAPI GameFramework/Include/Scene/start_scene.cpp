@@ -4,6 +4,7 @@
 #include "layer.h"
 #include "start_scene.h"
 #include "main_scene.h"
+#include "edit_scene.h"
 #include "../Object/object_manager.h"
 #include "../input.h"
 #include "../Object/button_ui.h"
@@ -27,6 +28,12 @@ bool StartScene::Initialize()
 	start_button->set_position(200.f, 200.f);
 	start_button->set_callback([this](float time) {
 		_Start(time);
+	});
+
+	auto edit_button = dynamic_pointer_cast<ButtonUI>(object_manager->CreateObject<ButtonUI>("EditButton", ui_layer));
+	edit_button->set_position(200.f, 350.f);
+	edit_button->set_callback([this](float time) {
+		_Edit();
 	});
 
 	auto exit_button = dynamic_pointer_cast<ButtonUI>(object_manager->CreateObject<ButtonUI>("ExitButton", ui_layer));
@@ -67,6 +74,11 @@ void StartScene::_Render(HDC device_context, float time)
 void StartScene::_Start(float time)
 {
 	SceneManager::instance()->CreateNextScene<MainScene>("MainScene");
+}
+
+void StartScene::_Edit()
+{
+	SceneManager::instance()->CreateNextScene<EditScene>("EditScene");
 }
 
 void StartScene::_Exit()

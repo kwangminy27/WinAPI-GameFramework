@@ -3,6 +3,7 @@
 #include "scene_component.h"
 
 class Number;
+class Bar;
 
 class MainScene final : public SceneComponent
 {
@@ -22,4 +23,5 @@ private:
 	virtual void _Render(HDC device_context, float time) override;
 
 	std::shared_ptr<Number> number_{};
+	std::shared_ptr<Bar> bar_{};
 };
