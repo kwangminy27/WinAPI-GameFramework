@@ -17,6 +17,7 @@
 #include "../Object/number.h"
 #include "../Object/bar.h"
 #include "../Collision/collider_circle.h"
+#include "../audio_manager.h"
 
 bool MainScene::Initialize()
 {
@@ -83,6 +84,11 @@ bool MainScene::Initialize()
 	bar_->set_texture("HPBar", L"HPBar.bmp");
 	bar_->set_color_key(RGB(255, 0, 255));
 
+	Input::instance()->AddKey("StartBGM"s, 'M');
+
+	auto const& audio_manager = AudioManager::instance();
+	auto sound_effect = audio_manager->FindSoundEffect("town1");
+
 	return true;
 }
 
@@ -102,6 +108,13 @@ void MainScene::_Input(float time)
 		bar_->AddValue(50.f);
 	if (input_manager->KeyPressed("DecrementBar"))
 		bar_->AddValue(-50.f);
+	if (input_manager->KeyPush("StartBGM"))
+	{
+		auto sound_effect = AudioManager::instance()->FindSoundEffect("town1");
+		auto sound_effect_instance = sound_effect->CreateInstance();
+		sound_effect_instance->Play(true);
+		AudioManager::instance()->KeepSoundEffectInstance(move(sound_effect_instance));
+	}
 }
 
 void MainScene::_Update(float time)
