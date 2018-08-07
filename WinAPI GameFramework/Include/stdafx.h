@@ -6,9 +6,15 @@
 
 #pragma comment(lib, "msimg32.lib")
 
+// Windows
+#define NOMINMAX
+#include <Windows.h>
+
+// Debug
 #include <cassert>
 #include <crtdbg.h>
 
+// C++ Standard
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -27,9 +33,10 @@
 #include <unordered_map>
 #include <vector>
 
-#define NOMINMAX
-#include <Windows.h>
+// DirectXTK
+#include <Audio.h>
 
+// WinAPI Framework
 #include "type.h"
 
 struct PIXEL8

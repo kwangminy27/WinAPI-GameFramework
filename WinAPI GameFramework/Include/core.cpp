@@ -10,6 +10,7 @@
 #include "Collision/collision_manager.h"
 #include "Collision/collider.h"
 #include "animation_manager.h"
+#include "audio_manager.h"
 
 using namespace std;
 
@@ -41,6 +42,9 @@ bool Core::Initialize(wchar_t const* class_name, wchar_t const* window_name, HIN
 		return false;
 
 	if (!AnimationManager::instance()->Initialize())
+		return false;
+
+	if (!AudioManager::instance()->Initialize())
 		return false;
 
 	if (!SceneManager::instance()->Initialize())
@@ -189,6 +193,8 @@ void Core::_Update(float time)
 	Camera::instance()->Update(time);
 
 	scene_manager->LateUpdate(time);
+
+	AudioManager::instance()->Update();
 }
 
 void Core::_Collision(float time)

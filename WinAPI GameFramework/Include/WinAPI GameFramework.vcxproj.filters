@@ -62,9 +62,6 @@
     <Filter Include="06. Animation">
       <UniqueIdentifier>{ed818436-dbb9-495b-ac1a-a67234490d5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Core\07. Logger">
-      <UniqueIdentifier>{6b88cc8d-90e5-4a73-9d9b-4fcee0c2f3a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Object\04. Effect">
       <UniqueIdentifier>{eda9ba11-40ca-4086-9aaa-ff40b5b8f80f}</UniqueIdentifier>
     </Filter>
@@ -86,11 +83,14 @@
     <Filter Include="02. Scene\02. SceneComponent\03. MainScene">
       <UniqueIdentifier>{5f9c26c7-e398-4018-b837-fa6e4c474e0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Core\08. Editor">
-      <UniqueIdentifier>{8ea6c594-bafc-4f41-9584-04891a46fce0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Object\08. Tile">
       <UniqueIdentifier>{8c0ff82e-d6b1-4e8e-9967-4ddec30c0ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\editer%28not used%29">
+      <UniqueIdentifier>{8ea6c594-bafc-4f41-9584-04891a46fce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\07. Audio">
+      <UniqueIdentifier>{6b88cc8d-90e5-4a73-9d9b-4fcee0c2f3a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -227,13 +227,16 @@
       <Filter>02. Scene\02. SceneComponent\01. StartScene</Filter>
     </ClCompile>
     <ClCompile Include="isometric_tile_map_editor.cpp">
-      <Filter>01. Core\08. Editor</Filter>
+      <Filter>01. Core\editer%28not used%29</Filter>
     </ClCompile>
     <ClCompile Include="Object\tile.cpp">
       <Filter>03. Object\08. Tile</Filter>
     </ClCompile>
     <ClCompile Include="Object\isometric_tile.cpp">
       <Filter>03. Object\08. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_manager.cpp">
+      <Filter>01. Core\07. Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,13 +382,16 @@
       <Filter>02. Scene\02. SceneComponent\01. StartScene</Filter>
     </ClInclude>
     <ClInclude Include="isometric_tile_map_editor.h">
-      <Filter>01. Core\08. Editor</Filter>
+      <Filter>01. Core\editer%28not used%29</Filter>
     </ClInclude>
     <ClInclude Include="Object\tile.h">
       <Filter>03. Object\08. Tile</Filter>
     </ClInclude>
     <ClInclude Include="Object\isometric_tile.h">
       <Filter>03. Object\08. Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_manager.h">
+      <Filter>01. Core\07. Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
