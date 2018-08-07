@@ -43,6 +43,16 @@ void AudioManager::KeepSoundEffectInstance(std::unique_ptr<DirectX::SoundEffectI
 	sound_effect_instance_list_.push_back(move(sound_effect_instance));
 }
 
+void AudioManager::Suspend()
+{
+	audio_engine_->Suspend();
+}
+
+void AudioManager::Resume()
+{
+	audio_engine_->Resume();
+}
+
 void AudioManager::_Release()
 {
 }

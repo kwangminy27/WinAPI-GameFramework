@@ -85,6 +85,8 @@ bool MainScene::Initialize()
 	bar_->set_color_key(RGB(255, 0, 255));
 
 	Input::instance()->AddKey("StartBGM"s, 'M');
+	Input::instance()->AddKey("SuspendAudioEngine"s, 'T');
+	Input::instance()->AddKey("ResumeAudioEngine"s, 'Y');
 
 	auto const& audio_manager = AudioManager::instance();
 	auto sound_effect = audio_manager->FindSoundEffect("town1");
@@ -115,6 +117,10 @@ void MainScene::_Input(float time)
 		sound_effect_instance->Play(true);
 		AudioManager::instance()->KeepSoundEffectInstance(move(sound_effect_instance));
 	}
+	if (input_manager->KeyPush("SuspendAudioEngine"))
+		AudioManager::instance()->Suspend();
+	if (input_manager->KeyPush("ResumeAudioEngine"))
+		AudioManager::instance()->Resume();
 }
 
 void MainScene::_Update(float time)

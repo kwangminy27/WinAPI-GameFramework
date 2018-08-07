@@ -10,6 +10,8 @@ public:
 	void Update();
 	std::shared_ptr<DirectX::SoundEffect> FindSoundEffect(std::string const& tag);
 	void KeepSoundEffectInstance(std::unique_ptr<DirectX::SoundEffectInstance> sound_effect_instance);
+	void Suspend();
+	void Resume();
 
 private:
 	AudioManager() = default;
